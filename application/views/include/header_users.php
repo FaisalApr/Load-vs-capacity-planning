@@ -1,7 +1,4 @@
-<?php 
-	$sesi = $this->session->userdata('pdo_logged'); 
-	$opt = $this->session->userdata('pdo_opt'); 
- ?>
+
 <style>
 	.hidenn{
 	  display: none;
@@ -23,21 +20,25 @@
 						<span class="user-name">Jhonson</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right"> 
-						<a class="dropdown-item" href="#"><i class="fa fa-cog" aria-hidden="true"></i> Setting</a>
-						<a class="dropdown-item" href="#"><i class="fa fa-question" aria-hidden="true"></i> Help</a>
-						<a class="dropdown-item" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a>
+						<a class="dropdown-item" href="profile.php"><i class="fa fa-cog" aria-hidden="true"></i> Setting</a>
+						<a class="dropdown-item" href="faq.php"><i class="fa fa-question" aria-hidden="true"></i> Help</a>
+						<!-- <a class="dropdown-item" href="<?php echo site_url('Login/logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a> -->
 					</div>
 				</div>
 			</div> 
 
-
 			<div class="brand-logo">
-				<a href="<?php echo site_url('Dasboard') ?>">
+				<a href="<?php echo site_url('') ?>">
 					<img src="<?php echo base_url() ?>assets/vendors/images/ico.png" alt="" class="mobile-logo">
 				</a>
 			</div>
 
-			
+			<div class="menu-icon">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span> 
+			</div>
   			
   			
 			
