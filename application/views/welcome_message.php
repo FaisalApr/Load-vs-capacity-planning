@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<style>
 		.data_:hover {
 		  background-color: white;
@@ -19,10 +19,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.data_{
 			color: white;
 		}
+		.simulasi:hover {
+		  background-color: white;
+		  color: black;
+		}
+		.simulasi{
+			color: white;
+		}
 	</style>
 
 <body>
 <?php $this->load->view('include/header_users'); ?>
+<?php $this->load->view('include/sidebar_users'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -36,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div  style="margin-top: 50px; margin-right: -50px" >
 						<div class="da-card box-shadow">
 							<div class="da-card-photo">
-								<img src="assets/vendors/images/img3.jpg" alt="">
+								<img src="<?php echo base_url() ?>assets/vendors/images/img3.jpg" alt="">
 								<div class="da-overlay">
 									<div class="da-social">
 										<a href="<?php echo site_url() ?>/IData" >
@@ -61,19 +69,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div  style="margin-top: 50px; margin-right: -50px" >
 						<div class="da-card box-shadow">
 							<div class="da-card-photo">
-								<img src="assets/vendors/images/img3.jpg" alt="">
+								<img src="<?php echo base_url() ?>assets/vendors/images/img3.jpg" alt="">
 								<div class="da-overlay">
 									<div class="da-social">
-										<div class="clearfix " style="outline: 2px solid white; vertical-align: center">
-											<a href="<?php echo site_url() ?>/Simulasi" ><h3 style="color: white; padding: 4px" >&nbsp Simulasi &nbsp</h3></a>
-										</div>
+										<a href="<?php echo site_url() ?>/Simulasi" >
+											<div class="clearfix simulasi" style="outline: 2px solid white; vertical-align: center">
+												<h3 class="simulasi" style="padding: 4px">&nbsp Simulasi &nbsp</h3>
+											</div>
+										</a>
 										
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+			
+			</div>
 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				
