@@ -25,21 +25,21 @@
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
 					<!-- start LI -->
-					<li class="dropdown <?php echo $this->uri->segment(1) == 'Dasboard' ? 'aktip': '' ?>">
-						<a href="<?php echo site_url() ?>/Dasboard" class="dropdown-toggle no-arrow">
+					<li class="dropdown <?php echo $this->uri->segment(1) == '' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>" class="dropdown-toggle no-arrow">
 							<span class="fa fa-home"></span><span class="mtext">DASHBOARD</span>
 						</a> 
 					</li>
 					
-					<li class=" <?php echo $this->uri->segment(1) == 'losstime' ? 'aktip': '' ?>">
-						<a href="<?php echo site_url() ?>/losstime" class="dropdown-toggle no-arrow">
-							<span class="fa fa-chevron-circle-down"></span><span class="mtext">DOWNTIME</span>
+					<li class=" <?php echo $this->uri->segment(1) == 'IData' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>/IData" class="dropdown-toggle no-arrow">
+							<span class="fa fa-chevron-circle-down"></span><span class="mtext">Data</span>
 						</a>
 					</li>
 
-					<li class=" <?php echo $this->uri->segment(1) == 'defect' ? 'aktip': '' ?>">
-						<a href="<?php echo site_url() ?>/defect" class="dropdown-toggle no-arrow">
-							<span class="fa fa-times"></span><span class="mtext">DEFECT</span>
+					<li class=" <?php echo $this->uri->segment(1) == 'Simulasi' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>/Simulasi" class="dropdown-toggle no-arrow">
+							<span class="icon-copy fa fa-line-chart"></span><span class="mtext">Summary</span>
 						</a>
 					</li>
 				</ul>

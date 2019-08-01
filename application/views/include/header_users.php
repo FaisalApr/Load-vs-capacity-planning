@@ -6,7 +6,44 @@
 	.dipilih{
 
 	}
+	.select2-selection__rendered {
+	    line-height: 55px !important;
+	}
+	.select2-container .select2-selection--single {
+	    height: 50px !important;
+	}
+	.select2-selection__arrow {
+	    height: 50px !important;
+	}
+
+	/* REMOVE SECOND CALENDAR */
+	.drp-calendar.right thead>tr:nth-child(2) {
+	    display: none;
+	}
+	.drp-calendar.right tbody {
+	    display: none;
+	}
+	.daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+	    float: none !important;
+	}
+	.daterangepicker .drp-calendar.right .daterangepicker_input {
+	    position: absolute;
+	    top: 45px;
+	    left: 15px;
+	    width: 230px;
+	}
+	.drp-calendar.left .drp-calendar-table {
+	    margin-top: 45px;
+	}
+
+	.daterangepicker .drp-calendar.right {
+	    display: none;
+	    right: 0 !important;
+	    top: 0 !important;
+	}
+	/* REMOVE SECOND CALENDAR */
 </style>
+
 
 	<div class="pre-loader"></div>
 	<div class="header clearfix">
@@ -27,6 +64,7 @@
 				</div>
 			</div> 
 
+
 			<div class="brand-logo">
 				<a href="<?php echo site_url('') ?>">
 					<img src="<?php echo base_url() ?>assets/vendors/images/ico.png" alt="" class="mobile-logo">
@@ -40,8 +78,33 @@
 				<span></span> 
 			</div>
   			
-  			
-			
+  			<div class="row">
+  				<div class="dropdown">  
+					<div class="input-group custom input-group-sm" style="margin-top: 10px; margin-left: 15px;">
+						
+						<div style="margin-top: -10px;"><font size="46">Line:</font> </div>
+						<select class="select2 js-states form-control" id="select_line" name="select_line" style="width: 100px; "> 
+							
+						</select> 
+					</div>
+				</div>
 
+				<div style="margin: 0 10px 0 50px;"><font size="7">Range:</font> </div>
+				<div style="margin-top: 20px;"> 
+					<div class="input-group custom input-group-sm" style="width: 250px">
+						<input class="form-control month_range" placeholder="Select Month"  type="text">
+						<div class="input-group-append custom">
+							<span class="input-group-text" style="margin-top: -5px"><span class="icon-copy ti-calendar"></span></span>
+						</div>
+					</div>
+	  			</div>
+
+
+
+			</div>
+ 
+
+
+		
 		</div>
 	</div>
