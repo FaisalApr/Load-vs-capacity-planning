@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
 	 			
 	<!-- Container  Start -->
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="min-height: 600px;">
 			<div class="pull-left">
 				<h5 class="text-blue" style="font-size: 32px">Data Production Meeting</h5> 	
 			</div>
@@ -76,11 +76,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="pull-right" style="margin-top: -80px;">
 				<a href="#"><input type="text" id="periode_th" class="yearpicker asd form-control" style="width: 250px;  font-size: 38px;text-align: right;" value="2019-2020"></a>
 			</div>
-			
+			 
 			<table class="table table-bordered table-hover">
 				<thead>
 					<tr style=" background-color: grey">
-						<th style="width: 15%"></th>
+						<th style="width: 13%">
+							<select class="form-control" data-style="btn-outline-dark" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
+								<option value="0">MH OUT/SHIFT</option>
+								<option value="1">MONTHLY ORDER</option>
+								<option value="2">EFFICIENCY (%)</option>
+								<option value="3">MP DL/SHIFT</option>
+								<option value="4">SHIFT QTY</option>
+								<option value="5">OT HOURS</option>
+								<option value="6">CAPACITY</option>
+								<option value="7">OT PLAN</option>
+								<option value="8">WORKING DAYS</option>
+							</select>
+						</th>
 						<th style="width: 7%">Juli</th>
 						<th style="width: 7%">Agustus</th>
 						<th style="width: 7%">September</th>
@@ -116,17 +128,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
-								{name:'MH OUT/SHIFT',val: 'mhout_shift'},
-								{name:'MONTHLY ORDER',val: 'order_monthly'},
-								{name:'EFFICIENCY (%)',val: 'efficiency'},
-								{name:'MP DL/SHIFT',val: 'mp_dl'},
-								{name:'SHIFT QTY',val: 'shift_qty'},
-								{name:'OT HOURS',val: 'ot_hours'},
-								{name:'CAPACITY',val: 'capacity'},
-								{name:'OT PLAN',val: 'ot_plan'},
-								{name:'WORKING DAYS',val: 'working_days'}
+								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
+								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
+								{name:'SHIFT QTY',val: 'shift_qty', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'CAPACITY',val: 'capacity', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'WORKING DAYS',val: 'working_days', view: true}
 							]; 
-			// method
+			// method INIT
 				// load Carline
 					function loadCarline() { 
 						$.ajax({
@@ -181,6 +193,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			 				data: data
 			 			});
 					}
+				// select
+					$('#item_view').selectpicker({
+
+					});
+					$('#item_view').selectpicker('selectAll');
+
+					$('#item_view').on('hide.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+					  	// do something...
+					  	var sel = $('#item_view').val();
+					  	
+					  	item.forEach(function(entry) {
+						    entry.view = false;
+						});
+
+					  	for (var x = 0; x < sel.length; x++) {
+				  			item[sel[x]].view = true;
+				  		}
+
+					  	getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+					});
+ 
 			// Trigger
 				// select carline
 					$('#select_carline').on('select2:select',function(e){
@@ -248,38 +281,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	
 	                    	// mengulang kebawah sebanyak item
 	                    	for (var y = 0; y < item.length; y++) {
-	                    		var tr = $('<tr>').append(
-	                    						$('<th>').text(item[y].name)
-	                    					);   
-	                    		// mengulang sebanyak Periode
-	                    		for (var i = 0; i < periode.length; i++) {
 
-	                    			var tmp_html='';
-	                    			var id =0;
-	                    			var col = ''; 
+	                    		if (item[y].view ==true) { 
 
-	                    				for (var x = 0; x < data.length; x++) { 
+		                    		var tr = $('<tr>').append(
+		                    						$('<th>').text(item[y].name)
+		                    					);   
+		                    		// mengulang sebanyak Periode
+		                    		for (var i = 0; i < periode.length; i++) {
 
-	                    					var tgl = new Date(data[x].tanggal);
-	                    					// Jika bulan sama  maka ada data 
-	                    					if (tgl.getMonth()==periode[i]) {
-	                    						tmp_html = data[x][item[y].val];
+		                    			var tmp_html='';
+		                    			var id =0;
+		                    			var col = ''; 
 
-	                    						// get data 
-	                    						id = data[x].id;
-	                    						col = item[y].val;
-	                    					}
+		                    				for (var x = 0; x < data.length; x++) { 
 
-	                    				}      	
+		                    					var tgl = new Date(data[x].tanggal);
+		                    					// Jika bulan sama  maka ada data 
+		                    					if (tgl.getMonth()==periode[i]) {
+		                    						tmp_html = data[x][item[y].val];
 
-	                    			if (col=='') {col = item[y].val;}
+		                    						// get data 
+		                    						id = data[x].id;
+		                    						col = item[y].val;
+		                    					}
 
-	                    			tr.append(
-	                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" >').text(tmp_html)
-		                    			 	); 	
-		                    	}
+		                    				}      	
 
-		                    	tr.appendTo('#tbody_data');
+		                    			if (col=='') {col = item[y].val;}
+
+		                    			tr.append(
+		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" >').text(tmp_html)
+			                    			 	); 	
+			                    	}
+
+			                    	tr.appendTo('#tbody_data');
+			                    }
+
 	                    	}   
 
 	                      }
