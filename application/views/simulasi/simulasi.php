@@ -371,6 +371,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        if (event.keyCode == 13) {
 				            $(currentEle).html( $(".thVal").val() ); 
 				            console.log('enter');
+				            
 				        }
 				    });
 

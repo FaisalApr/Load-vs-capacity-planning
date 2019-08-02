@@ -6,7 +6,7 @@
 	.dipilih{
 
 	}
-	.select2-selection__rendered {
+	/*.select2-selection__rendered {
 	    line-height: 55px !important;
 	}
 	.select2-container .select2-selection--single {
@@ -14,7 +14,7 @@
 	}
 	.select2-selection__arrow {
 	    height: 50px !important;
-	}
+	}*/
 
 	/* REMOVE SECOND CALENDAR */
 	.drp-calendar.right thead>tr:nth-child(2) {
@@ -78,7 +78,7 @@
 				<span></span> 
 			</div>
   			
-  			<div class="row">
+  			<div class="row" style="display: none;">
   				<div class="dropdown">  
 					<div class="input-group custom input-group-sm" style="margin-top: 10px; margin-left: 15px;">
 						
