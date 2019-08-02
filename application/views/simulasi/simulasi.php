@@ -13,8 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<!-- DATE PICKERS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.css">
-	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/month-picker/css/responsive-month-range-picker.css">
-
+	<!-- <link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/month-picker/css/responsive-month-range-picker.css"> -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
+	
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -45,13 +46,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						<thead class="thead-light">
  							<tr>
  								<th scope="col"></th>
- 								<th scope="col">Juni (20)</th>
- 								<th scope="col">Juli (20)</th>
- 								<th scope="col">Agustus (5)</th>
- 								<th scope="col">September (0)</th> 
+ 								<th scope="col">Juni</th>
+ 								<th scope="col">Juli</th>
+ 								<th scope="col">Agustus</th>
+ 								<th scope="col">September</th> 
  							</tr>
  						</thead>
  						<tbody id="tbody_actual">
+ 							<tr>
+ 								<th scope="col">Working Days</th>
+ 								<td>20</td>
+ 								<td>20</td>
+ 								<td>5</td>
+ 								<td>0</td>
+ 							</tr>
  							<tr>
  								<th scope="col">Order</th>
  								<td>4091</td>
@@ -104,6 +112,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						</tbody>
  					</table> 
 					<br>
+						<div class="pull-right" style="margin-bottom: 20px">
+							<a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px; margin-bottom: 0px">Import File .Xlsx</a>
+						</div>
+						<br>
 				</div>	
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -112,13 +124,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						<thead class="thead-light">
  							<tr>
  								<th scope="col"></th>
- 								<th scope="col">Juni (20)</th>
- 								<th scope="col">Juli (20)</th>
- 								<th scope="col">Agustus (5)</th>
- 								<th scope="col">September (0)</th> 
+ 								<th scope="col">Juni</th>
+ 								<th scope="col">Juli</th>
+ 								<th scope="col">Agustus</th>
+ 								<th scope="col">September</th> 
  							</tr>
  						</thead>
  						<tbody id="tbody_testing">
+ 							<tr>
+ 								<th scope="col">Working Days</th>
+ 								<td>20</td>
+ 								<td>20</td>
+ 								<td>5</td>
+ 								<td>0</td>
+ 							</tr>
  							<tr>
  								<th scope="row">Order</th>
  								<td class="inner">4091</td>
@@ -178,14 +197,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 
+<!-- modal -->
+<div>
+	<!-- import file -->
+	<div class="modal fade" id="modal_importexcl">
+		<div class="modal-dialog modal-dialog-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+				</div>
+				<div class="modal-body">
+					<form method="post" id="import_form" enctype="multipart/form-data"> 
+						<div class="alert alert-warning" role="alert">
+							Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
+							<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
+						</div>
+						<p><label>Select Excel File</label>
+						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+						<br />
+						<input type="submit" name="import" value="Import" class="btn btn-info" />
+					</form>
+
+				</div> 
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- end modal -->
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
 	<!-- Spedometer charts -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script> 
 	<!-- DATE PICKER -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/month-picker/js/plugins.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/month-picker/js/responsive-month-range-picker.js"></script>
+	<!-- <script src="<?php echo base_url() ?>assets/src/plugins/month-picker/js/plugins.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/month-picker/js/responsive-month-range-picker.js"></script> -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 	
 	<script type="text/javascript">
 		$('document').ready(function(){
@@ -371,7 +420,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        if (event.keyCode == 13) {
 				            $(currentEle).html( $(".thVal").val() ); 
 				            console.log('enter');
-				            
 				        }
 				    });
 
@@ -406,6 +454,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log('okk');
 						}  
 					}
+				});
+
+				$('#import_form').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						async: false,
+						url:"<?php echo site_url(); ?>/Excel_import/import",
+						method:"POST",
+						data:new FormData(this),
+						contentType:false,
+						cache:false,
+						processData:false,
+						beforeSend: function(){
+							Swal.showLoading();
+						},
+						success:function(data){
+							Swal.close();
+							$('#file').val('');
+							console.log(data);
+							$('#modal_importexcl').modal('hide');
+
+							Swal.fire({
+							  position: 'center',
+							  title: 'Selesai Menambahkan',
+							  type: 'success', 
+							});
+
+							// show(); 
+						}
+					})
 				});
 
 		}); 
