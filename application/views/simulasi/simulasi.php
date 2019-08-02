@@ -55,59 +55,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						<tbody id="tbody_actual">
  							<tr>
  								<th scope="col">Working Days</th>
- 								<td>20</td>
- 								<td>20</td>
- 								<td>5</td>
- 								<td>0</td>
+ 								<td class="inner">20</td>
+ 								<td class="inner">20</td>
+ 								<td class="inner">5</td>
+ 								<td class="inner">0</td>
  							</tr>
  							<tr>
  								<th scope="col">Order</th>
- 								<td>4091</td>
- 								<td>4133</td>
- 								<td>893</td>
- 								<td></td>
+ 								<td class="inner">4091</td>
+ 								<td class="inner">4133</td>
+ 								<td class="inner">893</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">Kap Prod</th>
- 								<td>5301</td>
- 								<td>5083</td>
- 								<td>493</td>
- 								<td></td>
+ 								<td class="inner">5301</td>
+ 								<td class="inner">5083</td>
+ 								<td class="inner">493</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">Bal</th>
- 								<td>401</td>
- 								<td>583</td>
- 								<td>93</td>
- 								<td></td>
+ 								<td class="inner">401</td>
+ 								<td class="inner">583</td>
+ 								<td class="inner">93</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">% Load</th>
- 								<td>82%</td>
- 								<td>80%</td>
- 								<td>13%</td>
- 								<td></td>
+ 								<td class="inner">82%</td>
+ 								<td class="inner">80%</td>
+ 								<td class="inner">13%</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">OT (hour)</th>
- 								<td>0</td>
- 								<td>0</td>
- 								<td>0</td>
- 								<td></td>
+ 								<td class="inner">0</td>
+ 								<td class="inner">0</td>
+ 								<td class="inner">0</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">DL Need</th>
- 								<td>53</td>
- 								<td>53</td>
- 								<td>0</td>
- 								<td></td>
+ 								<td class="inner">53</td>
+ 								<td class="inner">53</td>
+ 								<td class="inner">0</td>
+ 								<td class="inner"></td>
  							</tr>
  							<tr>
  								<th scope="col">Direct Eff</th>
- 								<td>120%</td>
- 								<td>110%</td>
- 								<td>120%</td>
- 								<td></td>
+ 								<td class="inner">120%</td>
+ 								<td class="inner">110%</td>
+ 								<td class="inner">120%</td>
+ 								<td class="inner"></td>
  							</tr>
  						</tbody>
  					</table> 
@@ -486,6 +486,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					})
 				});
 
+				$("#tbody_actual").on('dblclick','.inner',function (e) {
+			        e.stopPropagation();
+			        var currentElem = $(this);
+			        var valu = $(this).html();
+			        updateVal	(currentElem, valu);
+			    });
+				 function updateVal(currentElem, valu) {
+				    $(currentElem).html('<input class="thVal form-control" style="width: 85px;" type="number" valu="' + valu + '" />');
+				    $(".thVal").focus();
+				    $(".thVal").select();
+				    $(".thVal").keyup(function (event) {
+				        if (event.keyCode == 13) {
+				            $(currentElem).html( $(".thVal").val() ); 
+				            console.log('enter');
+				        }
+				    });
+
+				    $(document).click(function () {
+				    		console.log($(".thVal").val());
+				            $(currentElem).html( $(".thVal").val() );
+				            // $(currentEle).removeClass("thVal");
+				    });
+				}
 		}); 
 	</script> 
 </body>
