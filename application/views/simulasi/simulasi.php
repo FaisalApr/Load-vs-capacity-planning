@@ -23,37 +23,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10"> 
 		
-		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
-				<div class="pd-10 bg-white border-radius-4 box-shadow mb-30">
-					<div class="row">
-				<div class="dropdown" style="margin-left: 15px;">  
-					<div class="input-group custom input-group-sm" style="margin-top: 30px"> 
-						<div style="margin-top: 20px; font-size: 30px">Carline :&nbsp </div>
-						<select style="width: 150px; margin-bottom: -5px; margin-top: 30px " class="select2 js-states form-control" id="select_carline" name="select_carline" >  	
-						</select> 
-					</div>
-				</div>
+		
+		
+		<div class="pd-5 bg-white border-radius-2 box-shadow mb-10">
+			<div class="row" style="margin-top: 18px; margin-bottom: -15px;">
 
-				<div class="dropdown" style="margin-left: 20px;">  
-					<div class="input-group custom input-group-sm" style="margin-top: 40px"> 
-						<div style="margin-top: 12px; font-size: 30px">Line :&nbsp </div>
-						<select class="select2 js-states form-control" id="select_lin" name="select_lin" style="width: 100px; margin-top: 50px;">  	
+				<div class="dropdown" style="margin-left: 35px;">  
+					<div class="input-group custom input-group-sm"> 
+						<div style="font-size: 30px; margin-top: -5px;">Carline :&nbsp </div>
+						<select style="width: 150px;" class="select2 js-states form-control" id="select_carline" name="select_carline" >  	
 						</select> 
 					</div>
 				</div>
 				<div class="dropdown" style="margin-left: 20px;">  
-					<div class="input-group custom input-group-sm" style="margin-top: 40px"> 
-						<div style="margin-top: 10px; font-size: 30px">Shift : &nbsp</div>
-						<select class="select2 js-states form-control" id="select_shif" name="select_shif" style="width: 100px; margin-top: 21px;">  
+					<div class="input-group custom input-group-sm"> 
+						<div style="margin-top: -5px; font-size: 30px">Line :&nbsp </div>
+						<select class="select2 js-states form-control" id="select_lin" name="select_lin" style="width: 100px;">  	
+						</select> 
+					</div>
+				</div>
+				<div class="dropdown" style="margin-left: 20px;">  
+					<div class="input-group custom input-group-sm"> 
+						<div style="margin-top: -5px; font-size: 30px">Shift : &nbsp</div>
+						<select class="select2 js-states form-control" id="select_shif" name="select_shif" style="width: 100px;">  
 						</select> 
 					</div>
 				</div> 
-			</div>
+ 
+				<div class="" style="margin-left: 50px;">
+					<div class="input-group  input-group-sm">
+						<label style="margin-top: -5px; font-size: 30px">Range : &nbsp</label>
+						<input class="form-control custom month_range" placeholder="Pilih Periode Bulan" id="pilih_monthrange"  type="text" style="width: 250px" value="">
+						<div class="input-group-append custom">
+							<span class="input-group-text" style="margin-top: -5px"><span class="icon-copy ti-calendar"></span></span>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
 
+			</div> 
+		</div>
+		 
+		 
+		<!-- CHART -->
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
@@ -94,71 +105,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
  					<table class="table table-hover table-bordered text-center">
- 						<thead class="thead-light">
+ 						<thead class="thead-light" id="thead_testing">
  							<tr>
- 								<th scope="col"></th>
- 								<th scope="col">Juni</th>
- 								<th scope="col">Juli</th>
- 								<th scope="col">Agustus</th>
- 								<th scope="col">September</th> 
+ 								<th><select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
+										<option value="0">MH OUT/SHIFT</option>
+										<option value="1">MONTHLY ORDER</option>
+										<option value="2">EFFICIENCY (%)</option>
+										<option value="3">MP DL/SHIFT</option>
+										<option value="4">SHIFT QTY</option>
+										<option value="5">OT HOURS</option>
+										<option value="6">CAPACITY</option>
+										<option value="7">OT PLAN</option>
+										<option value="8">WORKING DAYS</option>
+										<option value="9">% LOAD</option>
+									</select>
+								</th>
+								<th class="monn"></th>
  							</tr>
  						</thead>
  						<tbody id="tbody_testing">
  							<tr>
- 								<th scope="col">Working Days</th>
- 								<td>20</td>
- 								<td>20</td>
- 								<td>5</td>
- 								<td>0</td>
- 							</tr>
- 							<tr>
- 								<th scope="row">Order</th>
- 								<td class="inner">4091</td>
- 								<td class="inner">4133</td>
- 								<td class="inner">893</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Kap Prod</th>
- 								<td class="inner">5301</td>
- 								<td class="inner">5083</td>
- 								<td class="inner">493</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Bal</th>
- 								<td class="inner">401</td>
- 								<td class="inner">583</td>
- 								<td class="inner">93</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">% Load</th>
- 								<td class="inner">82%</td>
- 								<td class="inner">80%</td>
- 								<td class="inner">13%</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">OT (hour)</th>
- 								<td class="inner">0</td>
- 								<td class="inner">0</td>
- 								<td class="inner">0</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">DL Need</th>
- 								<td class="inner">53</td>
- 								<td class="inner">53</td>
- 								<td class="inner">0</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Direct Eff</th>
- 								<td class="inner">120%</td>
- 								<td class="inner">110%</td>
- 								<td class="inner">120%</td>
- 								<td class="inner"></td>
+ 								<td>jajjaj</td>
  							</tr>
  						</tbody>
  					</table> 
@@ -225,7 +192,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								{name:'Direct Efficiency',val: 'efficiency', view: true}
 								
 							];
-				
+				const item_prod = [
+								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
+								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
+								{name:'SHIFT QTY',val: 'shift_qty', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'CAPACITY',val: 'capacity', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'WORKING DAYS',val: 'working_days', view: true},
+								{name:'% LOAD',val: 'p_load', view: true}
+							]; 
+				var today =  new Date();
+				var ystart='';
+				var yend='';
+				var mDataProd=null;
 
 			// load Carline
 				function loadCarline() { 
@@ -282,166 +264,255 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		 			});
 				} 
 
-			// Trigger
-				// select carline
-					$('#select_carline').on('select2:select',function(e){
-						var data = e.params.data;
-						// console.log(data); 
-						loadLine(data.id);
-						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
-					});
-				// select Line
-					$('#select_lin').on('select2:select',function(e){
-						var data = e.params.data;
-						// console.log(data);  
-						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
-					});
-				// select Line
-					$('#select_shif').on('select2:select',function(e){
-						var data = e.params.data;
-						// console.log(data);  
-						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
-					});
-
-
 			// Autoload
 			loadCarline();
-			loadLine($('#select_carline').val());
+			loadLine( $('#select_carline').val() );
 			loadShift();
 			getDataPeriode();
-			// console.log('asd');
-			function getDataPeriode() {
-				$.ajax({
-                    type : "ajax",
-                    url  : "<?php echo site_url(); ?>/simulasi/getDat",
-                    dataType : "JSON",
-                    data : { 
-                    	
-                    },
-                    success: function(data){
-                    	console.log(data);
-                    	console.log('asd');
-                    	for (var i = 0; i < data.length; i++) {
-                    		var thead = $("#thead_act thead").find("tr");
-	                    	var today = new Date(data[i].tanggal);
-							var currentMonth = today.getMonth();
-	                    	thead.append($('<th>').text(monthName[currentMonth]));
-                    	}
-                    	
-                    	
-                    	// mengulang kebawah sebanyak item
-                    	for (var y = 0; y < item.length; y++) {
 
-                    		if (item[y].view ==true) { 
+			console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
 
-	                    		var tr = $('<tr>').append(
-	                    						$('<th>').text(item[y].name)
-	                    					);   
-	                    		// mengulang sebanyak Periode
-	                    		for (var i = 0; i < data.length; i++) {
-	                    			
 
-	                    			var tmp_html='';
-	                    			tmp_html = data[i][item[y].val]; 
+			// Show Data
+				function getDataPeriode() { 
 
-	                    			tr.append(
-	                    						$('<td>').text(tmp_html)
-		                    			 	); 	
+					if (!$('#pilih_monthrange').val()) {
+						ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
+						yend = today.getFullYear()+'-'+(today.getMonth()+2)+'-1';
+					} 
+
+					// Show Data PCC
+						$.ajax({
+		                    type : "ajax",
+		                    url  : "<?php echo site_url(); ?>/simulasi/getDat",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	
+		                    },
+		                    success: function(data){
+		                    	console.log(data);
+
+		                    	for (var i = 0; i < data.length; i++) {
+		                    		var thead = $("#thead_act thead").find("tr");
+			                    	var today = new Date(data[i].tanggal);
+									var currentMonth = today.getMonth();
+			                    	thead.append($('<th>').text(monthName[currentMonth]));
 		                    	}
+		                    	
+		                    	
+		                    	// mengulang kebawah sebanyak item
+		                    	for (var y = 0; y < item.length; y++) {
 
-		                    	tr.appendTo('#tbody_actual');
+		                    		if (item[y].view ==true) { 
+
+			                    		var tr = $('<tr>').append(
+			                    						$('<th>').text(item[y].name)
+			                    					);   
+			                    		// mengulang sebanyak Periode
+			                    		for (var i = 0; i < data.length; i++) {
+			                    			
+
+			                    			var tmp_html='';
+			                    			tmp_html = data[i][item[y].val]; 
+
+			                    			tr.append(
+			                    						$('<td>').text(tmp_html)
+				                    			 	); 	
+				                    	}
+
+				                    	tr.appendTo('#tbody_actual');
+				                    }
+
+		                    	}   
+
+		                      }
+		                });
+	                
+
+	                // SHOW DATA PROD
+		                $('#tbody_testing').html('');// clear tabel
+		                $('#thead_testing th.monn').remove(); //Clear THEAD
+		            // get Dataa
+		                $.ajax({
+		                	async: false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/IData/getIDataMonthPick",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	id_lstcrln: $('#select_lin').val(),
+		                    	shift: $('#select_lin').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){ 
+		                    	mDataProd=data;
+		                    	// Conf HEADER
+			                    	data.forEach(function(dat){
+			                			var tgl = new Date(dat.tanggal);
+			                			var thed = $('#thead_testing').find('tr'); 
+			                			thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+				                    });
+				                    if (data.length==0) {
+				                    	var thed = $('#thead_testing').find('tr'); 
+			                    		thed.append(
+			            						$('<th class="monn">').text( 'no Data' )
+			            					); 
+			                    	}
+
+		                    	// item Y kebawah
+		                    	item_prod.forEach(function(itm){
+		                    		// jika itm ditampilkan
+		                    		if (itm.view ==true) { 
+			                    		var tr = $('<tr>').append(
+			                    					$('<th scope="row">').text(itm.name));	
+
+			                    		// Data X samping 
+			                    		var x = 0;
+			                    		data.forEach(function(dat){ 
+
+			                    			if (itm.val=='efficiency' || itm.val=='p_load' ) {
+	                							// tmp_html = parseFloat(data[x][item[y].val]).toFixed(1)+'%';
+	                							tr.append(
+		                    						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
+		                    					); 
+	                						}else{
+	                							tr.append(
+		                    						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
+		                    					); 
+	                						}
+		                    				x++;
+				                    	}); 
+
+			                    		tr.appendTo('#tbody_testing');
+		                    		} 
+		                    	});
+		                    	
 		                    }
+		                });
+	 				
+	 				// LOAD Char
+	 				loadChart();
+				}
+				function showmData() { 
+					$('#tbody_testing').html('');
 
-                    	}   
+                	// item Y kebawah
+                	item_prod.forEach(function(itm){
+                		// jika itm ditampilkan
+                		if (itm.view ==true) { 
+                    		var tr = $('<tr>').append(
+                    					$('<th scope="row">').text(itm.name));	
 
-                      }
-                  });
+                    		// Data X samping 
+                    		var x = 0;
+                    		mDataProd.forEach(function(dat){ 
+
+                    			if (itm.val=='efficiency' || itm.val=='p_load' ) { 
+        							tr.append(
+                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
+                					); 
+        						}else{
+        							tr.append(
+                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
+                					); 
+        						}
+                				x++;
+	                    	}); 
+
+                    		tr.appendTo('#tbody_testing');
+                		} 
+                	});
 				}
 
-			// Actual
-            	var options ={  
-						    chart: {
-						        renderTo: 'container'
-						    },
-						    title: {
-						        text: 'Load vs Capacity Planning'
-						    },
-						    xAxis: {
-						        categories: [
-						            'Jan',
-						            'Feb',
-						            'Mar',
-						            'Apr',
-						            'May',
-						            'Jun',
-						            'Jul',
-						            'Aug',
-						            'Sep',
-						            'Oct',
-						            'Nov',
-						            'Dec'
-						        ],
-						        crosshair: true
-						    },
-						    yAxis: {
-						        min: 0,
-						        title: {
-						            text: '% Load'
-						        }
-						    },
-						    tooltip: {
-						        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-						        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-						            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-						        footerFormat: '</table>',
-						        shared: true,
-						        useHTML: true
-						    },
-						    plotOptions: {
-						        column: {
-						            pointPadding: 0.2,
-						            borderWidth: 0
-						        }
-						    },
-						    series: [
-						    	{
-						    		type: 'column',
-							        name: 'Kap Prod',
-							        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-							    }, 
-							    {
-							    	type: 'column',
-							        name: 'Order',
-							        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3],
-							        color: '#B22625'
 
-							    }, 
-							    {
-							        type: 'spline',
-							        name: '% Load',
-							        data: [50, 70, 95, 90, 100,   85,100,105,95,90,   100, 80],
-							        marker: {
-							            lineWidth: 2,
-							            lineColor: Highcharts.getOptions().colors[3],
-							            fillColor: 'white'
-							      	}
-						    	}
-						    ],
-						    legend: {
-								layout: 'vertical',
-								align: 'left',
-								verticalAlign: 'top',
-								x: 70,
-								y: -10,
-								floating: true,
-								borderWidth: 1,
-								backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-							}
+			// ====   CHART   ====  //
+			function loadChart() {
+				// Actual
+	            	var options ={  
+							    chart: {
+							        renderTo: 'container'
+							    },
+							    title: {
+							        text: 'Load vs Capacity Planning'
+							    },
+							    xAxis: {
+							        categories: [
+							            'Jan',
+							            'Feb',
+							            'Mar',
+							            'Apr',
+							            'May',
+							            'Jun',
+							            'Jul',
+							            'Aug',
+							            'Sep',
+							            'Oct',
+							            'Nov',
+							            'Dec'
+							        ],
+							        crosshair: true
+							    },
+							    yAxis: {
+							        min: 0,
+							        title: {
+							            text: '% Load'
+							        }
+							    },
+							    tooltip: {
+							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+							            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+							        footerFormat: '</table>',
+							        shared: true,
+							        useHTML: true
+							    },
+							    plotOptions: {
+							        column: {
+							            pointPadding: 0.2,
+							            borderWidth: 0
+							        }
+							    },
+							    series: [
+							    	{
+							    		type: 'column',
+								        name: 'Kap Prod',
+								        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+								    }, 
+								    {
+								    	type: 'column',
+								        name: 'Order',
+								        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3],
+								        color: '#B22625'
 
-		            	};
-            	var chart = new Highcharts.Chart(options); 
+								    }, 
+								    {
+								        type: 'spline',
+								        name: '% Load',
+								        data: [50, 70, 95, 90, 100,   85,100,105,95,90,   100, 80],
+								        marker: {
+								            lineWidth: 2,
+								            lineColor: Highcharts.getOptions().colors[3],
+								            fillColor: 'white'
+								      	}
+							    	}
+							    ],
+							    legend: {
+									layout: 'vertical',
+									align: 'left',
+									verticalAlign: 'top',
+									x: 70,
+									y: -10,
+									floating: true,
+									borderWidth: 1,
+									backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+								}
 
-            // Testing
+			            	};
+	            	var chart = new Highcharts.Chart(options); 
+
+	            // Testing
             	var options_tes ={  
 						    chart: {
 						        renderTo: 'container_testing'
@@ -450,20 +521,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        text: 'Load vs Capacity Testing'
 						    },
 						    xAxis: {
-						        categories: [
-						            'Jan',
-						            'Feb',
-						            'Mar',
-						            'Apr',
-						            'May',
-						            'Jun',
-						            'Jul',
-						            'Aug',
-						            'Sep',
-						            'Oct',
-						            'Nov',
-						            'Dec'
-						        ],
+						        categories: (
+						        			function(){
+						        				var da = [];
+
+						        					mDataProd.forEach(function(dat){
+						        						var tgl = new Date(dat.tanggal);
+						        						da.push(monthName[tgl.getMonth()]);
+						        					});
+
+						        				return da;
+						        			}()
+						        		),
 						        crosshair: true
 						    },
 						    yAxis: {
@@ -475,7 +544,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						    tooltip: {
 						        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 						        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-						            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+						                      '<td style="padding:0"><b>{point.y:.0f}  </b></td></tr>',
 						        footerFormat: '</table>',
 						        shared: true,
 						        useHTML: true
@@ -490,17 +559,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						    	{
 						    		type: 'column',
 							        name: 'Kap Prod',
-							        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+							        data: (
+						        			function(){
+						        				var da = [];
+
+						        					mDataProd.forEach(function(dat){ 
+						        						da.push(parseFloat(dat.capacity));
+						        					});
+
+						        				return da;
+						        			}()
+						        		)
 							    }, 
 							    {
 							    	type: 'column',
 							        name: 'Order',
-							        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
+							        data: (
+						        			function(){
+						        				var da = [];
+
+						        					mDataProd.forEach(function(dat){ 
+						        						
+						        						da.push(parseFloat(dat.order_monthly));
+						        					});
+
+						        				return da;
+						        			}()
+						        		)
 							    }, 
 							    {
 							        type: 'spline',
 							        name: '% Load',
-							        data: [50, 70, 95, 90, 100,   85,100,105,95,90,   100, 80],
+							        data: (
+						        			function(){
+						        				var da = [];
+
+						        					mDataProd.forEach(function(dat){ 
+						        						da.push(parseFloat(dat.p_load));
+						        					});
+
+						        				return da;
+						        			}()
+						        		),
 							        marker: {
 							            lineWidth: 2,
 							            lineColor: Highcharts.getOptions().colors[3],
@@ -518,62 +618,134 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								borderWidth: 1,
 								backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 							}
-
 		            	};
             	var chart_plan = new Highcharts.Chart(options_tes); 
+			} 
+
+            // Trigger
+				// select carline
+					$('#select_carline').on('select2:select',function(e){
+						var data = e.params.data;
+						console.log(data.id); 
+						loadLine(data.id);
+						getDataPeriode();
+					});
+				// select Line
+					$('#select_lin').on('select2:select',function(e){
+						var data = e.params.data;
+						console.log(data.id);  
+						getDataPeriode();
+					});
+				// select Line
+					$('#select_shif').on('select2:select',function(e){
+						var data = e.params.data;
+						console.log(data.id);  
+						getDataPeriode();
+					});
+				// CALENDAR
+					// DAtepickers
+		 			$('.month_range').datepicker({ 
+						language: 'en',
+						minView: 'months',
+						view: 'months',
+						autoClose: true,
+						range: true, 
+						multipleDates: true,
+						multipleDatesSeparator: " - ", 
+						dateFormat: 'MM yyyy',  
+						onSelect: function(start, end) {  
+							if (end.length==2) {
+								// console.log('okk');
+								var s = new Date(end[0]); 
+								var e = new Date(end[1]);
+								var endInM = 32 - new Date(e.getFullYear(), e.getMonth(), 32).getDate();
+								ystart = s.getFullYear()+'-'+(s.getMonth()+1)+'-1'; 
+								yend = e.getFullYear()+'-'+(e.getMonth()+1)+'-'+endInM; 
+								
+								getDataPeriode();
+							}  
+						}
+					});
+				// ITEM VIEW  
+					$('#item_view').selectpicker({
+
+					});
+					$('#item_view').selectpicker('selectAll');
+
+					$('#item_view').on('hide.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+					  	// do something...
+					  	var sel = $('#item_view').val();
+					  	
+					  	item_prod.forEach(function(entry) {
+						    entry.view = false;
+						});
+
+					  	for (var x = 0; x < sel.length; x++) {
+				  			item_prod[sel[x]].view = true;
+				  		}
+
+				  		showmData();
+					});
 
             // Update val
-  
 			    $("#tbody_testing").on('dblclick','.inner',function (e) {
 			        e.stopPropagation();
-			        var currentEle = $(this);
-			        var value = $(this).html();
-			        updateVal(currentEle, value);
+			        var currentEle = $(this); 
+			        var id = $(this).data('id');
+			        var col = $(this).data('col');
+			        var val = $(this).data('val');
+
+			        console.log('id:'+id+'|col:'+col+'|val:'+val);
+
+			        updateVal(currentEle, id, col, val);
 			    });
 
-			    function updateVal(currentEle, value) {
+			    function updateVal(currentEle, id, col, value) {
 				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
 				    $(".thVal").focus();
 				    $(".thVal").select();
 				    $(".thVal").keyup(function (event) {
 				        if (event.keyCode == 13) {
+				        	var val = $(".thVal").val();
 				            $(currentEle).html( $(".thVal").val() ); 
+
+				            if (col=='capacity' || col=='order_monthly') {
+				            	var has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;
+
+				            	console.log(has);
+				            	mDataProd[id].p_load = has;
+				            }
+
+				            mDataProd[id][col] = val;
+
+				            loadChart();
+				            showmData();
+
 				            console.log('enter');
+				            console.log(mDataProd);
 				        }
 				    });
 
-				    $(document).click(function () {
-				    		console.log($(".thVal").val());
-				            $(currentEle).html( $(".thVal").val() );
-				            // $(currentEle).removeClass("thVal");
-				    });
-				}
+				    // Focus losss same state value
+				    $(".thVal").focusout(function(){
+				    	console.log('losss');
+ 
+				    	// jika itu
+				    	if (col=='efficiency' || col=='p_load' ) {
 
-			// OPtion
-				$('#select_line').select2({ 
-	 				placeholder: 'Pilih Line ',
-	 				minimumResultsForSearch: -1
-	 				// ,
-	 				// data:data
-
-	 			});
-
-	 			// DAtepickers
-	 			$('.month_range').datepicker({ 
-					language: 'en',
-					minView: 'months',
-					view: 'months',
-					autoClose: true,
-					range: true,
-					multipleDates: true,
-					multipleDatesSeparator: " - ",
-					dateFormat: 'MM yyyy', 
-					onSelect: function(start, end) {  
-						if (end.length==2) {
-							console.log('okk');
+							var tmp = parseFloat(value).toFixed(1)+'%';
+							$(currentEle).html( tmp ); 
+						}else{
+							$(currentEle).html( value ); 
 						}  
-					}
-				});
+
+						console.log(mDataProd);
+				    }); 
+
+				}
+ 
+
+			// IMPORT FUNC
 
 				$('#import_form').on('submit', function(event){
 					event.preventDefault();
@@ -586,10 +758,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						cache:false,
 						processData:false,
 						beforeSend: function(){
-							Swal.showLoading();
+							Swal.fire({ 
+							    allowEscapeKey: false,
+							    allowOutsideClick: false,
+							    title: "", 
+							    showConfirmButton: false,
+							    onOpen: () => {
+							      swal.showLoading();
+							    }
+							});
 						},
 						success:function(data){
 							Swal.close();
+							
 							$('#file').val('');
 							console.log(data);
 							$('#modal_importexcl').modal('hide');
@@ -604,30 +785,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 					})
 				});
-
-				$("#tbody_actual").on('dblclick','.inner',function (e) {
-			        e.stopPropagation();
-			        var currentElem = $(this);
-			        var valu = $(this).html();
-			        updateVal	(currentElem, valu);
-			    });
-				 function updateVal(currentElem, valu) {
-				    $(currentElem).html('<input class="thVal form-control" style="width: 85px;" type="number" valu="' + valu + '" />');
-				    $(".thVal").focus();
-				    $(".thVal").select();
-				    $(".thVal").keyup(function (event) {
-				        if (event.keyCode == 13) {
-				            $(currentElem).html( $(".thVal").val() ); 
-				            console.log('enter');
-				        }
-				    });
-
-				    $(document).click(function () {
-				    		console.log($(".thVal").val());
-				            $(currentElem).html( $(".thVal").val() );
-				            // $(currentEle).removeClass("thVal");
-				    });
-				}
+		
 		}); 
 	</script> 
 </body>

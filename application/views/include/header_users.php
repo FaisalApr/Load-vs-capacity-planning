@@ -77,33 +77,7 @@
 				<span></span>
 				<span></span> 
 			</div>
-  			
-  			<div class="row" style="display: none;">
-  				<div class="dropdown">  
-					<div class="input-group custom input-group-sm" style="margin-top: 10px; margin-left: 15px;">
-						
-						<div style="margin-top: -10px;"><font size="46">Line:</font> </div>
-						<select class="select2 js-states form-control" id="select_line" name="select_line" style="width: 100px; "> 
-							
-						</select> 
-					</div>
-				</div>
-
-				<div style="margin: 0 10px 0 50px;"><font size="7">Range:</font> </div>
-				<div style="margin-top: 20px;"> 
-					<div class="input-group custom input-group-sm" style="width: 250px">
-						<input class="form-control month_range" placeholder="Select Month"  type="text">
-						<div class="input-group-append custom">
-							<span class="input-group-text" style="margin-top: -5px"><span class="icon-copy ti-calendar"></span></span>
-						</div>
-					</div>
-	  			</div>
-
-
-
-			</div>
- 
-
+  			  
 
 		
 		</div>

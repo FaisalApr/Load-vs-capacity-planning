@@ -27,6 +27,18 @@ class IData extends CI_Controller {
 
 		echo json_encode($data);
 	}
+
+	public function getIDataMonthPick()
+	{
+		$id_lstcrln = $this->input->post('id_lstcrln');
+		$shift = $this->input->post('shift');
+		$start = ($this->input->post('ystart'));
+		$end = ($this->input->post('yend'));
+
+		$data  =  $this->iData_model->cariDataPeriode($id_lstcrln,$shift,$start,$end);
+
+		echo json_encode($data);
+	}
 	
 
 	public function updateIData()

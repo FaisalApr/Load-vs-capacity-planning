@@ -94,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="6">CAPACITY</option>
 								<option value="7">OT PLAN</option>
 								<option value="8">WORKING DAYS</option>
+								<option value="9">LOAD</option>
 							</select>
 						</th>
 						<th style="width: 7%">Juli</th>
@@ -135,11 +136,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
 								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
 								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
+								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true},
 								{name:'SHIFT QTY',val: 'shift_qty', view: true},
 								{name:'OT HOURS',val: 'ot_hours', view: true},
 								{name:'CAPACITY',val: 'capacity', view: true},
 								{name:'OT PLAN',val: 'ot_plan', view: true},
-								{name:'WORKING DAYS',val: 'working_days', view: true}
+								{name:'WORKING DAYS',val: 'working_days', view: true},
+								{name:'% LOAD',val: 'p_load', view: true},
+								{name:'EXCL TIME',val: 'exc_time', view: true}
 							]; 
 				var today = new Date();
 				var ystart = today.getFullYear();
@@ -305,9 +309,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    					);   
 		                    		// mengulang sebanyak Periode
 		                    		for (var i = 0; i < periode.length; i++) {
-
+		                    			// var data
 		                    			var tmp_html='';
-		                    			var id =0;
+		                    			var id =0,mor=0,cap=0,val=0;
 		                    			var col = ''; 
 
 		                    				for (var x = 0; x < data.length; x++) { 
@@ -315,11 +319,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    					var tgl = new Date(data[x].tanggal);
 		                    					// Jika bulan sama  maka ada data 
 		                    					if (tgl.getMonth()==periode[i]) {
-		                    						tmp_html = data[x][item[y].val];
+
+		                    						if (item[y].val=='efficiency' || item[y].val=='p_load' ) {
+		                    							tmp_html = parseFloat(data[x][item[y].val]).toFixed(1)+'%';
+		                    						}else{
+		                    							tmp_html = data[x][item[y].val];
+		                    						} 
 
 		                    						// get data 
 		                    						id = data[x].id;
-		                    						col = item[y].val;
+		                    						val = data[x][item[y].val];
+		                    						col = item[y].val; 
+		                    						mor = data[x].order_monthly;
+		                    						cap = data[x].capacity; 
 		                    					}
 
 		                    				}      	
@@ -327,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			if (col=='') {col = item[y].val;}
 
 		                    			tr.append(
-		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" >').text(tmp_html)
+		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" data-cap="'+cap+'" data-mor="'+mor+'" data-val="'+val+'">').text(tmp_html)
 			                    			 	); 	
 			                    	}
 
@@ -345,17 +357,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    $("#tbody_data").on('dblclick','.inner',function (e) {
 			        e.stopPropagation();
 			        var currentEle = $(this);
-			        var value = $(this).html(); 
+			        var value = $(this).data('val'); 
 			        var id = $(this).data('id');
 			        var col = $(this).data('col');
+			        var mor = $(this).data('mor');
+			        var cap = $(this).data('cap'); 
 			        var bln = $(this).data('periode_bln');
 
-			        console.log('id data: '+id+' col: '+col +'| bln: '+bln);
+			        // console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mor: '+mor+'|cap: '+cap);
 
-			        updateVal(currentEle, value, id, col, bln);
+			        updateVal(currentEle, value, id, col, bln, mor,cap);
 			    });
 
-			    function updateVal(currentEle, value, id, col, bln) {
+			    function updateVal(currentEle, value, id, col, bln, mor, cap) {
 
 				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
 				    $(".thVal").focus();
@@ -377,49 +391,97 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        	}
 				        	// return;
 				        	// post data
-				        	$.ajax({
-			                    type : "POST",
-			                    url  : "<?php echo site_url(); ?>/IData/updateIData",
-			                    dataType : "JSON",
-			                    data : { 
-			                    	id:id,
-			                    	col:col,
-			                    	val:$(".thVal").val(),
-			                    	bln:bln,
-			                    	lst_cr: $('#select_lin').val(),
-			                    	tgl: tgl,
-			                    	sif: $('#select_shif').val()
-			                    },
-			                    beforeSend: function(){
-				                	Swal.fire({ 
-									    allowEscapeKey: false,
-									    allowOutsideClick: false,
-									    title: "", 
-									    showConfirmButton: false,
-									    onOpen: () => {
-									      swal.showLoading();
-									    }
-									  });
-				                },
-			                    success: function(data){ 
-			                    	Swal.close(); 
-			                    	if (!data) {
-			                    		$(currentEle).html( value );
-			                    	}else{
-			                    		// sukses
-			                    		$(currentEle).html( $(".thVal").val() ); 
-			                    		getDataPeriode($('#select_lin').val(), $('#select_shif').val());
-			                    	}
+					        	$.ajax({
+				                    type : "POST",
+				                    url  : "<?php echo site_url(); ?>/IData/updateIData",
+				                    dataType : "JSON",
+				                    data : { 
+				                    	id:id,
+				                    	col:col,
+				                    	val:$(".thVal").val(),
+				                    	bln:bln,
+				                    	lst_cr: $('#select_lin').val(),
+				                    	tgl: tgl,
+				                    	sif: $('#select_shif').val()
+				                    },
+				                    beforeSend: function(){
+					                	Swal.fire({ 
+										    allowEscapeKey: false,
+										    allowOutsideClick: false,
+										    title: "", 
+										    showConfirmButton: false,
+										    onOpen: () => {
+										      swal.showLoading();
+										    }
+										  });
+					                },
+				                    success: function(data){ 
+				                    	Swal.close(); 
+				                    	if (!data) {
+				                    		$(currentEle).html( value );
+				                    	}else{
+				                    		// sukses
+				                    		$(currentEle).html( $(".thVal").val() ); 
+				                    		getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+				                    	}
 
-			                    }
-			                }); 
+				                    }
+				                });
+
+					        // JIKA ITU,  AUTO % LOAD
+				            if (col=='capacity' || col=='order_monthly') {
+				            	var has = (Number(mor)/Number(cap))*100;
+
+				            	console.log('has : '+has);
+				            	// POST
+				            	$.ajax({
+				                    type : "POST",
+				                    url  : "<?php echo site_url(); ?>/IData/updateIData",
+				                    dataType : "JSON",
+				                    data : { 
+				                    	id:id,
+				                    	col: 'p_load',
+				                    	val: has,
+				                    	bln:bln,
+				                    	lst_cr: $('#select_lin').val(),
+				                    	tgl: tgl,
+				                    	sif: $('#select_shif').val()
+				                    },
+				                    beforeSend: function(){
+					                	Swal.fire({ 
+										    allowEscapeKey: false,
+										    allowOutsideClick: false,
+										    title: "", 
+										    showConfirmButton: false,
+										    onOpen: () => {
+										      swal.showLoading();
+										    }
+										  });
+					                },
+				                    success: function(data){ 
+				                    	Swal.close();  
+				                    }
+				                });
+				            }
 				        }
 				    });
  					
  					// Focus losss same state value
 				    $(".thVal").focusout(function(){
 				    	console.log('losss');
-				    	$(currentEle).html( value ); 
+
+				    	if (id == 0) {
+				    		$(currentEle).html( '' ); 
+				    		return;
+				    	}
+				    	// jika itu
+				    	if (col=='efficiency' || col=='p_load' ) {
+
+							var tmp = parseFloat(value).toFixed(1)+'%';
+							$(currentEle).html( tmp ); 
+						}else{
+							$(currentEle).html( value ); 
+						}  
 				    });
 				}
  
