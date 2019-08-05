@@ -89,12 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="1">MONTHLY ORDER</option>
 								<option value="2">EFFICIENCY (%)</option>
 								<option value="3">MP DL/SHIFT</option>
-								<option value="4">SHIFT QTY</option>
-								<option value="5">OT HOURS</option>
-								<option value="6">CAPACITY</option>
-								<option value="7">OT PLAN</option>
-								<option value="8">WORKING DAYS</option>
-								<option value="9">LOAD</option>
+								<option value="4">MP IDL/SHIFT</option>
+								<option value="5">SHIFT QTY</option>
+								<option value="6">OT HOURS</option>
+								<option value="7">CAPACITY</option>
+								<option value="8">OT PLAN</option>
+								<option value="9">WORKING DAYS</option>
+								<option value="10">LOAD</option>
+								<option value="11">EXCL TIME</option>
 							</select>
 						</th>
 						<th style="width: 7%">Juli</th>

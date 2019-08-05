@@ -112,12 +112,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<option value="1">MONTHLY ORDER</option>
 										<option value="2">EFFICIENCY (%)</option>
 										<option value="3">MP DL/SHIFT</option>
-										<option value="4">SHIFT QTY</option>
-										<option value="5">OT HOURS</option>
-										<option value="6">CAPACITY</option>
-										<option value="7">OT PLAN</option>
-										<option value="8">WORKING DAYS</option>
-										<option value="9">% LOAD</option>
+										<option value="4">MP IDL/SHIFT</option>
+										<option value="5">SHIFT QTY</option>
+										<option value="6">OT HOURS</option>
+										<option value="7">CAPACITY</option>
+										<option value="8">OT PLAN</option>
+										<option value="9">WORKING DAYS</option>
+										<option value="10">LOAD</option>
+										<option value="11">EXCL TIME</option>
+										<option value="12">% Tot Prod</option>
 									</select>
 								</th>
 								<th class="monn"></th>
@@ -197,12 +200,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
 								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
 								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
+								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true},
 								{name:'SHIFT QTY',val: 'shift_qty', view: true},
 								{name:'OT HOURS',val: 'ot_hours', view: true},
 								{name:'CAPACITY',val: 'capacity', view: true},
 								{name:'OT PLAN',val: 'ot_plan', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
-								{name:'% LOAD',val: 'p_load', view: true}
+								{name:'% LOAD',val: 'p_load', view: true},
+								{name:'EXCL TIME',val: 'exc_time', view: true},
+								{name:'% Tot Prod',val: 'tot_productivity', view: true}
 							]; 
 				var today =  new Date();
 				var ystart='';
@@ -770,7 +776,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						},
 						success:function(data){
 							Swal.close();
-							
+
 							$('#file').val('');
 							console.log(data);
 							$('#modal_importexcl').modal('hide');
