@@ -24,6 +24,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10"> 
 		
 		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+				<div class="pd-10 bg-white border-radius-4 box-shadow mb-30">
+					<div class="row">
+				<div class="dropdown" style="margin-left: 15px;">  
+					<div class="input-group custom input-group-sm" style="margin-top: 30px"> 
+						<div style="margin-top: 20px; font-size: 30px">Carline :&nbsp </div>
+						<select style="width: 150px; margin-bottom: -5px; margin-top: 30px " class="select2 js-states form-control" id="select_carline" name="select_carline" >  	
+						</select> 
+					</div>
+				</div>
+
+				<div class="dropdown" style="margin-left: 20px;">  
+					<div class="input-group custom input-group-sm" style="margin-top: 40px"> 
+						<div style="margin-top: 12px; font-size: 30px">Line :&nbsp </div>
+						<select class="select2 js-states form-control" id="select_lin" name="select_lin" style="width: 100px; margin-top: 50px;">  	
+						</select> 
+					</div>
+				</div>
+				<div class="dropdown" style="margin-left: 20px;">  
+					<div class="input-group custom input-group-sm" style="margin-top: 40px"> 
+						<div style="margin-top: 10px; font-size: 30px">Shift : &nbsp</div>
+						<select class="select2 js-states form-control" id="select_shif" name="select_shif" style="width: 100px; margin-top: 21px;">  
+						</select> 
+					</div>
+				</div> 
+			</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
 					<div id="container" style="height: 350px; "></div>
@@ -38,77 +69,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
-
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
- 					<table class="table table-hover table-bordered text-center">
+				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+ 					<table id="thead_act" class="table table-hover table-bordered text-center">
  						<thead class="thead-light">
  							<tr>
  								<th scope="col"></th>
- 								<th scope="col">Juni</th>
- 								<th scope="col">Juli</th>
- 								<th scope="col">Agustus</th>
- 								<th scope="col">September</th> 
+ 								
+ 								
  							</tr>
  						</thead>
  						<tbody id="tbody_actual">
- 							<tr>
- 								<th scope="col">Working Days</th>
- 								<td class="inner">20</td>
- 								<td class="inner">20</td>
- 								<td class="inner">5</td>
- 								<td class="inner">0</td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Order</th>
- 								<td class="inner">4091</td>
- 								<td class="inner">4133</td>
- 								<td class="inner">893</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Kap Prod</th>
- 								<td class="inner">5301</td>
- 								<td class="inner">5083</td>
- 								<td class="inner">493</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Bal</th>
- 								<td class="inner">401</td>
- 								<td class="inner">583</td>
- 								<td class="inner">93</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">% Load</th>
- 								<td class="inner">82%</td>
- 								<td class="inner">80%</td>
- 								<td class="inner">13%</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">OT (hour)</th>
- 								<td class="inner">0</td>
- 								<td class="inner">0</td>
- 								<td class="inner">0</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">DL Need</th>
- 								<td class="inner">53</td>
- 								<td class="inner">53</td>
- 								<td class="inner">0</td>
- 								<td class="inner"></td>
- 							</tr>
- 							<tr>
- 								<th scope="col">Direct Eff</th>
- 								<td class="inner">120%</td>
- 								<td class="inner">110%</td>
- 								<td class="inner">120%</td>
- 								<td class="inner"></td>
- 							</tr>
+ 							
  						</tbody>
  					</table> 
 					<br>
@@ -238,6 +211,152 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	<script type="text/javascript">
 		$('document').ready(function(){
+			//Var Core
+				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
+				const item = [
+								{name:'Working Days',val: 'working_days', view: true},
+								{name:'Order',val: 'order_ppc', view: true},
+								{name:'Kap Prod',val: 'kap_prod', view: true},
+								{name:'Bal',val: 'Bal', view: true},
+								{name:'% Load',val: 'Load_persen', view: true},
+								{name:'OT (hour)',val: 'ot_hour', view: true},
+								{name:'DL Need',val: 'dl_need', view: true},
+								{name:'Direct Efficiency',val: 'efficiency', view: true}
+								
+							];
+				
+
+			// load Carline
+				function loadCarline() { 
+					$.ajax({
+						async:false,
+						type: 'POST',
+						url: '<?php echo site_url("Carline/getDataCarline");?>',
+						dataType: "JSON",
+						data:{ 
+						},
+						success: function(data){  
+							// console.log(data);
+
+							$('#select_carline').empty();
+				 			$('#select_carline').select2({ 
+				 				placeholder: 'Pilih Carline ',
+				 				minimumResultsForSearch: -1,
+				 				data: data
+				 			});
+						}
+					});
+				}
+			// Load Line
+				function loadLine(id) { 
+					$.ajax({
+						async:false,
+						type: 'POST',
+						url: '<?php echo site_url("Line/getDataListCarLineHasLine");?>',
+						dataType: "JSON",
+						data:{ 
+							crln:id
+						},
+						success: function(data){ 
+							// console.log('isi line');
+							// console.log(data);
+
+							$('#select_lin').empty();
+							$('#select_lin').select2({ 
+				 				placeholder: 'Pilih Line ',
+				 				minimumResultsForSearch: -1,
+				 				data: data
+				 			});
+						}
+					});
+				}
+			// Load Shift
+				function loadShift() {
+					var data = [{id:1,text: 'A',selected:true},{id:2,text:'B'}]
+					$('#select_shif').empty();
+					$('#select_shif').select2({ 
+		 				placeholder: 'Pilih Line ',
+		 				minimumResultsForSearch: -1,
+		 				data: data
+		 			});
+				} 
+
+			// Trigger
+				// select carline
+					$('#select_carline').on('select2:select',function(e){
+						var data = e.params.data;
+						// console.log(data); 
+						loadLine(data.id);
+						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+					});
+				// select Line
+					$('#select_lin').on('select2:select',function(e){
+						var data = e.params.data;
+						// console.log(data);  
+						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+					});
+				// select Line
+					$('#select_shif').on('select2:select',function(e){
+						var data = e.params.data;
+						// console.log(data);  
+						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+					});
+
+
+			// Autoload
+			loadCarline();
+			loadLine($('#select_carline').val());
+			loadShift();
+			getDataPeriode();
+			// console.log('asd');
+			function getDataPeriode() {
+				$.ajax({
+                    type : "ajax",
+                    url  : "<?php echo site_url(); ?>/IData/getDat",
+                    dataType : "JSON",
+                    data : { 
+                    	
+                    },
+                    success: function(data){
+                    	console.log(data);
+                    	console.log('asd');
+                    	for (var i = 0; i < data.length; i++) {
+                    		var thead = $("#thead_act thead").find("tr");
+	                    	var today = new Date(data[i].tanggal);
+							var currentMonth = today.getMonth();
+	                    	thead.append($('<th>').text(monthName[currentMonth]));
+                    	}
+                    	
+                    	
+                    	// mengulang kebawah sebanyak item
+                    	for (var y = 0; y < item.length; y++) {
+
+                    		if (item[y].view ==true) { 
+
+	                    		var tr = $('<tr>').append(
+	                    						$('<th>').text(item[y].name)
+	                    					);   
+	                    		// mengulang sebanyak Periode
+	                    		for (var i = 0; i < data.length; i++) {
+	                    			
+
+	                    			var tmp_html='';
+	                    			tmp_html = data[i][item[y].val]; 
+
+	                    			tr.append(
+	                    						$('<td>').text(tmp_html)
+		                    			 	); 	
+		                    	}
+
+		                    	tr.appendTo('#tbody_actual');
+		                    }
+
+                    	}   
+
+                      }
+                  });
+				}
 
 			// Actual
             	var options ={  
