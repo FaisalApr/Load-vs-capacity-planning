@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class iData_model extends CI_Model {
 
 
-	public function cariDataPeriode($line,$sf)
+	public function cariDataPeriode($line,$sf,$stat,$end)
 	{
-		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line and id_shift=$sf");
+		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line and id_shift=$sf AND tanggal>='$stat' AND tanggal<='$end'");
 		return $q->result();
 	}
 	

@@ -73,15 +73,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div> 
 			</div>
-			<div class="pull-right" style="margin-top: -80px;">
-				<a href="#"><input type="text" id="periode_th" class="yearpicker asd form-control" style="width: 250px;  font-size: 38px;text-align: right;" value="2019-2020"></a>
+			<div class="pull-right" style="margin-top: -80px;margin-right: 10px"> 
+				<div >
+					<label style="font-size: 42px;cursor:pointer;" class="text-blue yearpicker" id="period"></label>
+					<label class="text-blue" style="font-size: 24px; margin-left: -3px;" id="period2"></label>
+				</div> 
 			</div>
 			 
 			<table class="table table-bordered table-hover">
-				<thead>
-					<tr style=" background-color: grey">
+				<thead class="thead-light">
+					<tr>
 						<th style="width: 13%">
-							<select class="form-control" data-style="btn-outline-dark" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
+							<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
 								<option value="0">MH OUT/SHIFT</option>
 								<option value="1">MONTHLY ORDER</option>
 								<option value="2">EFFICIENCY (%)</option>
@@ -138,6 +141,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								{name:'OT PLAN',val: 'ot_plan', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true}
 							]; 
+				var today = new Date();
+				var ystart = today.getFullYear();
+				var yend = (today.getFullYear()+1);
 			// method INIT
 				// load Carline
 					function loadCarline() { 
@@ -237,27 +243,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// Picker Year
 					$('.yearpicker').yearpicker({ 
 					  autoHide: true, 
-					  year: null, 
-					  startYear: '2002', 
+					  year: today.getFullYear(), 
+					  startYear: 2002,
 					  endYear: null
-					}).on('change', function (ev) {
-					    alert('message?: DOMString');
-					});
+					}); 
 
-					// $('.yearpicker').val('2019-2020');
-				
-				// $('#periode_th').on('change',function(){
-				// 	console.log('ganti');
-				// });
+					document.getElementById('period').innerHTML= today.getFullYear();
+					document.getElementById('period2').innerHTML= '-'+(today.getFullYear()+1)
+					$('.yearpicker-container').on('click','.yearpicker-items,.yearpicker-prev,.yearpicker-next',function(){ 
+						// ganti tulisan setelah 8ms
+						setTimeout(explode, 8);
+					}); 
+					$('.yearpicker-container').on('click','.yearpicker-items',function(){
+						// console.log('ganti: '+$(this).html() );
+						ystart = $(this).html();
+						yend = Number($(this).html())+1; 
+						// refresh
+						getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
+					});   
+					function explode(){
+					  document.getElementById('period').innerHTML= $('.yearpicker').html();
+					  document.getElementById('period2').innerHTML= '-'+(Number($('.yearpicker').html())+1);
+					}
 
 
 			// Autoload
 			loadCarline();
-			loadLine($('#select_carline').val());
+			loadLine( $('#select_carline').val() );
 			loadShift();  
-			getDataPeriode($('#select_lin').val(), $('#select_shif').val());
-			// console.log('carline : '+$('#select_carline').val() +'| lne : '+$('#select_lin').val()+'| sif: '+$('#select_shif').val() );
-
+			getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
 
 
 			// Show Data
@@ -273,7 +287,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    dataType : "JSON",
 	                    data : { 
 	                    	id_lstcrln:lin,
-	                    	shift:sf
+	                    	shift:sf,
+	                    	ystart:ystart,
+	                    	yend: yend
 	                    },
 	                    success: function(data){
 	                    	// console.log(data);
@@ -351,9 +367,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        	// jika data baru
 					        	if (id==0) {
 					        		// jika tahun periode bulan dibawah juni 
-					        		th = Number($('.yearpicker').val());
+					        		th = ystart;
 					        		if (bln<7) {
-					        			th +=1;
+					        			th = yend;
 					        		}
 
 					        		tgl = th+'-'+(bln+1)+'-1';
