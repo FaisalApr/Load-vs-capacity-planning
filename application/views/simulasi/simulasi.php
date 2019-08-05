@@ -313,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			function getDataPeriode() {
 				$.ajax({
                     type : "ajax",
-                    url  : "<?php echo site_url(); ?>/IData/getDat",
+                    url  : "<?php echo site_url(); ?>/simulasi/getDat",
                     dataType : "JSON",
                     data : { 
                     	
