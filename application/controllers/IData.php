@@ -20,18 +20,10 @@ class IData extends CI_Controller {
 	{
 		$id_lstcrln = $this->input->post('id_lstcrln');
 		$shift = $this->input->post('shift');
-		$now =  date("Y-m-d");
+		$start = ($this->input->post('ystart')).'-07-01';
+		$end = ($this->input->post('yend')).'-06-30';
 
-		$mon = date("m",strtotime(date("Y-m-d")));
-		if ($mon>=7) {
-			$start = '01-07-'.date("Y",strtotime(date("Y-m-d")));
-			$End = '01-06-'.(date("Y",strtotime(date("Y-m-d")))+1);
-		}else if($mon<7){
-			$start = '01-07-'.(date("Y",strtotime(date("Y-m-d")))-1);
-			$End = '01-06-'.(date("Y",strtotime(date("Y-m-d"))));
-		}
-
-		$data  =  $this->iData_model->cariDataPeriode($id_lstcrln,$shift);
+		$data  =  $this->iData_model->cariDataPeriode($id_lstcrln,$shift,$start,$end);
 
 		echo json_encode($data);
 	}
