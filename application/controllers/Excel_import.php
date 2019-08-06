@@ -29,7 +29,7 @@ class Excel_import extends CI_Controller {
 				// echo "string";
 				// return;
 				$highestRow = $worksheet->getHighestRow();
-				// $highestRow = 6;
+				// $highestRow = 10;
 				$highestColumn = $worksheet->getHighestColumn();
 				for($row=3; $row<=$highestRow; $row++)
 				{
@@ -156,10 +156,8 @@ class Excel_import extends CI_Controller {
 						
 						// echo json_encode($datas);
 						// return;
-						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal,$lstCarline->id);
-						// echo(json_encode(''));
-						// echo json_encode($updt_tanggal);
-							// return;
+						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal,$lstCarline->id); 
+
 						if($updt_tanggal){
 							$updt = $this->excel_import_model->update($datas, $updt_tanggal->id);
 							// echo json_encode('up');
@@ -170,13 +168,7 @@ class Excel_import extends CI_Controller {
 							}
 
 						}else{
-							$updt = $this->excel_import_model->insert($datas);	
-							// $dat = array(
-							// 			'working_days' => $wd,
-							// 			'order_monthly' => $month_order
-							// 		); 
-							// $cekidat = $this->iData_model->insertDataI();
-							// $idata = $this->iData_model->insertDataI($data);
+							$updt = $this->excel_import_model->insert($datas);	  
 
 							// echo json_encode('in');
 							// Jka terjadi error insert
@@ -185,6 +177,33 @@ class Excel_import extends CI_Controller {
 								echo json_encode('err:'.$row);
 							}
 						}
+
+						// order dibagi 
+							if ($month_order!=0) {
+								$month_order = $month_order/$shift_qyt; 
+							}
+							
+							// jumlah sif
+							$sfi = array('1','2');
+							for ($i=0; $i <$shift_qyt; $i++) {   
+								$dat = array(
+										'id_shift' => $sfi[$i],
+										'id_carline_has_line' => $lstCarline->id,
+										'working_days' => $wd,
+										'order_monthly' => $month_order,
+										'tanggal' => $tanggal
+									); 
+								
+								$cekidat = $this->iData_model->cekIdatasudahada($lstCarline->id, $sfi[$i], $tanggal);	
+								
+								if ($cekidat) { // jika sudah ada, mak update
+									 
+									$inpro = $this->iData_model->updateDataI($lstCarline->id,$dat);
+								}else{ // Jika belom , mak insert
+									$inpro = $this->iData_model->insertDataI($dat);
+								}
+							}
+							
 					}  
 
 				}

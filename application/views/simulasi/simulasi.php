@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<br>
 				</div>	
 			</div>
-		</div>
+		</div> 
 
 	</div>
 </div>
@@ -342,14 +342,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    						$('<th class="sticky_left">').text(item[y].name)
 			                    					);   
 			                    		// mengulang sebanyak Periode
-			                    		for (var i = 0; i < data.length; i++) {
-			                    			
-
+			                    		for (var i = 0; i < data.length; i++) { 
 			                    			var tmp_html='';
-			                    			tmp_html = data[i][item[y].val]; 
 
+			                    			if (item[y].val=='efficiency' || item[y].val=='p_load') {
+			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(1)+'%';
+			                    			}else{
+			                    				tmp_html = data[i][item[y].val]+'%';
+			                    			}
+			                    			 
 			                    			tr.append(
-			                    						$('<td>').text(tmp_html)
+			                    					$('<td>').text(tmp_html)
 				                    			 	); 	
 				                    	}
 

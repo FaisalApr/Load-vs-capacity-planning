@@ -15,6 +15,17 @@ class iData_model extends CI_Model {
 		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'");
 		return $q->first_row();
 	}
+
+	public function cekIdatasudahada($lstcr,$sf,$tgl)
+	{
+		$query = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'"); 
+		if($query->num_rows()>0){
+			return $query->first_row();
+		}else{
+			return false;
+		}
+	}
+
 	
 	public function insertDataI($data)
 	{ 
