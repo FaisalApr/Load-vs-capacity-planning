@@ -12,35 +12,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
-
-	<style>
-		.data_:hover {
-		  background-color: white;
-		  color: black;
-		}
-		.data_{
-			color: white;
-		}
-		.simulasi:hover {
-		  background-color: white;
-		  color: black;
-		}
-		.simulasi{
-			color: white;
-		}
-		.asd {
-		    background:rgba(0,0,0,0);
-		    border:none;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css"> 
 
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
  
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" style="margin-top: -15px;">
 	 			
 	<!-- Container  Start -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="min-height: 600px;">
@@ -282,12 +261,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			// Show Data
 				function getDataPeriode(lin,sf) {
-					$("#tbody_data").empty();
+					
+
 					if (lin==null) {
 						return;
 					}
 
 					$.ajax({
+
 	                    type : "POST",
 	                    url  : "<?php echo site_url(); ?>/IData/getIData",
 	                    dataType : "JSON",
@@ -298,8 +279,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	yend: yend
 	                    },
 	                    success: function(data){
-	                    	// console.log(data);
+	                    	console.log('isi');
+	                    	console.log(data);
 
+	                    	$("#tbody_data").html('');
 	                    	
 	                    	// mengulang kebawah sebanyak item
 	                    	for (var y = 0; y < item.length; y++) {
@@ -366,7 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var cap = $(this).data('cap'); 
 			        var bln = $(this).data('periode_bln');
 
-			        // console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mor: '+mor+'|cap: '+cap);
+			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mor: '+mor+'|cap: '+cap);
 
 			        updateVal(currentEle, value, id, col, bln, mor,cap);
 			    });
@@ -380,27 +363,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				        if (event.keyCode == 13) {
 				        	var tgl;
+				        	var val = $(".thVal").val();
 				        	// jika data baru
 					        	if (id==0) {
 					        		// jika tahun periode bulan dibawah juni 
 					        		th = ystart;
-					        		if (bln<7) {
+					        		if (bln<6) {
 					        			th = yend;
-					        		}
-
+					        		} 
 					        		tgl = th+'-'+(bln+1)+'-1';
 					        		console.log('tgl: '+tgl);
 					        	}
 				        	// return;
 				        	// post data
 					        	$.ajax({
+					        		async: false,
 				                    type : "POST",
 				                    url  : "<?php echo site_url(); ?>/IData/updateIData",
 				                    dataType : "JSON",
 				                    data : { 
 				                    	id:id,
 				                    	col:col,
-				                    	val:$(".thVal").val(),
+				                    	val: val,
 				                    	bln:bln,
 				                    	lst_cr: $('#select_lin').val(),
 				                    	tgl: tgl,
@@ -432,11 +416,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					        // JIKA ITU,  AUTO % LOAD
 				            if (col=='capacity' || col=='order_monthly') {
+				            	// var has = (Number(mor)/Number(cap))*100;
+				            	if (col=='capacity') {
+				            		cap = val;
+				            	}else if(col=='order_monthly'){
+				            		mor = val;
+				            	}
+				            	console.log(mor+'/'+cap+'*100');
 				            	var has = (Number(mor)/Number(cap))*100;
 
 				            	console.log('has : '+has);
 				            	// POST
 				            	$.ajax({
+				            		async: false,
 				                    type : "POST",
 				                    url  : "<?php echo site_url(); ?>/IData/updateIData",
 				                    dataType : "JSON",
@@ -461,9 +453,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										  });
 					                },
 				                    success: function(data){ 
-				                    	Swal.close();  
+				                    	Swal.close();   
+				                    	console.log(data);
 				                    }
 				                });
+				                // refersh dat
+				                getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
 				            }
 				        }
 				    });

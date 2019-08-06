@@ -21,8 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('include/sidebar_users'); ?>
  
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10"> 
-		
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" style="margin-top: -15px"> 
 		
 		
 		<div class="pd-5 bg-white border-radius-2 box-shadow mb-10">
@@ -86,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  					<table id="thead_act" class="table table-hover table-bordered text-center">
  						<thead class="thead-light">
  							<tr>
- 								<th>
+ 								<th style="width: 8%">
  									<select class="form-control" id="i_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
  										<option value="0">MH OUT/SHIFT</option>
 										<option value="1">MONTHLY ORDER</option>
@@ -289,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			loadLine( $('#select_carline').val() );
 			loadShift();
 			getDataPeriode();
-			// console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
+			console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
 
 
 			// ====  START SHOW  ======/
@@ -315,6 +314,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){
+		                    	console.log('data ppc:');
 		                    	console.log(data);
 		                    	ppcData = data;
 		                    	for (var i = 0; i < data.length; i++) {
@@ -365,11 +365,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    dataType : "JSON",
 		                    data : { 
 		                    	id_lstcrln: $('#select_lin').val(),
-		                    	shift: $('#select_lin').val(),
+		                    	shift: $('#select_shif').val(),
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
+		                    	console.log('isi data prod:');
+		                    	console.log(data);
+		                    	// return;
 		                    	mDataProd=data;
 		                    	// Conf HEADER
 			                    	data.forEach(function(dat){
@@ -628,8 +631,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                color: Highcharts.getOptions().colors[1]
 							            }
 							        },
-							        lineWidth: 1, 
-							        min: 50,
+							        lineWidth: 1,  
 							        plotLines: [{
 									    color: 'orange', // Color value
 									    dashStyle: 'dashdot', // Style of the plot line. Default to solid
@@ -849,7 +851,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            $(currentEle).html( $(".thVal").val() ); 
 
 				            mDataProd[id][col] = val;
-				            
+
 				            if (col=='capacity' || col=='order_monthly') {
 				            	var has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;
 
