@@ -13,13 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css"> 
-	<style type="text/css">
-		.sticky_left{
-		   position: sticky; 
-		   left: 0;
-		   background-color: white;
-		}
-	</style>
+	 
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -68,22 +62,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<table class="table table-bordered table-hover table-responsive">
 				<thead class="thead-light">
 					<tr>
-						<th style="width: 13%;" class="sticky_left">
+						<th style="width: 13%;">
 							<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
-								<option value="0">MH OUT/SHIFT</option>
-								<option value="1">MONTHLY ORDER</option>
-								<option value="2">EFFICIENCY (%)</option>
-								<option value="3">MP DL/SHIFT</option>
-								<option value="4">MP IDL/SHIFT</option>
-								<option value="5">SHIFT QTY</option>
+								<option value="0">MP DL/SHIFT</option>
+								<option value="1">WORKING DAYS</option>
+								<option value="2">MONTHLY ORDER</option> 
+								<option value="3">BALANCE</option> 
+								<option value="4">MH OUT/SHIFT</option> 
+								<option value="5">OT PLAN</option>
 								<option value="6">OT HOURS</option>
-								<option value="7">CAPACITY</option>
-								<option value="8">OT PLAN</option>
-								<option value="9">WORKING DAYS</option>
-								<option value="10">LOAD</option>
-								<option value="11">EXCL TIME</option>
+								<option value="7">EFFICIENCY (%)</option> 
+								<option value="8">MP IDL/SHIFT</option>  
+								<option value="9">EXCL TIME</option>
 							</select>
 						</th>
+
 						<th style="width: 7%">Juli</th>
 						<th style="width: 7%">Agustus</th>
 						<th style="width: 7%">September</th>
@@ -119,17 +112,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
-								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
-								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
-								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
 								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
-								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true},
-								{name:'SHIFT QTY',val: 'shift_qty', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true},
-								{name:'CAPACITY',val: 'capacity', view: true},
-								{name:'OT PLAN',val: 'ot_plan', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
-								{name:'% LOAD',val: 'p_load', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								// {name:'CAPACITY',val: 'capacity', view: true},
+								{name:'BALANCE',val: 'balance', view: true},
+								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
+								// {name:'% LOAD',val: 'p_load', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true}, 
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},  
+								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true}, 
 								{name:'EXCL TIME',val: 'exc_time', view: true}
 							]; 
 				var today = new Date();
@@ -298,13 +291,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		if (item[y].view ==true) { 
 
 		                    		var tr = $('<tr>').append(
-		                    						$('<th class="sticky_left">').text(item[y].name)
+		                    						$('<th>').text(item[y].name)
 		                    					);   
 		                    		// mengulang sebanyak Periode
 		                    		for (var i = 0; i < periode.length; i++) {
 		                    			// var data
 		                    			var tmp_html='';
-		                    			var id =0,mor=0,cap=0,val=0;
+		                    			var id =0,val=0,mid=0;
 		                    			var col = ''; 
 
 		                    				for (var x = 0; x < data.length; x++) { 
@@ -323,8 +316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						id = data[x].id;
 		                    						val = data[x][item[y].val];
 		                    						col = item[y].val; 
-		                    						mor = data[x].order_monthly;
-		                    						cap = data[x].capacity; 
+		                    						mid = x;
 		                    					}
 
 		                    				}      	
@@ -332,7 +324,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			if (col=='') {col = item[y].val;}
 
 		                    			tr.append(
-		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" data-cap="'+cap+'" data-mor="'+mor+'" data-val="'+val+'">').text(tmp_html)
+		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" data-val="'+val+'" data-mid="'+mid+'">').text(tmp_html)
 			                    			 	); 	
 			                    	}
 
@@ -353,16 +345,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var value = $(this).data('val'); 
 			        var id = $(this).data('id');
 			        var col = $(this).data('col');
-			        var mor = $(this).data('mor');
-			        var cap = $(this).data('cap'); 
+			        var mid = $(this).data('mid'); 
 			        var bln = $(this).data('periode_bln');
 
-			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mor: '+mor+'|cap: '+cap);
+			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mid: '+mid);
 
-			        updateVal(currentEle, value, id, col, bln, mor,cap);
+			        updateVal(currentEle, value, id, col, bln, mid);
 			    });
 
-			    function updateVal(currentEle, value, id, col, bln, mor, cap) { 
+			    function updateVal(currentEle, value, id, col, bln, mid) { 
 				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
 				    $(".thVal").focus();
 				    $(".thVal").select();
@@ -427,13 +418,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                    	// cek ini termasuk 
 					                    	// JIKA ITU,  AUTO % LOAD
 								            if (col=='capacity' || col=='order_monthly') {
-								            	// var has = (Number(mor)/Number(cap))*100;
+								            	// jika yang diedit
+								            	var cap = mData[mid].capacity;
+								            	var mor = mData[mid].order_monthly;
 									            	if (col=='capacity') {
 									            		cap = val;
 									            	}else if(col=='order_monthly'){
 									            		mor = val;
 									            	}
-									            	// console.log(mor+'/'+cap+'*100');
+									            	console.log(mor+'/'+cap+'*100');
 									            	var has = (Number(mor)/Number(cap))*100;
  
 								            	// POST
@@ -469,7 +462,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									                });
 								                
 								            }else if( col=='working_days' || col=='mp_dl' ){
-								            	
+
 								            }
 
 				                    }
