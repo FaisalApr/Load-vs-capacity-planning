@@ -31,6 +31,9 @@ class Excel_import extends CI_Controller {
 				for($row=3; $row<=$highestRow; $row++)
 				{
 					$tanggal = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$dat = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($tanggal); 
+					$tanggal = date_format($dat, 'Y-m-d'); 
+
 					$wd	= $worksheet->getCellByColumnAndRow(2, $row)->getValue();
 					$distric = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
 					$namacarline = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
@@ -61,8 +64,11 @@ class Excel_import extends CI_Controller {
 										'nama_carline' => $namacarline,
 										'status' => 1
 									);
-						$this->carline_model->newCarline($dat);
-						$carline = $this->excel_import_model->cekNamaCarline($namacarline,$comp->id);
+						 $in = $this->carline_model->newCarline($dat);
+						 if ($in) {
+						 	$carline = $this->excel_import_model->cekNamaCarline($namacarline,$comp->id);
+						 }
+						
 					}
 
 					$line = $this->excel_import_model->cekNamaLine($namaline);
@@ -105,11 +111,9 @@ class Excel_import extends CI_Controller {
 							'ot_plan' => $ot_hour,
 							'p_load' => $month_order/$capacity_month*100
 						);
-						
-						echo json_encode($tanggal);
-						return;
+						 
 						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal);
-						echo json_encode($updt_tanggal);
+						// echo json_encode($updt_tanggal);
 						// 	return;
 						if($updt_tanggal){
 							$updt = $this->excel_import_model->update($datas, $updt_tanggal->id);
