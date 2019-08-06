@@ -289,11 +289,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			loadLine( $('#select_carline').val() );
 			loadShift();
 			getDataPeriode();
+			// console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
 
-			console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
 
-
-			// Show Data
+			// ====  START SHOW  ======/
 				function getDataPeriode() { 
 
 					if (!$('#pilih_monthrange').val()) {
@@ -446,6 +445,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 	});
 				}
 
+				function showmData() { 
+					$('#tbody_testing').html('');
+
+                	// item Y kebawah
+                	item_prod.forEach(function(itm){
+                		// jika itm ditampilkan
+                		if (itm.view ==true) { 
+                    		var tr = $('<tr>').append(
+                    					$('<th scope="row">').text(itm.name));	
+
+                    		// Data X samping 
+                    		var x = 0;
+                    		mDataProd.forEach(function(dat){ 
+
+                    			if (itm.val=='efficiency' || itm.val=='p_load' ) { 
+        							tr.append(
+                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
+                					); 
+        						}else{
+        							tr.append(
+                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
+                					); 
+        						}
+                				x++;
+	                    	}); 
+
+                    		tr.appendTo('#tbody_testing');
+                		} 
+                	});
+				}
+			// ====  END SHOW  ======/
+
 
 			// ====   CHART   ====  //
 			function loadChart() {
@@ -566,7 +597,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        renderTo: 'container_testing'
 						    },
 						    title: {
-						        text: 'Load vs Capacity Testing'
+						        text: 'Data Produksi'
 						    },
 						    xAxis: {
 						        categories: (
@@ -583,12 +614,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        		),
 						        crosshair: true
 						    },
-						    yAxis: {
-						        min: 0,
-						        title: {
-						            text: '% Load'
-						        }
-						    },
+						    yAxis: [
+						    	{
+						    		labels: {
+							            format: '{value}',
+							            style: {
+							                color: Highcharts.getOptions().colors[1]
+							            }
+							        },
+							        title: {
+							            text: '',
+							            style: {
+							                color: Highcharts.getOptions().colors[1]
+							            }
+							        },
+							        lineWidth: 1, 
+							        min: 50,
+							        plotLines: [{
+									    color: 'orange', // Color value
+									    dashStyle: 'dashdot', // Style of the plot line. Default to solid
+									    value: 110, // Value of where the line will appear
+									    width: 2 // Width of the line    
+									}],
+							        plotBands: [{
+									    color: 'red', // Color value 
+									    dashStyle: 'ShortDash',  
+									    value: 100, // Value of where the line will appear
+	    								width: 2
+									  }]
+							    }, {
+							    	title: {
+							            text: '% Load',
+							            style: {
+							                color: Highcharts.getOptions().colors[0]
+							            }
+							        },
+							        labels: {
+							            format: '{value} %',
+							            style: {
+							                color: Highcharts.getOptions().colors[0]
+							            }
+							        },
+							        lineWidth: 1,
+							        opposite: true
+								}
+							], 
 						    tooltip: {
 						        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 						        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -638,6 +708,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							    {
 							        type: 'spline',
 							        name: '% Load',
+							        yAxis: 1,
 							        data: (
 						        			function(){
 						        				var da = [];
@@ -777,14 +848,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        	var val = $(".thVal").val();
 				            $(currentEle).html( $(".thVal").val() ); 
 
+				            mDataProd[id][col] = val;
+				            
 				            if (col=='capacity' || col=='order_monthly') {
 				            	var has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;
 
 				            	console.log(has);
 				            	mDataProd[id].p_load = has;
-				            }
-
-				            mDataProd[id][col] = val;
+				            } 
 
 				            loadChart();
 				            showmData();
