@@ -13,7 +13,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css"> 
-
+	<style type="text/css">
+		.sticky_left{
+		   position: sticky; 
+		   left: 0;
+		   background-color: white;
+		}
+	</style>
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -59,10 +65,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div> 
 			</div>
 			 
-			<table class="table table-bordered table-hover">
+			<table class="table table-bordered table-hover table-responsive">
 				<thead class="thead-light">
 					<tr>
-						<th style="width: 13%">
+						<th style="width: 13%;" class="sticky_left">
 							<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
 								<option value="0">MH OUT/SHIFT</option>
 								<option value="1">MONTHLY ORDER</option>
@@ -129,6 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var today = new Date();
 				var ystart = today.getFullYear();
 				var yend = (today.getFullYear()+1);
+				var mData = null;
 			// method INIT
 				// load Carline
 					function loadCarline() { 
@@ -279,8 +286,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	yend: yend
 	                    },
 	                    success: function(data){
-	                    	console.log('isi');
-	                    	console.log(data);
+	                    	mData = data;
+	                    	// console.log('isi');
+	                    	// console.log(data);
 
 	                    	$("#tbody_data").html('');
 	                    	
@@ -290,7 +298,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		if (item[y].view ==true) { 
 
 		                    		var tr = $('<tr>').append(
-		                    						$('<th>').text(item[y].name)
+		                    						$('<th class="sticky_left">').text(item[y].name)
 		                    					);   
 		                    		// mengulang sebanyak Periode
 		                    		for (var i = 0; i < periode.length; i++) {
@@ -354,15 +362,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        updateVal(currentEle, value, id, col, bln, mor,cap);
 			    });
 
-			    function updateVal(currentEle, value, id, col, bln, mor, cap) {
-
+			    function updateVal(currentEle, value, id, col, bln, mor, cap) { 
 				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
 				    $(".thVal").focus();
 				    $(".thVal").select();
 				    $(".thVal").keyup(function (event) {
 
 				        if (event.keyCode == 13) {
-				        	var tgl;
+				        	var tgl = '';
 				        	var val = $(".thVal").val();
 				        	// jika data baru
 					        	if (id==0) {
@@ -402,64 +409,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										  });
 					                },
 				                    success: function(data){ 
+				                    	var idnya = 0;
+					                    	if (id==0) {
+					                    		idnya = data.id;
+					                    	}else{
+					                    		idnya = id;
+					                    	}
+
 				                    	Swal.close(); 
 				                    	if (!data) {
 				                    		$(currentEle).html( value );
 				                    	}else{
 				                    		// sukses
-				                    		$(currentEle).html( $(".thVal").val() ); 
-				                    		getDataPeriode($('#select_lin').val(), $('#select_shif').val());
+				                    		$(currentEle).html( $(".thVal").val() );  
 				                    	}
 
+				                    	// cek ini termasuk 
+					                    	// JIKA ITU,  AUTO % LOAD
+								            if (col=='capacity' || col=='order_monthly') {
+								            	// var has = (Number(mor)/Number(cap))*100;
+									            	if (col=='capacity') {
+									            		cap = val;
+									            	}else if(col=='order_monthly'){
+									            		mor = val;
+									            	}
+									            	// console.log(mor+'/'+cap+'*100');
+									            	var has = (Number(mor)/Number(cap))*100;
+ 
+								            	// POST
+									            	$.ajax({
+									            		async: false,
+									                    type : "POST",
+									                    url  : "<?php echo site_url(); ?>/IData/updateIData",
+									                    dataType : "JSON",
+									                    data : { 
+									                    	id: idnya,
+									                    	col: 'p_load',
+									                    	val: has,
+									                    	bln:bln,
+									                    	lst_cr: $('#select_lin').val(),
+									                    	tgl: tgl,
+									                    	sif: $('#select_shif').val()
+									                    },
+									                    beforeSend: function(){
+										                	Swal.fire({ 
+															    allowEscapeKey: false,
+															    allowOutsideClick: false,
+															    title: "", 
+															    showConfirmButton: false,
+															    onOpen: () => {
+															      swal.showLoading();
+															    }
+															  });
+										                },
+									                    success: function(data){ 
+									                    	Swal.close();   
+									                    	// console.log(data);
+									                    }
+									                });
+								                
+								            }else if( col=='working_days' || col=='mp_dl' ){
+								            	
+								            }
+
 				                    }
 				                });
-
-					        // JIKA ITU,  AUTO % LOAD
-				            if (col=='capacity' || col=='order_monthly') {
-				            	// var has = (Number(mor)/Number(cap))*100;
-				            	if (col=='capacity') {
-				            		cap = val;
-				            	}else if(col=='order_monthly'){
-				            		mor = val;
-				            	}
-				            	console.log(mor+'/'+cap+'*100');
-				            	var has = (Number(mor)/Number(cap))*100;
-
-				            	console.log('has : '+has);
-				            	// POST
-				            	$.ajax({
-				            		async: false,
-				                    type : "POST",
-				                    url  : "<?php echo site_url(); ?>/IData/updateIData",
-				                    dataType : "JSON",
-				                    data : { 
-				                    	id:id,
-				                    	col: 'p_load',
-				                    	val: has,
-				                    	bln:bln,
-				                    	lst_cr: $('#select_lin').val(),
-				                    	tgl: tgl,
-				                    	sif: $('#select_shif').val()
-				                    },
-				                    beforeSend: function(){
-					                	Swal.fire({ 
-										    allowEscapeKey: false,
-										    allowOutsideClick: false,
-										    title: "", 
-										    showConfirmButton: false,
-										    onOpen: () => {
-										      swal.showLoading();
-										    }
-										  });
-					                },
-				                    success: function(data){ 
-				                    	Swal.close();   
-				                    	console.log(data);
-				                    }
-				                });
-				                // refersh dat
-				                getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
-				            }
+ 
+				            // refersh dat
+				            getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
 				        }
 				    });
  					

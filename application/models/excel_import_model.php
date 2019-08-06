@@ -6,7 +6,7 @@ class Excel_import_model extends CI_Model {
 	public function insert($data)
 	{
 		# code...
-		$this->db->insert('ppc_data', $data);
+		return $this->db->insert('ppc_data', $data);
 	}
 	public function update($data, $id)
 	{
@@ -16,12 +16,12 @@ class Excel_import_model extends CI_Model {
 	}
 
 	// import
-		public function cektanggal($nama)
+		public function cektanggal($tgl,$lstcr)
 		{ 
 			# code...
 			$query = $this->db->query("SELECT * 
 										FROM ppc_data 
-										where year(tanggal)=year('$nama') AND month(tanggal)=month('$nama')");
+										where id_carline_has_line=$lstcr and year(tanggal)=year('$tgl') AND month(tanggal)=month('$tgl')");
 			if($query->num_rows()>0){
 				return $query->first_row();
 			}else{

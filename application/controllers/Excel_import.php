@@ -20,6 +20,7 @@ class Excel_import extends CI_Controller {
 		# code...
 		if(isset($_FILES["file"]["name"]))
 		{
+			$err = false;
 			$path = $_FILES["file"]["tmp_name"];
 			$object = PHPExcel_IOFactory::load($path);
 			foreach($object->getWorksheetIterator() as $worksheet)
@@ -42,6 +43,7 @@ class Excel_import extends CI_Controller {
 					$distric = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
 					$namacarline = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
 					$namaline = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+
 					$mhout_shift = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
 					if($mhout_shift==null){
 						$mhout_shift=0;
@@ -66,12 +68,14 @@ class Excel_import extends CI_Controller {
 					if($capacity_month==null){
 						$capacity_month=0;
 					}
-					$ot_plan = $worksheet->getCellByColumnAndRow(12, $row)->getValue();
-					if($ot_plan==null){
+					$ot_plan = $worksheet->getCellByColumnAndRow(12, $row)->getFormattedValue();  
+					 
+					if($ot_plan==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
 						$ot_plan=0;
 					}
+					
 					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getValue();
-					if($ot_hour==null){
+					if($ot_hour==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
 						$ot_hour=0;
 					}
 					// mencari id district
@@ -79,14 +83,14 @@ class Excel_import extends CI_Controller {
 					$comp = $this->excel_import_model->cekComp($distric); 
 					// jika Distric Notfound
 					if (!$comp) {
-						echo json_encode('ERROR - Distric');
+						// echo json_encode('ERROR - Distric (Baris:'+$row+')');
 						return;
 					}
 
 					$carline = $this->excel_import_model->cekNamaCarline($namacarline,$comp->id);
 
 					if (!$carline) {
-						echo json_encode('ERROR - Nama Carline Not Found');
+						// echo json_encode('ERROR - Nama Carline Not Found');
 						$dat = array(
 										'id_district' => $comp->id,
 										'nama_carline' => $namacarline,
@@ -101,7 +105,7 @@ class Excel_import extends CI_Controller {
 
 					$line = $this->excel_import_model->cekNamaLine($namaline);
 					if (!$line) { 
-						echo json_encode('ERROR - Line Not Found / new Line');
+						// echo json_encode('ERROR - Line Not Found / new Line');
 
 							$dat = array('nama_line' => $namaline );
 						// insert new line
@@ -113,7 +117,7 @@ class Excel_import extends CI_Controller {
 
 					// jika tidak ada di list carline
 					if (!$lstCarline) {
-						echo json_encode('TIdak Ada Di listCarline'); 
+						// echo json_encode('TIdak Ada Di listCarline'); 
 						
 						$dat = array('id_carline' => $carline->id ,
 										'id_line' => $line->id );
@@ -122,13 +126,17 @@ class Excel_import extends CI_Controller {
 						// carilagi
 						$lstCarline = $this->excel_import_model->cekListCarlineOnCrnLn($carline->id,$line->id);
 
-					}
-					// echo json_encode($lstCarline);
-					// return;
+					} 
 
 
 					
 					if ($lstCarline) {
+						// pload
+						$plod = 0;
+						if ($month_order!=0) {
+							$plod = $month_order/$capacity_month*100;	
+						} 
+
 						// No Linemanager foundd
 						$datas = array(
 							'id_carline_has_line' => $lstCarline->id,
@@ -142,26 +150,37 @@ class Excel_import extends CI_Controller {
 							'capacity' => $capacity_month,
 							'ot_hours' => $ot_hour,
 							'ot_plan' => $ot_plan,
-							'p_load' => $month_order/$capacity_month*100
+							'p_load' => $plod
 						);
 						 
-						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal);
+						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal,$lstCarline->id);
+						// echo(json_encode(''));
 						// echo json_encode($updt_tanggal);
-						// 	return;
+							// return;
 						if($updt_tanggal){
 							$updt = $this->excel_import_model->update($datas, $updt_tanggal->id);
-							echo json_encode('up');
+							// echo json_encode('up');
+							// Jka terjadi error update
+							if (!$updt) {
+								$err = true;
+								echo json_encode('err:'.$row);
+							}
 
 						}else{
-							$this->excel_import_model->insert($datas);	
-							echo json_encode('in');
+							$updt = $this->excel_import_model->insert($datas);	
+							// echo json_encode('in');
+							// Jka terjadi error insert
+							if (!$updt) {
+								$err = true;
+								echo json_encode('err:'.$row);
+							}
 						}
 					}  
 
 				}
 			}
 			
-			echo 'Data Imported successfully';
+			echo json_encode($err);
 		}
 	}
 

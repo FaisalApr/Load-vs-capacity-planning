@@ -15,7 +15,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.css">
 	<!-- <link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/month-picker/css/responsive-month-range-picker.css"> -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
-	
+	<style type="text/css">
+		.sticky_left{
+		   position: sticky; 
+		   left: 0;
+		   background-color: white;
+		}
+	</style>
+
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -82,10 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
- 					<table id="thead_act" class="table table-hover table-bordered text-center">
+ 					<table id="thead_act" class="table table-hover table-bordered text-center table-responsive">
  						<thead class="thead-light">
  							<tr>
- 								<th style="width: 8%">
+ 								<th style="width: 8%" class="sticky_left">
  									<select class="form-control" id="i_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
  										<option value="0">MH OUT/SHIFT</option>
 										<option value="1">MONTHLY ORDER</option>
@@ -115,10 +122,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
- 					<table class="table table-hover table-bordered text-center">
+ 					<table class="table table-hover table-bordered text-center table-responsive">
  						<thead class="thead-light" id="thead_testing">
  							<tr>
- 								<th><select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
+ 								<th style="width: 8%" class="sticky_left">
+ 									<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
 										<option value="0">MH OUT/SHIFT</option>
 										<option value="1">MONTHLY ORDER</option>
 										<option value="2">EFFICIENCY (%)</option>
@@ -331,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		if (item[y].view ==true) { 
 
 			                    		var tr = $('<tr>').append(
-			                    						$('<th>').text(item[y].name)
+			                    						$('<th class="sticky_left">').text(item[y].name)
 			                    					);   
 			                    		// mengulang sebanyak Periode
 			                    		for (var i = 0; i < data.length; i++) {
@@ -394,7 +402,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		// jika itm ditampilkan
 		                    		if (itm.view ==true) { 
 			                    		var tr = $('<tr>').append(
-			                    					$('<th scope="row">').text(itm.name));	
+			                    					$('<th scope="row" class="sticky_left">').text(itm.name));	
 
 			                    		// Data X samping 
 			                    		var x = 0;
@@ -489,7 +497,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							        renderTo: 'container'
 							    },
 							    title: {
-							        text: 'Load vs Capacity Planning'
+							        text: 'Data PPC'
 							    },
 							    xAxis: {
 							        categories: (
@@ -506,12 +514,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        		),
 							        crosshair: true
 							    },
-							    yAxis: {
-							        min: 0,
-							        title: {
-							            text: '% Load'
-							        }
-							    },
+							    yAxis: [
+							    	{
+							    		labels: {
+								            format: '{value}',
+								            style: {
+								                color: Highcharts.getOptions().colors[1]
+								            }
+								        },
+								        title: {
+								            text: '',
+								            style: {
+								                color: Highcharts.getOptions().colors[1]
+								            }
+								        },
+								        lineWidth: 1
+								    }, {
+								    	title: {
+								            text: '% Load',
+								            style: {
+								                color: Highcharts.getOptions().colors[0]
+								            }
+								        },
+								        labels: {
+								            format: '{value} %',
+								            style: {
+								                color: Highcharts.getOptions().colors[0]
+								            }
+								        },
+								        lineWidth: 1,
+								        opposite: true
+									}
+								], 
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -562,6 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    {
 								        type: 'spline',
 								        name: '% Load',
+								        yAxis: 1,
 								        data:  (
 						        			function(){
 						        				var da = [];
@@ -910,17 +945,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							});
 						},
 						success:function(data){
-							Swal.close();
+							if (!data) {
+								swal.hideLoading();
+								Swal.close();
+
+								Swal.fire({ 
+								  title: 'Selesai Menambahkan',
+								  type: 'success', 
+								  showConfirmButton: true,
+								  timer: 1000
+								});
+
+								console.log('no error');
+							}else{
+								Swal.close();
+
+								Swal.fire({ 
+								  title: 'Terjadi Kesalahan',
+								  type: 'error', 
+								  showConfirmButton: true, 
+								});
+								console.log('is error');
+							}
+							
 
 							$('#file').val('');
+
 							console.log(data);
+
 							$('#modal_importexcl').modal('hide');
 
-							Swal.fire({
-							  position: 'center',
-							  title: 'Selesai Menambahkan',
-							  type: 'success', 
-							});
+							
 
 							// show(); 
 						}

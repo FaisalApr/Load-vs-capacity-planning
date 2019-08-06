@@ -9,6 +9,12 @@ class iData_model extends CI_Model {
 		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line and id_shift=$sf AND tanggal>='$stat' AND tanggal<='$end'");
 		return $q->result();
 	}
+
+	public function cariIdataafterinsert($sf,$lstcr,$tgl)
+	{
+		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'");
+		return $q->first_row();
+	}
 	
 	public function insertDataI($data)
 	{ 

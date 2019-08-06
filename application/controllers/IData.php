@@ -55,6 +55,8 @@ class IData extends CI_Controller {
 						'tanggal' => $this->input->post('tgl')
 					);
 			$res = $this->iData_model->insertDataI($data);
+			// cari
+			$res = $this->iData_model->cariIdataafterinsert($this->input->post('sif'), $this->input->post('lst_cr'), $this->input->post('tgl'));
 		}else{//upadte data 
 			$data = array(
 						$col => $this->input->post('val')
