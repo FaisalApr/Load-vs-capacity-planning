@@ -86,8 +86,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  					<table id="thead_act" class="table table-hover table-bordered text-center">
  						<thead class="thead-light">
  							<tr>
- 								<th scope="col"></th>
- 								
+ 								<th>
+ 									<select class="form-control" id="i_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
+ 										<option value="0">MH OUT/SHIFT</option>
+										<option value="1">MONTHLY ORDER</option>
+										<option value="2">EFFICIENCY (%)</option>
+										<option value="3">MP DL/SHIFT</option>
+										<option value="4">SHIFT QTY</option>
+										<option value="5">OT HOURS</option>
+										<option value="6">CAPACITY</option>
+										<option value="7">OT PLAN</option>
+										<option value="8">WORKING DAYS</option>
+										<option value="9">LOAD</option>
+ 									</select>
+ 								</th>
  								
  							</tr>
  						</thead>
@@ -185,15 +197,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
-								{name:'Working Days',val: 'working_days', view: true},
-								{name:'Order',val: 'order_ppc', view: true},
-								{name:'Kap Prod',val: 'kap_prod', view: true},
-								{name:'Bal',val: 'Bal', view: true},
-								{name:'% Load',val: 'Load_persen', view: true},
-								{name:'OT (hour)',val: 'ot_hour', view: true},
-								{name:'DL Need',val: 'dl_need', view: true},
-								{name:'Direct Efficiency',val: 'efficiency', view: true}
-								
+								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
+								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
+								{name:'SHIFT QTY',val: 'shift_qty', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'CAPACITY',val: 'capacity', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'WORKING DAYS',val: 'working_days', view: true},
+								{name:'% LOAD',val: 'p_load', view: true}
 							];
 				const item_prod = [
 								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
@@ -214,6 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var ystart='';
 				var yend='';
 				var mDataProd=null;
+				var ppcData=null;
 
 			// load Carline
 				function loadCarline() { 
@@ -287,22 +301,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						yend = today.getFullYear()+'-'+(today.getMonth()+2)+'-1';
 					} 
 
-					// Show Data PCC
+					// SHOW DATA PPC
+		                $('#tbody_actual').html('');// clear tabel
+		                $('#thead_act th.act').remove(); //Clear THEAD
+					// Show Data PPC
 						$.ajax({
-		                    type : "ajax",
-		                    url  : "<?php echo site_url(); ?>/simulasi/getDat",
+							async : false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/simulasi/getSimulasiMonthPick",
 		                    dataType : "JSON",
 		                    data : { 
-		                    	
+		                    	id_lstcrln: $('#select_lin').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
 		                    },
 		                    success: function(data){
 		                    	console.log(data);
-
+		                    	ppcData = data;
 		                    	for (var i = 0; i < data.length; i++) {
 		                    		var thead = $("#thead_act thead").find("tr");
 			                    	var today = new Date(data[i].tanggal);
 									var currentMonth = today.getMonth();
-			                    	thead.append($('<th>').text(monthName[currentMonth]));
+			                    	thead.append($('<th class="act">').text(monthName[currentMonth]));
 		                    	}
 		                    	
 		                    	
@@ -401,11 +421,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				// LOAD Char
 	 				loadChart();
 				}
-				function showmData() { 
-					$('#tbody_testing').html('');
+
+				function showmD() { 
+					$('#tbody_actual').html('');
 
                 	// item Y kebawah
-                	item_prod.forEach(function(itm){
+                	item.forEach(function(itm){
                 		// jika itm ditampilkan
                 		if (itm.view ==true) { 
                     		var tr = $('<tr>').append(
@@ -413,21 +434,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     		// Data X samping 
                     		var x = 0;
-                    		mDataProd.forEach(function(dat){ 
-
-                    			if (itm.val=='efficiency' || itm.val=='p_load' ) { 
-        							tr.append(
-                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
-                					); 
-        						}else{
-        							tr.append(
-                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
-                					); 
-        						}
+                    		ppcData.forEach(function(dat){ 
+        						tr.append(
+                						$('<td>').text( dat[itm.val] )
+                					);
                 				x++;
 	                    	}); 
 
-                    		tr.appendTo('#tbody_testing');
+                    		tr.appendTo('#tbody_actual');
                 		} 
                 	});
 				}
@@ -444,20 +458,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							        text: 'Load vs Capacity Planning'
 							    },
 							    xAxis: {
-							        categories: [
-							            'Jan',
-							            'Feb',
-							            'Mar',
-							            'Apr',
-							            'May',
-							            'Jun',
-							            'Jul',
-							            'Aug',
-							            'Sep',
-							            'Oct',
-							            'Nov',
-							            'Dec'
-							        ],
+							        categories: (
+						        			function(){
+						        				var da = [];
+
+						        					ppcData.forEach(function(dat){
+						        						var tgl = new Date(dat.tanggal);
+						        						da.push(monthName[tgl.getMonth()]);
+						        					});
+
+						        				return da;
+						        			}()
+						        		),
 							        crosshair: true
 							    },
 							    yAxis: {
@@ -484,19 +496,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							    	{
 							    		type: 'column',
 								        name: 'Kap Prod',
-								        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+								        data: (
+						        			function(){
+						        				var da = [];
+
+						        					ppcData.forEach(function(dat){ 
+						        						da.push(parseFloat(dat.capacity));
+						        					});
+
+						        				return da;
+						        			}()
+						        		)
 								    }, 
 								    {
 								    	type: 'column',
 								        name: 'Order',
-								        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3],
+								        data:  (
+						        			function(){
+						        				var da = [];
+
+						        					ppcData.forEach(function(dat){ 
+						        						da.push(parseFloat(dat.order_monthly));
+						        					});
+
+						        				return da;
+						        			}()
+						        		),
 								        color: '#B22625'
 
 								    }, 
 								    {
 								        type: 'spline',
 								        name: '% Load',
-								        data: [50, 70, 95, 90, 100,   85,100,105,95,90,   100, 80],
+								        data:  (
+						        			function(){
+						        				var da = [];
+
+						        					ppcData.forEach(function(dat){ 
+						        						da.push(parseFloat(dat.p_load));
+						        					});
+
+						        				return da;
+						        			}()
+						        		),
 								        marker: {
 								            lineWidth: 2,
 								            lineColor: Highcharts.getOptions().colors[3],
@@ -691,6 +733,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  		}
 
 				  		showmData();
+					});
+				// I VIEW  
+					$('#i_view').selectpicker({
+
+					});
+					$('#i_view').selectpicker('selectAll');
+
+					$('#i_view').on('hide.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+					  	// do something...
+					  	var sel = $('#i_view').val();
+
+					  	item.forEach(function(entry) {
+						    entry.view = false;
+						});
+
+					  	for (var x = 0; x < sel.length; x++) {
+				  			item[sel[x]].view = true;
+				  		}
+
+				  		showmD();
 					});
 
             // Update val

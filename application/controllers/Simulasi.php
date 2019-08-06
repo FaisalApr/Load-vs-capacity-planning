@@ -17,6 +17,16 @@ class Simulasi extends CI_Controller {
 		$data = $this->Simulasi_model->getDat();
 		echo json_encode($data);
 	}
+	public function getSimulasiMonthPick()
+	{
+		$id_lstcrln = $this->input->post('id_lstcrln');
+		$start = ($this->input->post('ystart'));
+		$end = ($this->input->post('yend'));
+
+		$data  =  $this->Simulasi_model->cariDataPeriode($id_lstcrln,$start,$end);
+
+		echo json_encode($data);
+	}
 }
 
 /* End of file Simulasi.php */

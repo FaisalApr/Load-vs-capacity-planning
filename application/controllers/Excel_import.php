@@ -6,6 +6,7 @@ class Excel_import extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('carline_model');
+		$this->load->model('carlinehasline_model');
 		$this->load->model('excel_import_model');
 		$this->load->library('excel');
 	}
@@ -27,33 +28,23 @@ class Excel_import extends CI_Controller {
 				// return;
 				$highestRow = $worksheet->getHighestRow();
 				$highestColumn = $worksheet->getHighestColumn();
-				for($row=2; $row<=$highestRow; $row++)
+				for($row=3; $row<=$highestRow; $row++)
 				{
-					$order_ppc = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-					$kap_prod = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-					$Bal = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-					$Load_persen = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-					$ot_hour = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-					$dl_need = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-					$efficiency = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-					$tanggal = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-					$namaline = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
-					$namacarline = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
-					$distric = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
-					$wd	= $worksheet->getCellByColumnAndRow(11, $row)->getValue();
-					// $data[] = array(
-						// 'order_ppc'	=>	$order_ppc,
-						// 'kap_prod'	=>	$kap_prod,
-						// 'Bal'	=>	$Bal,
-						// 'Load_persen'	=>	$Load_persen,
-						// 'ot_hour'	=>	$ot_hour,
-						// 'dl_need'	=>	$dl_need,
-						// 'efficiency'	=>	$efficiency,
-						// 'tanggal'	=>	$tanggal
-					// );
+					$tanggal = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$wd	= $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					$distric = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+					$namacarline = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+					$namaline = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+					$mhout_shift = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+					$month_order = $worksheet->getCellByColumnAndRow(7, $row)->getValue();	
+					$efficiency = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+					$mpdl_shift = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
+					$shift_qyt = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+					$capacity_month = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
+					$ot_plan = $worksheet->getCellByColumnAndRow(12, $row)->getValue();
+					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getValue();
 					// mencari id district
-					// echo json_encode($distric);
-					// return;
+					
 					$comp = $this->excel_import_model->cekComp($distric); 
 					// jika Distric Notfound
 					if (!$comp) {
@@ -78,20 +69,19 @@ class Excel_import extends CI_Controller {
 					if (!$line) { 
 						echo json_encode('ERROR - Line Not Found / new Line');
 
-							$dat = array('nama_line' => $namaLine );
+							$dat = array('nama_line' => $namaline );
 						// insert new line
 						$this->excel_import_model->createLine($dat);
-						$line = $this->excel_import_model->cekNamaLine($namaLine);
+						$line = $this->excel_import_model->cekNamaLine($namaline);
 					}
 
 					$lstCarline = $this->excel_import_model->cekListCarlineOnCrnLn($carline->id,$line->id);
-					// echo json_encode($lstCarline);
-					// return;
+
 					// jika tidak ada di list carline
 					if (!$lstCarline) {
 						echo json_encode('TIdak Ada Di listCarline'); 
 						
-							$dat = array('id_carline' => $carline->id ,
+						$dat = array('id_carline' => $carline->id ,
 										'id_line' => $line->id );
 						// insert new listCarline
 						$this->carlinehasline_model->addCarhasLine($dat);
@@ -99,33 +89,29 @@ class Excel_import extends CI_Controller {
 						$lstCarline = $this->excel_import_model->cekListCarlineOnCrnLn($carline->id,$line->id);
 					}
 
-					// $linMgr = $this->excel_import_model->ceklistcarline($lstCarline->id);
-					// echo json_encode($linMgr);
-					// return;
+					
 					if ($lstCarline) {
 						// No Linemanager foundd
 						$datas = array(
-							'id_carline_has_line'	=>	$lstCarline->id,
-							'order_ppc'	=>	$order_ppc,
-							'kap_prod'	=>	$kap_prod,
-							'Bal'	=>	$Bal,
-							'Load_persen'	=>	$Load_persen,
-							'ot_hour'	=>	$ot_hour,
-							'dl_need'	=>	$dl_need,
-							'efficiency'	=>	$efficiency,
-							'tanggal'	=>	$tanggal,
-							'working_days' => $wd
+							'tanggal' => $tanggal,
+							'working_days' => $wd,
+							'mhout_shift' => $mhout_shift,
+							'order_monthly' => $month_order,
+							'efficiency' => $efficiency,
+							'mp_dl' => $mpdl_shift,
+							'shift_qty' => $shift_qyt,
+							'capacity' => $capacity_month,
+							'ot_hours' => $ot_plan,
+							'ot_plan' => $ot_hour,
+							'p_load' => $month_order/$capacity_month*100
 						);
-						// echo json_encode($datas);
-						// $this->excel_import_model->insert($datas);
+						
 						echo json_encode($tanggal);
+						return;
 						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal);
 						echo json_encode($updt_tanggal);
 						// 	return;
 						if($updt_tanggal){
-							// echo json_encode($updt_tanggal);
-							// return;
-							
 							$updt = $this->excel_import_model->update($datas, $updt_tanggal->id);
 							echo json_encode('up');
 
@@ -138,7 +124,7 @@ class Excel_import extends CI_Controller {
 				}
 			}
 			
-			// echo 'Data Imported successfully';
+			echo 'Data Imported successfully';
 		}
 	}
 
