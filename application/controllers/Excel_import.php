@@ -6,6 +6,7 @@ class Excel_import extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('carline_model');
+		$this->load->model('iData_model');
 		$this->load->model('carlinehasline_model');
 		$this->load->model('excel_import_model');
 		$this->load->library('excel');
@@ -28,7 +29,7 @@ class Excel_import extends CI_Controller {
 				// echo "string";
 				// return;
 				$highestRow = $worksheet->getHighestRow();
-				// $highestRow = 5;
+				// $highestRow = 6;
 				$highestColumn = $worksheet->getHighestColumn();
 				for($row=3; $row<=$highestRow; $row++)
 				{
@@ -52,7 +53,7 @@ class Excel_import extends CI_Controller {
 					if($month_order==null){
 						$month_order=0;
 					}
-					$efficiency = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+					$efficiency = $worksheet->getCellByColumnAndRow(8, $row)->getFormattedValue();
 					if($efficiency==null){
 						$efficiency=0;
 					}
@@ -74,7 +75,7 @@ class Excel_import extends CI_Controller {
 						$ot_plan=0;
 					}
 					
-					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getValue();
+					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getFormattedValue();
 					if($ot_hour==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
 						$ot_hour=0;
 					}
@@ -152,7 +153,9 @@ class Excel_import extends CI_Controller {
 							'ot_plan' => $ot_plan,
 							'p_load' => $plod
 						);
-						 
+						
+						// echo json_encode($datas);
+						// return;
 						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal,$lstCarline->id);
 						// echo(json_encode(''));
 						// echo json_encode($updt_tanggal);
@@ -168,6 +171,13 @@ class Excel_import extends CI_Controller {
 
 						}else{
 							$updt = $this->excel_import_model->insert($datas);	
+							// $dat = array(
+							// 			'working_days' => $wd,
+							// 			'order_monthly' => $month_order
+							// 		); 
+							// $cekidat = $this->iData_model->insertDataI();
+							// $idata = $this->iData_model->insertDataI($data);
+
 							// echo json_encode('in');
 							// Jka terjadi error insert
 							if (!$updt) {
