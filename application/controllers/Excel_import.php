@@ -27,6 +27,7 @@ class Excel_import extends CI_Controller {
 				// echo "string";
 				// return;
 				$highestRow = $worksheet->getHighestRow();
+				// $highestRow = 5;
 				$highestColumn = $worksheet->getHighestColumn();
 				for($row=3; $row<=$highestRow; $row++)
 				{
@@ -35,17 +36,44 @@ class Excel_import extends CI_Controller {
 					$tanggal = date_format($dat, 'Y-m-d'); 
 
 					$wd	= $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					if($wd==null){
+						$wd=0;
+					}
 					$distric = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
 					$namacarline = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
 					$namaline = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
 					$mhout_shift = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+					if($mhout_shift==null){
+						$mhout_shift=0;
+					}
 					$month_order = $worksheet->getCellByColumnAndRow(7, $row)->getValue();	
+					if($month_order==null){
+						$month_order=0;
+					}
 					$efficiency = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+					if($efficiency==null){
+						$efficiency=0;
+					}
 					$mpdl_shift = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
+					if($mpdl_shift==null){
+						$mpdl_shift=0;
+					}
 					$shift_qyt = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+					if($shift_qyt==null){
+						$shift_qyt=0;
+					}
 					$capacity_month = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
+					if($capacity_month==null){
+						$capacity_month=0;
+					}
 					$ot_plan = $worksheet->getCellByColumnAndRow(12, $row)->getValue();
+					if($ot_plan==null){
+						$ot_plan=0;
+					}
 					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getValue();
+					if($ot_hour==null){
+						$ot_hour=0;
+					}
 					// mencari id district
 					
 					$comp = $this->excel_import_model->cekComp($distric); 
@@ -93,12 +121,17 @@ class Excel_import extends CI_Controller {
 						$this->carlinehasline_model->addCarhasLine($dat);
 						// carilagi
 						$lstCarline = $this->excel_import_model->cekListCarlineOnCrnLn($carline->id,$line->id);
+
 					}
+					// echo json_encode($lstCarline);
+					// return;
+
 
 					
 					if ($lstCarline) {
 						// No Linemanager foundd
 						$datas = array(
+							'id_carline_has_line' => $lstCarline->id,
 							'tanggal' => $tanggal,
 							'working_days' => $wd,
 							'mhout_shift' => $mhout_shift,
@@ -107,8 +140,8 @@ class Excel_import extends CI_Controller {
 							'mp_dl' => $mpdl_shift,
 							'shift_qty' => $shift_qyt,
 							'capacity' => $capacity_month,
-							'ot_hours' => $ot_plan,
-							'ot_plan' => $ot_hour,
+							'ot_hours' => $ot_hour,
+							'ot_plan' => $ot_plan,
 							'p_load' => $month_order/$capacity_month*100
 						);
 						 
