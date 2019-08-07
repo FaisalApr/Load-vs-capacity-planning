@@ -15,51 +15,93 @@ class IData extends CI_Controller {
 		$this->load->view('idata/IData_v');
 	}
 
+	// new mp dl
+		public function newMP()
+		{
+			# code... 
+			// init
+			$output = array('error' => false);
 
-	public function newMP()
-	{
-		# code... 
-		// init
-		$output = array('error' => false);
+			//data new
+			$dataMP = array(
+				'id_lcp' => $this->input->post('id_lcp'),
+				'housing_bt' => $this->input->post('housing_bt'),
+				'insert_plug' => $this->input->post('insert_plug'),
+				'setting' => $this->input->post('setting'),
+				'taping' => $this->input->post('taping'),
+				'sp' => $this->input->post('sp'),
+				'offline' => $this->input->post('offline'),
+				'grommet' => $this->input->post('grommet'),
+				'housing_ck' => $this->input->post('housing_ck'),
+				'checker_gri' => $this->input->post('checker_gri'),
+				'dimchecker_sig	' => $this->input->post('dimchecker_sig'),
+				'vis' => $this->input->post('vis'),
+				'total' => $this->input->post('total'),
+			);
 
-		//data new
-		$dataMP = array(
-			'id_lcp' => $this->input->post('id_lcp'),
-			'housing_bt' => $this->input->post('housing_bt'),
-			'insert_plug' => $this->input->post('insert_plug'),
-			'setting' => $this->input->post('setting'),
-			'taping' => $this->input->post('taping'),
-			'sp' => $this->input->post('sp'),
-			'offline' => $this->input->post('offline'),
-			'grommet' => $this->input->post('grommet'),
-			'housing_ck' => $this->input->post('housing_ck'),
-			'checker_gri' => $this->input->post('checker_gri'),
-			'dimchecker_sig	' => $this->input->post('dimchecker_sig'),
-			'vis' => $this->input->post('vis'),
-			'total' => $this->input->post('total'),
-		);
+			$cari = $this->iData_model->cariMpByIdLcp($this->input->post('id_lcp'));
+			if($cari){
+				$result = $this->iData_model->updateMP($cari->id_lcp,$dataMP);
+			}else{
+				// insert data new MP
+				$result = $this->iData_model->createMP($dataMP);	
+			}
+			$updt = array(
+				'mp_dl' => $this->input->post('total')
+			);
+			$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
 
-		$cari = $this->iData_model->cariMpByIdLcp($this->input->post('id_lcp'));
-		if($cari){
-			$result = $this->iData_model->updateMP($cari->id_lcp,$dataMP);
-		}else{
-			// insert data new MP
-			$result = $this->iData_model->createMP($dataMP);	
+			if($result){
+				$output ['status'] = "sukses";
+			}else{
+				$output['error'] = true;
+			}
+			echo json_encode($result);
 		}
-		$updt = array(
-			'mp_dl' => $this->input->post('total')
-		);
-		$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
 
-		if($result){
-			$output ['status'] = "sukses";
-		}else{
-			$output['error'] = true;
+	// new mp idl
+		public function newIdl()
+		{
+			# code... 
+			// init
+			$output = array('error' => false);
+
+			//data new
+			$dataIdl = array(
+				'id_lcp' => $this->input->post('id_lcp'),
+				'tpo' => $this->input->post('tpo'),
+				'material_supply' => $this->input->post('material_supply'),
+				'circuit_supply' => $this->input->post('circuit_supply'),
+				'supply_fuse' => $this->input->post('supply_fuse'),
+				'chorobiki' => $this->input->post('chorobiki'),
+				'pic_repair' => $this->input->post('pic_repair'),
+				'tanoko_ass' => $this->input->post('tanoko_ass'),
+				'tanoko_insp' => $this->input->post('tanoko_insp'),
+				'gl_ass' => $this->input->post('gl_ass'),
+				'gl_insp' => $this->input->post('gl_insp'),
+				'line_leader' => $this->input->post('line_leader'),
+				'total' => $this->input->post('total')
+			);
+
+			$cari = $this->iData_model->cariMpByIdLcpN($this->input->post('id_lcp'));
+			if($cari){
+				$result = $this->iData_model->updateIdl($cari->id_lcp,$dataIdl);
+			}else{
+				// insert data new MP
+				$result = $this->iData_model->createIdl($dataIdl);	
+			}
+			$updt = array(
+				'mp_idl' => $this->input->post('total')
+			);
+			$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
+
+			if($result){
+				$output ['status'] = "sukses";
+			}else{
+				$output['error'] = true;
+			}
+			echo json_encode($result);
 		}
-		echo json_encode($result);
-		
-
-	}
 
 	public function getIData()
 	{
@@ -73,6 +115,8 @@ class IData extends CI_Controller {
 			# code...
 			$dat = $this->iData_model->cariMpByIdLcp($value->id);
 			$value->kom_dl = $dat;
+			$datr = $this->iData_model->cariMpByIdLcpN($value->id);
+			$value->kom_idl = $datr;
 		}
 		echo json_encode($data);
 	}

@@ -26,30 +26,56 @@ class iData_model extends CI_Model {
 		}
 	}
 
+	// MP DL
+		public function cariMpByIdLcp($id)
+		{
+			# code...
+			$query = $this->db->query("SELECT * FROM komposisi_mp WHERE id_lcp=$id"); 
+			
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
 
-	public function cariMpByIdLcp($id)
-	{
-		# code...
-		$query = $this->db->query("SELECT * FROM komposisi_mp WHERE id_lcp=$id"); 
-		
-		if($query->num_rows()>0){
-			return $query->first_row();
-		}else{
-			return false;
+		}
+		public function createMP($data)
+		{
+			# code...
+			return $this->db->insert('komposisi_mp', $data);
+		}
+		public function updateMP($id,$data)
+		{
+			# code...
+			$this->db->where('id_lcp', $id);
+			return $this->db->update('komposisi_mp', $data);
 		}
 
-	}
-	public function createMP($data)
-	{
-		# code...
-		return $this->db->insert('komposisi_mp', $data);
-	}
-	public function updateMP($id,$data)
-	{
-		# code...
-		$this->db->where('id_lcp', $id);
-		return $this->db->update('komposisi_mp', $data);
-	}
+	// MP IDL
+		public function cariMpByIdLcpN($id)
+		{
+			# code...
+			$query = $this->db->query("SELECT * FROM mp_idl WHERE id_lcp=$id"); 
+			
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+		public function createIdl($data)
+		{
+			# code...
+			return $this->db->insert('mp_idl', $data);
+		}
+		public function updateIdl($id,$data)
+		{
+			# code...
+			$this->db->where('id_lcp', $id);
+			return $this->db->update('mp_idl', $data);
+		}
+
+
 
 	public function insertDataI($data)
 	{ 

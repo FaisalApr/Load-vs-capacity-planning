@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- START KUMPULAN MODAL  -->
 	<div>
-		<!-- START INPUT -->`
+		<!-- START INPUT MP DL -->
 			<div class="modal fade" id="i_detail_dl_modal">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
@@ -205,8 +205,111 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
+		<!-- END INPUT MP DL -->
 
-		<!-- END INPUT -->
+		<!-- START INPUT MP IDL -->
+			<div class="modal fade" id="i_detail_idl_modal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Detail komposisi MP IDL</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<form id="form_IDL">
+						<div class="modal-body">
+							<!-- row pertama -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>TPO</label>
+											<input class="form-control" type="number" id="i_tpo"  >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Material Supply</label>
+											<input class="form-control" type="number" id="i_material_supply" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Circuit Supply</label>
+											<input class="form-control" type="number" id="i_circuit_Supply" >
+										</div>
+									</div>
+								</div>
+							<!-- row kedua -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Supply Fuse</label>
+											<input class="form-control" type="number" id="i_supply_fuse" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Chorobiki A/B</label>
+											<input class="form-control" type="number" id="i_chorobiki" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>PIC Repair</label>
+											<input class="form-control" type="number" id="i_pic_repair" >
+										</div>
+									</div>
+								</div>
+							<!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Tanoko Ass</label>
+											<input class="form-control" type="number" id="i_tanoko_ass" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Tanoko Insp</label>
+											<input class="form-control" type="number" id="i_tanoko_insp" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>GL Ass</label>
+											<input class="form-control" type="number" id="i_gl_ass" >
+										</div>
+									</div>
+								</div>
+							 <!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>GL Insp</label>
+											<input class="form-control" type="number" id="i_gl_insp" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Line Leader</label>
+											<input class="form-control" type="number" id="i_line_leader" >
+										</div>
+									</div>
+									<div class="col-md-4">
+											<input id="id_lcp" type="hidden">
+									</div>
+								</div>
+
+
+						</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" id="btn_submit2" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- END INPUT MP IDL -->
+
 	</div>
 <!-- END KUMPULAN MODAL -->
 
@@ -409,6 +512,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			var id =0,val=0,mid=0;
 		                    			var col = ''; 
 		                    			var kom_dl = [];
+		                    			var kom_idl = [];
 
 		                    				for (var x = 0; x < data.length; x++) { 
 
@@ -428,6 +532,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						col = item[y].val; 
 		                    						mid = x;
 		                    						kom_dl = data[x].kom_dl;
+		                    						kom_idl = data[x].kom_idl;
 		                    					}
 
 		                    				}      	
@@ -435,7 +540,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			if (col=='') {col = item[y].val;}
 
 		                    			tr.append(
-		                    						$(`<td class='inner' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
+		                    						$(`<td class='inner' data-kom_idl='`+JSON.stringify(kom_idl)+`' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
 			                    			 	); 	
 			                    	}
 
@@ -459,9 +564,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var mid = $(this).data('mid'); 
 			        var bln = $(this).data('periode_bln');
 			        var kom_dl = $(this).data('kom_dl');
+			        var kom_idl = $(this).data('kom_idl');
 			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mid: '+mid);
 			        console.log(kom_dl);
-
+			        console.log(kom_idl);
 			        
 			        if(col=='mp_dl'){
 			        	$('#i_detail_dl_modal').modal('show');
@@ -478,6 +584,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        		$('#i_dimcheck').val(kom_dl.dimchecker_sig);
 			        		$('#i_vis').val(kom_dl.vis);
 			        	}
+			        	$('#id_lcp').val(id);
+			        }else if(col=='mp_idl'){
+			        	$('#i_detail_idl_modal').modal('show');
+		        		if(kom_idl!=false){
+			        		$('#i_tpo').val(kom_idl.tpo);
+			        		$('#i_material_supply').val(kom_idl.material_supply);
+			        		$('#i_circuit_Supply').val(kom_idl.circuit_supply);
+			        		$('#i_supply_fuse').val(kom_idl.supply_fuse);
+			        		$('#i_chorobiki').val(kom_idl.chorobiki);
+			        		$('#i_pic_repair').val(kom_idl.pic_repair);
+			        		$('#i_tanoko_ass').val(kom_idl.tanoko_ass);
+			        		$('#i_tanoko_insp').val(kom_idl.tanoko_insp);
+			        		$('#i_gl_ass').val(kom_idl.gl_ass);
+			        		$('#i_gl_insp').val(kom_idl.gl_insp);
+			        		$('#i_line_leader').val(kom_idl.line_leader);	
+		        		}
 			        	$('#id_lcp').val(id);
 			        }else{
 			        	updateVal(currentEle, value, id, col, bln, mid);	
@@ -667,6 +789,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							$('#i_detail_dl_modal').modal('hide');
 							$('#form_DL').trigger('reset');
+							// document.getElementById("form_DL").reset();
+						}
+					});
+					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
+					// show(id_pdo);
+				});
+			//input mp idl
+				$('#btn_submit2').click(function(){ 
+					var  tpo = Number(document.getElementById("i_tpo").value);
+					var  material_supply = Number(document.getElementById("i_material_supply").value);
+					var  circuit_supply = Number(document.getElementById("i_circuit_Supply").value);
+					var  supply_fuse = Number(document.getElementById("i_supply_fuse").value);
+					var  chorobiki = Number(document.getElementById("i_chorobiki").value);
+					var  pic_repair = Number(document.getElementById("i_pic_repair").value);
+					var  tanoko_ass = Number(document.getElementById("i_tanoko_ass").value);
+					var  tanoko_insp = Number(document.getElementById("i_tanoko_insp").value);
+					var  gl_ass = Number(document.getElementById("i_gl_ass").value);
+					var  gl_insp = Number(document.getElementById("i_gl_insp").value);
+					var  line_leader = Number(document.getElementById("i_line_leader").value);
+					
+					var total = tpo+material_supply+circuit_supply+supply_fuse+chorobiki+pic_repair+tanoko_insp+tanoko_ass+gl_insp+gl_ass+line_leader;
+					console.log(total);
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo base_url() ?>index.php/IData/newIdl",
+						dataType : "JSON",
+						data : {
+							id_lcp : $('#id_lcp').val(),
+							tpo : tpo,
+							material_supply : material_supply,
+							circuit_supply : circuit_supply,
+							supply_fuse : supply_fuse,
+							chorobiki : chorobiki,
+							pic_repair : pic_repair,
+							tanoko_ass : tanoko_ass,
+							tanoko_insp : tanoko_insp,
+							gl_ass : gl_ass,
+							gl_insp : gl_insp,
+							line_leader : line_leader,
+							total:total
+						},
+						success : function(response){
+							
+							$('#i_detail_idl_modal').modal('hide');
+							$('#form_IDL').trigger('reset');
 							// document.getElementById("form_DL").reset();
 						}
 					});
