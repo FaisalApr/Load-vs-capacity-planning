@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- Container  Start -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="min-height: 600px;">
 			<div class="pull-left">
-				<h5 class="text-blue" style="font-size: 32px">Data Production Meeting</h5> 	
+				<h5 class="text-blue" style="font-size: 32px">Data Plan Production</h5> 	
 			</div>
 			<br><br><br>
 
@@ -65,15 +65,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th style="width: 13%;">
 							<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
 								<option value="0">MP DL/SHIFT</option>
-								<option value="1">WORKING DAYS</option>
-								<option value="2">MONTHLY ORDER</option> 
-								<option value="3">BALANCE</option> 
-								<option value="4">MH OUT/SHIFT</option> 
-								<option value="5">OT PLAN</option>
-								<option value="6">OT HOURS</option>
-								<option value="7">EFFICIENCY (%)</option> 
-								<option value="8">MP IDL/SHIFT</option>  
-								<option value="9">EXCL TIME</option>
+								<option value="1">MP IDL/SHIFT</option>
+								<option value="2">PLAN EFFICIENCY (%)</option> 
+								<option value="3">WORKING DAYS</option>
+								<option value="4">MONTHLY ORDER</option>   
+								<option value="5">UMH /SHIFT</option>  
+								<option value="6">EXCL TIME</option>
 							</select>
 						</th>
 
@@ -193,6 +190,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-md-4">
 											<input id="id_lcp" type="hidden">
+											<input id="working_id" type="hidden">
+											<input type="hidden" id="id_mid">
 									</div>
 								</div>
 
@@ -295,7 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp2" type="hidden">
+											<input id="id_lcp" type="hidden">
 									</div>
 								</div>
 
@@ -309,7 +308,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 		<!-- END INPUT MP IDL -->
-		
+
 		<!-- START INPUT MP DL PA -->
 			<div class="modal fade" id="mp_dl_pa_modal">
 				<div class="modal-dialog modal-lg">
@@ -508,7 +507,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 		<!-- END INPUT MP IDL PA -->
-
+		
 	</div>
 <!-- END KUMPULAN MODAL -->
 
@@ -524,16 +523,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
 								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
-								{name:'WORKING DAYS',val: 'working_days', view: true},
-								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
-								// {name:'CAPACITY',val: 'capacity', view: true},
-								{name:'BALANCE',val: 'balance', view: true},
-								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
-								// {name:'% LOAD',val: 'p_load', view: true},
-								{name:'OT PLAN',val: 'ot_plan', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true}, 
-								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},  
 								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true}, 
+								{name:'PLAN EFFICIENCY (%)',val: 'efficiency', view: true},  
+								{name:'WORKING DAYS',val: 'working_days', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},  
+								{name:'UMH /SHIFT',val: 'umh_shift', view: true},   
 								{name:'EXCL TIME',val: 'exc_time', view: true}
 							]; 
 				var today = new Date();
@@ -628,6 +622,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$('#select_lin').on('select2:select',function(e){
 						var data = e.params.data;
 						// console.log(data);  
+						if (data.text=='PA') {
+							alert('ini PA');
+						}
 						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
 					});
 				// select Line
@@ -719,8 +716,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    					// Jika bulan sama  maka ada data 
 		                    					if (tgl.getMonth()==periode[i]) {
 
-		                    						if (item[y].val=='efficiency' || item[y].val=='p_load' ) {
-		                    							tmp_html = parseFloat(data[x][item[y].val]).toFixed(1)+'%';
+		                    						if ( item[y].val=='efficiency' ) { 
+		                    							tmp_html = data[x][item[y].val]+'%';
+		                    							if (parseFloat(data[x][item[y].val])%1 !=0) { //jika tidak koma
+		                    								tmp_html = parseFloat(data[x][item[y].val]).toFixed(2)+'%';
+		                    							}
+		                    						}else if( item[y].val=='order_monthly' || item[y].val=='umh_shift' ||item[y].val=='exc_time' ){ 
+		                    							tmp_html = data[x][item[y].val];
+		                    							if (parseFloat(data[x][item[y].val])%1 !=0) { //jika tidak koma
+		                    								tmp_html = parseFloat(data[x][item[y].val]).toFixed(2);
+		                    							}
 		                    						}else{
 		                    							tmp_html = data[x][item[y].val];
 		                    						} 
@@ -783,7 +788,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        		$('#i_dimcheck').val(kom_dl.dimchecker_sig);
 			        		$('#i_vis').val(kom_dl.vis);
 			        	}
+
+			        	$('#working_id').val( mData[mid].working_days );
 			        	$('#id_lcp').val(id);
+			        	$('#id_mid').val(mid);
+
 			        }else if(col=='mp_idl'){
 			        	$('#i_detail_idl_modal').modal('show');
 		        		if(kom_idl!=false){
@@ -826,8 +835,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        		} 
 					        		tgl = th+'-'+(bln+1)+'-1';
 					        		console.log('tgl: '+tgl);
-					        	}
-				        	// return;
+					        	} 
+
 				        	// post data
 					        	$.ajax({
 					        		async: false,
@@ -870,8 +879,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                    		$(currentEle).html( $(".thVal").val() );  
 				                    	}
 
-				                    	// cek ini termasuk 
-					                    	// JIKA ITU,  AUTO % LOAD
+				                    	// cek ini termasuk  
 								            if (col=='capacity' || col=='order_monthly') {
 								            	// jika yang diedit
 								            	var cap = mData[mid].capacity;
@@ -885,39 +893,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									            	var has = (Number(mor)/Number(cap))*100;
  
 								            	// POST
-									            	$.ajax({
-									            		async: false,
-									                    type : "POST",
-									                    url  : "<?php echo site_url(); ?>/IData/updateIData",
-									                    dataType : "JSON",
-									                    data : { 
-									                    	id: idnya,
-									                    	col: 'p_load',
-									                    	val: has,
-									                    	bln:bln,
-									                    	lst_cr: $('#select_lin').val(),
-									                    	tgl: tgl,
-									                    	sif: $('#select_shif').val()
-									                    },
-									                    beforeSend: function(){
-										                	Swal.fire({ 
-															    allowEscapeKey: false,
-															    allowOutsideClick: false,
-															    title: "", 
-															    showConfirmButton: false,
-															    onOpen: () => {
-															      swal.showLoading();
-															    }
-															  });
-										                },
-									                    success: function(data){ 
-									                    	Swal.close();   
-									                    	// console.log(data);
-									                    }
-									                });
+								            		postValue(idnya, 'p_load' , has, bln,tgl); 
 								                
-								            }else if( col=='working_days' || col=='mp_dl' ){
-
 								            }
 
 				                    }
@@ -929,40 +906,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    });
  					
  					// Focus losss same state value
-				    $(".thVal").focusout(function(){
-				    	console.log('losss');
+					    $(".thVal").focusout(function(){
+					    	console.log('losss');
 
-				    	if (id == 0) {
-				    		$(currentEle).html( '' ); 
-				    		return;
-				    	}
-				    	// jika itu
-				    	if (col=='efficiency' || col=='p_load' ) {
+					    	if (id == 0) {
+					    		$(currentEle).html( '' ); 
+					    		return;
+					    	}
+					    	// jika itu
+					    	if (col=='efficiency' || col=='p_load' ) {
 
-							var tmp = parseFloat(value).toFixed(1)+'%';
-							$(currentEle).html( tmp ); 
-						}else{
-							$(currentEle).html( value ); 
-						}  
-				    });
+								var tmp = parseFloat(value).toFixed(1)+'%';
+								$(currentEle).html( tmp ); 
+							}else{
+								$(currentEle).html( value ); 
+							}  
+					    });
 				}
- 
+ 			
+ 			// FUnction POST UPDATE V
+ 			function postValue(idnya,col, has, bln,tgl) {
+ 				$.ajax({
+            		async: false,
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/IData/updateIData",
+                    dataType : "JSON",
+                    data : { 
+                    	id: idnya,
+                    	col: col,
+                    	val: has,
+                    	bln: bln,
+                    	lst_cr: $('#select_lin').val(),
+                    	tgl: tgl,
+                    	sif: $('#select_shif').val()
+                    },
+                    beforeSend: function(){
+	                	Swal.fire({ 
+						    allowEscapeKey: false,
+						    allowOutsideClick: false,
+						    title: "", 
+						    showConfirmButton: false,
+						    onOpen: () => {
+						      swal.showLoading();
+						    }
+						  });
+	                },
+                    success: function(data){ 
+                    	Swal.close();   
+                    	// console.log(data);
+                    }
+                });
+ 			}
+
+
 			//input mp dl
 				$('#btn_submit').click(function(){ 
-	   				
-					var housing_bt = Number(document.getElementById("i_housing_bt").value);
-					var insert_plug = Number(document.getElementById("i_insert").value);
-					var seting = Number(document.getElementById("i_setting").value);
-					var taping = Number(document.getElementById("i_tapping").value);
-					var sp = Number(document.getElementById("i_sp").value);
-					var offline = Number(document.getElementById("i_offline").value);
-					var grommet = Number(document.getElementById("i_grommet").value);
-					var housing_ck = Number(document.getElementById("i_housing_ck").value);
-					var checker_gri = Number(document.getElementById("i_checker").value);
-					var dimchecker_sig = Number(document.getElementById("i_dimcheck").value);
-					var vis = Number(document.getElementById("i_vis").value);
-					
-					var total = housing_bt+insert_plug+seting+taping+sp+offline+grommet+housing_ck+checker_gri+dimchecker_sig+vis;
+	   				// 
+						var housing_bt = Number(document.getElementById("i_housing_bt").value);
+						var insert_plug = Number(document.getElementById("i_insert").value);
+						var seting = Number(document.getElementById("i_setting").value);
+						var taping = Number(document.getElementById("i_tapping").value);
+						var sp = Number(document.getElementById("i_sp").value);
+						var offline = Number(document.getElementById("i_offline").value);
+						var grommet = Number(document.getElementById("i_grommet").value);
+						var housing_ck = Number(document.getElementById("i_housing_ck").value);
+						var checker_gri = Number(document.getElementById("i_checker").value);
+						var dimchecker_sig = Number(document.getElementById("i_dimcheck").value);
+						var vis = Number(document.getElementById("i_vis").value); 			
+						var total = housing_bt+insert_plug+seting+taping+sp+offline+grommet+housing_ck+checker_gri+dimchecker_sig+vis;
 					console.log(total);
 					$.ajax({
 						async : false,
@@ -984,15 +995,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							vis : vis,
 							total : total
 						},
+						beforeSend: function(){
+		                	Swal.fire({ 
+							    allowEscapeKey: false,
+							    allowOutsideClick: false,
+							    title: "", 
+							    showConfirmButton: false,
+							    onOpen: () => {
+							      swal.showLoading();
+							    }
+							  });
+		                },
 						success : function(response){
+							Swal.close();
 							
 							$('#i_detail_dl_modal').modal('hide');
-							$('#form_DL').trigger('reset');
+							
 							// document.getElementById("form_DL").reset();
 						}
 					});
+
+					// hitungan
+						var mid = $('#id_mid').val();
+						// Jumlah UMH
+							var umh = (total/100*100)*7.88*$('#working_id').val();
+							console.log('hasil umh: '+umh);
+						postValue($('#id_lcp').val(), 'umh_shift' , umh, '',''); 
+						// OT PLAN
+							var excl = (7*60)*mData[mid].working_days*2*total;
+							console.log('hsil excl: '+excl);
+						postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+
+					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
-					// show(id_pdo);
+					$('#form_DL').trigger('reset');
 				});
 			//input mp idl
 				$('#btn_submit2').click(function(){ 
