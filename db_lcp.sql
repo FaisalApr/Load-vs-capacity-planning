@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Waktu pembuatan: 06 Agu 2019 pada 12.06
--- Versi server: 10.1.37-MariaDB
--- Versi PHP: 5.6.40
+-- Host: 127.0.0.1
+-- Generation Time: Aug 07, 2019 at 05:15 AM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 7.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -25,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `carline`
+-- Table structure for table `carline`
 --
 
 CREATE TABLE `carline` (
@@ -36,7 +34,7 @@ CREATE TABLE `carline` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `carline`
+-- Dumping data for table `carline`
 --
 
 INSERT INTO `carline` (`id`, `id_district`, `nama_carline`, `status`) VALUES
@@ -60,7 +58,7 @@ INSERT INTO `carline` (`id`, `id_district`, `nama_carline`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `carline_has_line`
+-- Table structure for table `carline_has_line`
 --
 
 CREATE TABLE `carline_has_line` (
@@ -70,7 +68,7 @@ CREATE TABLE `carline_has_line` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `carline_has_line`
+-- Dumping data for table `carline_has_line`
 --
 
 INSERT INTO `carline_has_line` (`id`, `id_carline`, `id_line`) VALUES
@@ -131,7 +129,7 @@ INSERT INTO `carline_has_line` (`id`, `id_carline`, `id_line`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `district`
+-- Table structure for table `district`
 --
 
 CREATE TABLE `district` (
@@ -140,7 +138,7 @@ CREATE TABLE `district` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `district`
+-- Dumping data for table `district`
 --
 
 INSERT INTO `district` (`id`, `nama`) VALUES
@@ -150,7 +148,7 @@ INSERT INTO `district` (`id`, `nama`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `komposisi_mp`
+-- Table structure for table `komposisi_mp`
 --
 
 CREATE TABLE `komposisi_mp` (
@@ -170,10 +168,19 @@ CREATE TABLE `komposisi_mp` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `komposisi_mp`
+--
+
+INSERT INTO `komposisi_mp` (`id`, `id_lcp`, `housing_bt`, `insert_plug`, `setting`, `taping`, `sp`, `offline`, `grommet`, `housing_ck`, `checker_gri`, `dimchecker_sig`, `vis`, `total`) VALUES
+(11, 769, 4, 4, 4, 4, 4, 4, 44, 4, 4, 4, 4, 84),
+(12, 771, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 22),
+(14, 770, 2, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 43);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `line`
+-- Table structure for table `line`
 --
 
 CREATE TABLE `line` (
@@ -182,7 +189,7 @@ CREATE TABLE `line` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `line`
+-- Dumping data for table `line`
 --
 
 INSERT INTO `line` (`id`, `nama_line`) VALUES
@@ -231,7 +238,7 @@ INSERT INTO `line` (`id`, `nama_line`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `main_lcp`
+-- Table structure for table `main_lcp`
 --
 
 CREATE TABLE `main_lcp` (
@@ -255,10 +262,42 @@ CREATE TABLE `main_lcp` (
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `main_lcp`
+--
+
+INSERT INTO `main_lcp` (`id`, `id_shift`, `id_carline_has_line`, `mhout_shift`, `order_monthly`, `efficiency`, `mp_dl`, `mp_idl`, `shift_qty`, `capacity`, `working_days`, `ot_hours`, `ot_plan`, `p_load`, `exc_time`, `tot_productivity`, `balance`, `tanggal`) VALUES
+(769, 1, 142, 0, 0, 0, 84, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, '2019-08-01'),
+(770, 1, 142, 0, 0, 0, 43, 0, 0, 0, 30, 0, 0, 0, 0, 0, 0, '2019-09-01'),
+(771, 2, 142, 0, 0, 0, 22, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, '2019-08-01');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ppc_data`
+-- Table structure for table `mp_idl`
+--
+
+CREATE TABLE `mp_idl` (
+  `id` int(11) NOT NULL,
+  `id_lcp` int(11) NOT NULL,
+  `tpo` int(11) NOT NULL,
+  `material_supply` int(11) NOT NULL,
+  `circuit_supply` int(11) NOT NULL,
+  `supply_fuse` int(11) NOT NULL,
+  `chorobiki` int(11) NOT NULL,
+  `pic_repair` int(11) NOT NULL,
+  `tanoko_ass` int(11) NOT NULL,
+  `tanoko_insp` int(11) NOT NULL,
+  `gl_ass` int(11) NOT NULL,
+  `gl_insp` int(11) NOT NULL,
+  `line_leader` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ppc_data`
 --
 
 CREATE TABLE `ppc_data` (
@@ -280,7 +319,7 @@ CREATE TABLE `ppc_data` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `shift`
+-- Table structure for table `shift`
 --
 
 CREATE TABLE `shift` (
@@ -289,7 +328,7 @@ CREATE TABLE `shift` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `shift`
+-- Dumping data for table `shift`
 --
 
 INSERT INTO `shift` (`id`, `keterangan`) VALUES
@@ -299,7 +338,7 @@ INSERT INTO `shift` (`id`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -314,7 +353,7 @@ CREATE TABLE `user` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user_has_line`
+-- Table structure for table `user_has_line`
 --
 
 CREATE TABLE `user_has_line` (
@@ -328,14 +367,14 @@ CREATE TABLE `user_has_line` (
 --
 
 --
--- Indeks untuk tabel `carline`
+-- Indexes for table `carline`
 --
 ALTER TABLE `carline`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_district` (`id_district`);
 
 --
--- Indeks untuk tabel `carline_has_line`
+-- Indexes for table `carline_has_line`
 --
 ALTER TABLE `carline_has_line`
   ADD PRIMARY KEY (`id`),
@@ -343,26 +382,26 @@ ALTER TABLE `carline_has_line`
   ADD KEY `id_line` (`id_line`);
 
 --
--- Indeks untuk tabel `district`
+-- Indexes for table `district`
 --
 ALTER TABLE `district`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `komposisi_mp`
+-- Indexes for table `komposisi_mp`
 --
 ALTER TABLE `komposisi_mp`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idlcp` (`id_lcp`);
 
 --
--- Indeks untuk tabel `line`
+-- Indexes for table `line`
 --
 ALTER TABLE `line`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `main_lcp`
+-- Indexes for table `main_lcp`
 --
 ALTER TABLE `main_lcp`
   ADD PRIMARY KEY (`id`),
@@ -370,26 +409,33 @@ ALTER TABLE `main_lcp`
   ADD KEY `id_carline_has_line` (`id_carline_has_line`);
 
 --
--- Indeks untuk tabel `ppc_data`
+-- Indexes for table `mp_idl`
+--
+ALTER TABLE `mp_idl`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_lcp` (`id_lcp`);
+
+--
+-- Indexes for table `ppc_data`
 --
 ALTER TABLE `ppc_data`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_carline_has_line` (`id_carline_has_line`);
 
 --
--- Indeks untuk tabel `shift`
+-- Indexes for table `shift`
 --
 ALTER TABLE `shift`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `user_has_line`
+-- Indexes for table `user_has_line`
 --
 ALTER TABLE `user_has_line`
   ADD PRIMARY KEY (`id`),
@@ -397,112 +443,106 @@ ALTER TABLE `user_has_line`
   ADD KEY `id_list_carline` (`id_list_carline`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `carline`
+-- AUTO_INCREMENT for table `carline`
 --
 ALTER TABLE `carline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
-
 --
--- AUTO_INCREMENT untuk tabel `carline_has_line`
+-- AUTO_INCREMENT for table `carline_has_line`
 --
 ALTER TABLE `carline_has_line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
-
 --
--- AUTO_INCREMENT untuk tabel `district`
+-- AUTO_INCREMENT for table `district`
 --
 ALTER TABLE `district`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
--- AUTO_INCREMENT untuk tabel `komposisi_mp`
+-- AUTO_INCREMENT for table `komposisi_mp`
 --
 ALTER TABLE `komposisi_mp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
--- AUTO_INCREMENT untuk tabel `line`
+-- AUTO_INCREMENT for table `line`
 --
 ALTER TABLE `line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
 --
--- AUTO_INCREMENT untuk tabel `main_lcp`
+-- AUTO_INCREMENT for table `main_lcp`
 --
 ALTER TABLE `main_lcp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=769;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=772;
 --
--- AUTO_INCREMENT untuk tabel `ppc_data`
+-- AUTO_INCREMENT for table `mp_idl`
+--
+ALTER TABLE `mp_idl`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ppc_data`
 --
 ALTER TABLE `ppc_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1198;
-
 --
--- AUTO_INCREMENT untuk tabel `shift`
+-- AUTO_INCREMENT for table `shift`
 --
 ALTER TABLE `shift`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT untuk tabel `user_has_line`
+-- AUTO_INCREMENT for table `user_has_line`
 --
 ALTER TABLE `user_has_line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `carline`
+-- Constraints for table `carline`
 --
 ALTER TABLE `carline`
   ADD CONSTRAINT `fk_id_district` FOREIGN KEY (`id_district`) REFERENCES `district` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `carline_has_line`
+-- Constraints for table `carline_has_line`
 --
 ALTER TABLE `carline_has_line`
   ADD CONSTRAINT `fk_id_carline` FOREIGN KEY (`id_carline`) REFERENCES `carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_id_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `komposisi_mp`
+-- Constraints for table `komposisi_mp`
 --
 ALTER TABLE `komposisi_mp`
   ADD CONSTRAINT `fk_idlcp` FOREIGN KEY (`id_lcp`) REFERENCES `main_lcp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `main_lcp`
+-- Constraints for table `main_lcp`
 --
 ALTER TABLE `main_lcp`
   ADD CONSTRAINT `fk_id_carline_has_line` FOREIGN KEY (`id_carline_has_line`) REFERENCES `carline_has_line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_id_shift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `ppc_data`
+-- Constraints for table `ppc_data`
 --
 ALTER TABLE `ppc_data`
   ADD CONSTRAINT `fk_id_carline_hs_line` FOREIGN KEY (`id_carline_has_line`) REFERENCES `carline_has_line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `user_has_line`
+-- Constraints for table `user_has_line`
 --
 ALTER TABLE `user_has_line`
   ADD CONSTRAINT `fk_id_listcarline` FOREIGN KEY (`id_list_carline`) REFERENCES `carline_has_line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
