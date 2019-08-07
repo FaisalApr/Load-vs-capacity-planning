@@ -295,7 +295,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp" type="hidden">
+											<input id="id_lcp2" type="hidden">
 									</div>
 								</div>
 
@@ -309,6 +309,205 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 		<!-- END INPUT MP IDL -->
+		
+		<!-- START INPUT MP DL PA -->
+			<div class="modal fade" id="mp_dl_pa_modal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Detail komposisi MP DL Pre Assy</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<form id="form_DL_pa">
+						<div class="modal-body">
+							<!-- row pertama -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Cutting</label>
+											<input class="form-control" type="number" id="i_cutting">
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Midle</label>
+											<input class="form-control" type="number" id="i_midle">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Manual</label>
+											<input class="form-control" type="number" id="i_manual" >
+										</div>
+									</div>
+								</div>
+							<!-- row kedua -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Twist</label>
+											<input class="form-control" type="number" id="i_twist" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Shield</label>
+											<input class="form-control" type="number" id="i_shield">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Acc</label>
+											<input class="form-control" type="number" id="i_acc" >
+										</div>
+									</div>
+								</div>
+							<!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Bonder</label>
+											<input class="form-control" type="number" id="i_bonder" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Raycham</label>
+											<input class="form-control" type="number" id="i_raycham">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Joint</label>
+											<input class="form-control" type="number" id="i_joint">
+										</div>
+									</div>
+								</div>
+							 <!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>HV</label>
+											<input class="form-control" type="number" id="i_hv">
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>End Strip</label>
+											<input class="form-control" type="number" id="i_end_strip">
+										</div>
+									</div>
+									<div class="col-md-4">
+											<input id="id_lcp3" type="hidden">
+									</div>
+								</div>
+						</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" id="btn_submit3" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- END INPUT MP DL PA-->
+
+		<!-- START INPUT MP IDL PA -->
+			<div class="modal fade" id="mp_idl_pa_modal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Detail komposisi MP IDL</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<form id="form_IDL">
+						<div class="modal-body">
+							<!-- row pertama -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Line Leader</label>
+											<input class="form-control" type="number" id="i_line_leader"  >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Group leader</label>
+											<input class="form-control" type="number" id="i_group_leader" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>inspector</label>
+											<input class="form-control" type="number" id="i_inspector" >
+										</div>
+									</div>
+								</div>
+							<!-- row kedua -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Bundling</label>
+											<input class="form-control" type="number" id="i_bundling" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>CSU</label>
+											<input class="form-control" type="number" id="i_csu" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Tanoko Ass</label>
+											<input class="form-control" type="number" id="i_tanoko_ass" >
+										</div>
+									</div>
+								</div>
+							<!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Tanoko Insp</label>
+											<input class="form-control" type="number" id="i_tanoko_insp" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Sao Bonder</label>
+											<input class="form-control" type="number" id="i_sao_bonder" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Helper Cuting</label>
+											<input class="form-control" type="number" id="i_helper_cuting" >
+										</div>
+									</div>
+								</div>
+							 <!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Choroboki</label>
+											<input class="form-control" type="number" id="i_choroboki" >
+										</div>	
+									</div>
+									
+									<div class="col-md-4">
+											<input id="id_lcp4" type="hidden">
+									</div>
+								</div>
+
+
+						</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" id="btn_submit4" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- END INPUT MP IDL PA -->
 
 	</div>
 <!-- END KUMPULAN MODAL -->
