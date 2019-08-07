@@ -146,12 +146,13 @@ class Excel_import extends CI_Controller {
 							'mhout_shift' => $mhout_shift,
 							'order_monthly' => $month_order,
 							'efficiency' => $efficiency,
-							'mp_dl' => $mpdl_shift,
+							'mp_dl' => ($mpdl_shift*$shift_qyt),
 							'shift_qty' => $shift_qyt,
 							'capacity' => $capacity_month,
 							'ot_hours' => $ot_hour,
 							'ot_plan' => $ot_plan,
-							'p_load' => $plod
+							'p_load' => $plod,
+							'balance' => ($capacity_month-$month_order)
 						);
 						
 						// echo json_encode($datas);

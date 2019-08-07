@@ -10,6 +10,12 @@ class iData_model extends CI_Model {
 		return $q->result();
 	}
 
+	public function cariDataPeriodeSimulasi($line,$stat,$end)
+	{
+		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line AND tanggal>='$stat' AND tanggal<='$end' ORDER BY tanggal ASC");
+		return $q->result();
+	}
+
 	public function cariIdataafterinsert($sf,$lstcr,$tgl)
 	{
 		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'");

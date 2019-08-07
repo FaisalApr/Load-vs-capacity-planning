@@ -47,13 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<select class="select2 js-states form-control" id="select_lin" name="select_lin" style="width: 100px;">  	
 						</select> 
 					</div>
-				</div>
-				<div class="dropdown" style="margin-left: 20px;">  
-					<div class="input-group custom input-group-sm"> 
-						<div style="margin-top: -5px; font-size: 30px">Shift : &nbsp</div>
-						<select class="select2 js-states form-control" id="select_shif" name="select_shif" style="width: 100px;">  
-						</select> 
-					</div>
 				</div> 
  
 				<div class="" style="margin-left: 50px;">
@@ -89,21 +82,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
- 					<table id="thead_act" class="table table-hover table-bordered text-center table-responsive">
+ 					<table id="thead_act" class="table table-hover table-bordered text-center table-responsive" style="min-height: 550px;">
  						<thead class="thead-light">
  							<tr>
  								<th style="width: 8%" class="sticky_left">
  									<select class="form-control" id="i_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
- 										<option value="0">MH OUT/SHIFT</option>
-										<option value="1">MONTHLY ORDER</option>
-										<option value="2">EFFICIENCY (%)</option>
-										<option value="3">MP DL/SHIFT</option>
-										<option value="4">SHIFT QTY</option>
-										<option value="5">OT HOURS</option>
-										<option value="6">CAPACITY</option>
-										<option value="7">OT PLAN</option>
-										<option value="8">WORKING DAYS</option>
-										<option value="9">LOAD</option>
+ 										<option value="0">MP DL/SHIFT</option>
+										<option value="1">WORKING DAYS</option>
+										<option value="2">MONTHLY ORDER</option>
+										<option value="3">CAPACITY</option>
+										<option value="4">BALANCE</option> 
+										<option value="5">LOAD</option>
+										<option value="6">OT PLAN</option>
+										<option value="7">OT HOURS</option>
+										<option value="8">EFFICIENCY (%)</option>
+										<option value="9">MH OUT/SHIFT</option>
+										<option value="10">SHIFT QTY</option>
  									</select>
  								</th>
  								
@@ -122,24 +116,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
- 					<table class="table table-hover table-bordered text-center table-responsive">
+ 					<table class="table table-hover table-bordered text-center table-responsive" style="min-height: 600px;">
  						<thead class="thead-light" id="thead_testing">
  							<tr>
  								<th style="width: 8%" class="sticky_left">
  									<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
-										<option value="0">MH OUT/SHIFT</option>
-										<option value="1">MONTHLY ORDER</option>
-										<option value="2">EFFICIENCY (%)</option>
-										<option value="3">MP DL/SHIFT</option>
-										<option value="4">MP IDL/SHIFT</option>
-										<option value="5">SHIFT QTY</option>
-										<option value="6">OT HOURS</option>
-										<option value="7">CAPACITY</option>
-										<option value="8">OT PLAN</option>
-										<option value="9">WORKING DAYS</option>
-										<option value="10">LOAD</option>
-										<option value="11">EXCL TIME</option>
-										<option value="12">% Tot Prod</option>
+										<option value="0">MP DL/SHIFT</option>
+										<option value="1">WORKING DAYS</option>
+										<option value="2">MONTHLY ORDER</option>
+										<option value="3">CAPACITY</option>
+										<option value="4">BALANCE</option> 
+										<option value="5">% LOAD</option>
+										<option value="6">OT PLAN</option>
+										<option value="7">OT HOURS</option>
+										<option value="8">EFFICIENCY (%)</option>
+										<option value="9">MP IDL/SHIFT</option>
+										<option value="10">EXCL TIME</option>
+										<option value="11">% Tot Prod</option>
 									</select>
 								</th>
 								<th class="monn"></th>
@@ -204,36 +197,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
-								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
-								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
-								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
-								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
-								{name:'SHIFT QTY',val: 'shift_qty', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true},
-								{name:'CAPACITY',val: 'capacity', view: true},
-								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'MP DL',val: 'mp_dl', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
-								{name:'% LOAD',val: 'p_load', view: true}
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								{name:'CAPACITY',val: 'capacity', view: true}, 
+								{name:'BALANCE',val: 'balance', view: true},  
+								{name:'% LOAD',val: 'p_load', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true}, 
+								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true}, 
+								{name:'SHIFT QTY',val: 'shift_qty', view: true}
 							];
 				const item_prod = [
-								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true},
-								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
-								{name:'EFFICIENCY (%)',val: 'efficiency', view: true},
-								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
-								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true},
-								{name:'SHIFT QTY',val: 'shift_qty', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true},
-								{name:'CAPACITY',val: 'capacity', view: true},
-								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'MP DL',val: 'mp_dl', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
+								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
+								{name:'CAPACITY',val: 'capacity', view: true},
+								{name:'BALANCE',val: 'balance', view: true},  
 								{name:'% LOAD',val: 'p_load', view: true},
+								{name:'OT PLAN',val: 'ot_plan', view: true},
+								{name:'OT HOURS',val: 'ot_hours', view: true}, 
+								{name:'EFFICIENCY (%)',val: 'efficiency', view: true}, 
+								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true}, 
 								{name:'EXCL TIME',val: 'exc_time', view: true},
 								{name:'% Tot Prod',val: 'tot_productivity', view: true}
+								// {name:'SHIFT QTY',val: 'shift_qty', view: true},
 							]; 
 				var today =  new Date();
 				var ystart='';
 				var yend='';
-				var mDataProd=null;
+				var mDataProd=[];
 				var ppcData=null;
 
 			// load Carline
@@ -280,23 +274,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 					});
 				}
-			// Load Shift
-				function loadShift() {
-					var data = [{id:1,text: 'A',selected:true},{id:2,text:'B'}]
-					$('#select_shif').empty();
-					$('#select_shif').select2({ 
-		 				placeholder: 'Pilih Line ',
-		 				minimumResultsForSearch: -1,
-		 				data: data
-		 			});
-				} 
+			// Load Shift 
 
 			// Autoload
 			loadCarline();
-			loadLine( $('#select_carline').val() );
-			loadShift();
+			loadLine( $('#select_carline').val() ); 
 			getDataPeriode();
-			console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val()+'|s:'+$('#select_shif').val());
+			console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val());
 
 
 			// ====  START SHOW  ======/
@@ -322,15 +306,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){
-		                    	console.log('data ppc:');
-		                    	console.log(data);
+		                    	// console.log('data ppc:');
+		                    	// console.log(data);
 		                    	ppcData = data;
-		                    	for (var i = 0; i < data.length; i++) {
-		                    		var thead = $("#thead_act thead").find("tr");
-			                    	var today = new Date(data[i].tanggal);
-									var currentMonth = today.getMonth();
-			                    	thead.append($('<th class="act">').text(monthName[currentMonth]));
-		                    	}
+
+		                    	// Membuat header
+		                    		if (data.length == 0) { // jika data kosong
+		                    			var thead = $("#thead_act thead").find("tr");
+		                    			thead.append($('<th class="act">').text('No Data'));
+		                    		}
+			                    	for (var i = 0; i < data.length; i++) {
+			                    		var thead = $("#thead_act thead").find("tr");
+				                    	var today = new Date(data[i].tanggal);
+										var currentMonth = today.getMonth();
+				                    	thead.append($('<th class="act">').text(monthName[currentMonth]));
+			                    	}
 		                    	
 		                    	
 		                    	// mengulang kebawah sebanyak item
@@ -347,8 +337,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                    			if (item[y].val=='efficiency' || item[y].val=='p_load') {
 			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(1)+'%';
+			                    			}else if( item[y].val=='order_monthly' || item[y].val=='capacity' ){
+			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(2);
 			                    			}else{
-			                    				tmp_html = data[i][item[y].val]+'%';
+			                    				tmp_html = data[i][item[y].val];
 			                    			}
 			                    			 
 			                    			tr.append(
@@ -368,15 +360,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                // SHOW DATA PROD
 		                $('#tbody_testing').html('');// clear tabel
 		                $('#thead_testing th.monn').remove(); //Clear THEAD
-		            // get Dataa
+		            // get Dataa PROD
 		                $.ajax({
 		                	async: false,
 		                    type : "POST",
-		                    url  : "<?php echo site_url(); ?>/IData/getIDataMonthPick",
+		                    url  : "<?php echo site_url(); ?>/IData/getIDataMonthPickSimulasi",
 		                    dataType : "JSON",
 		                    data : { 
-		                    	id_lstcrln: $('#select_lin').val(),
-		                    	shift: $('#select_shif').val(),
+		                    	id_lstcrln: $('#select_lin').val(), 
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
@@ -384,55 +375,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	console.log('isi data prod:');
 		                    	console.log(data);
 		                    	// return;
-		                    	mDataProd=data;
+		                    	// mDataProd=data;
+		                    	mDataProd=[];
 		                    	// Conf HEADER
+		                    		var tg = '';
+		                    		var lstcr = 0;
+		                    		var i = 0;
 			                    	data.forEach(function(dat){
+			                    		var thed = $('#thead_testing').find('tr'); 
 			                			var tgl = new Date(dat.tanggal);
-			                			var thed = $('#thead_testing').find('tr'); 
-			                			thed.append(
+
+			                			// awal GET
+			                			if (i=0) {
+			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
+			                				thed.append(
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
+			                				//in local DB
+			                				var u_dat = { 
+														mp_dl: dat.mp_dl,
+														mp_idl: dat.mp_idl,
+														umh_shift: dat.umh_shift,
+														working_days: dat.working_days,
+														order_monthly: dat.order_monthly,
+														capacity: dat.capacity,
+														balance: dat.balance,
+														p_load: dat.p_load,
+														ot_plan: dat.ot_plan,
+														ot_hours: dat.ot_hours,
+														efficiency: dat.efficiency, 
+														exc_time: dat.exc_time,
+														tot_productivity: dat.tot_productivity
+													};
+											mDataProd.push(u_dat);
+			                			}
+			                			// jika ini sama dengan sebelumya beda sif
+			                			else if (tg == monthName[tgl.getMonth()] && lstcr == dat.id_carline_has_line ) {
+			                				thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+			                				var last = (mDataProd.length-1); 
+			                				// Penggabungan data dengan sebelumnya 
+											var u_dat = {	
+													mp_dl: Number(mDataProd[last].mp_dl)+Number(dat.mp_dl),
+													mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
+													umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
+													working_days:  dat.working_days,
+													order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
+													capacity: Number(mDataProd[last].capacity)+Number(dat.capacity),
+													balance: Number(mDataProd[last].balance)+Number(dat.balance),
+													p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
+													ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
+													ot_hours: Number(mDataProd[last].ot_hours)+Number(dat.ot_hours),
+													efficiency: Number(mDataProd[last].efficiency)+Number(dat.efficiency),
+													exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
+													tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity)
+												};
+											mDataProd[last] = u_dat;
+			                			}
+			                			//  Blan baru
+			                			else if (tg != monthName[tgl.getMonth()]){
+			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
+			                				//in local DB
+			                				var u_dat = { 
+														mp_dl: dat.mp_dl,
+														mp_idl: dat.mp_idl,
+														umh_shift: dat.umh_shift,
+														working_days: dat.working_days,
+														order_monthly: dat.order_monthly,
+														capacity: dat.capacity,
+														balance: dat.balance,
+														p_load: dat.p_load,
+														ot_plan: dat.ot_plan,
+														ot_hours: dat.ot_hours,
+														efficiency: dat.efficiency, 
+														exc_time: dat.exc_time,
+														tot_productivity: dat.tot_productivity
+													};
+											mDataProd.push(u_dat);
+			                			}
+			                			
 				                    });
-				                    if (data.length==0) {
+				                    if (data.length==0) {//JIKA DATA KOSONG
 				                    	var thed = $('#thead_testing').find('tr'); 
 			                    		thed.append(
-			            						$('<th class="monn">').text( 'no Data' )
+			            						$('<th class="monn">').text( 'No Data' )
 			            					); 
 			                    	}
-
-		                    	// item Y kebawah
-		                    	item_prod.forEach(function(itm){
-		                    		// jika itm ditampilkan
-		                    		if (itm.view ==true) { 
-			                    		var tr = $('<tr>').append(
-			                    					$('<th scope="row" class="sticky_left">').text(itm.name));	
-
-			                    		// Data X samping 
-			                    		var x = 0;
-			                    		data.forEach(function(dat){ 
-
-			                    			if (itm.val=='efficiency' || itm.val=='p_load' ) {
-	                							// tmp_html = parseFloat(data[x][item[y].val]).toFixed(1)+'%';
-	                							tr.append(
-		                    						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
-		                    					); 
-	                						}else{
-	                							tr.append(
-		                    						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
-		                    					); 
-	                						}
-		                    				x++;
-				                    	}); 
-
-			                    		tr.appendTo('#tbody_testing');
-		                    		} 
-		                    	});
-		                    	
 		                    }
 		                });
-	 				
+	 				console.log('isi mdata');
+	 				console.log(mDataProd.length);
+	 				console.log(mDataProd);
+
 	 				// LOAD Char
 	 				loadChart();
+	 				showmData();
 				}
 
 				function showmD() { 
@@ -471,17 +509,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     		// Data X samping 
                     		var x = 0;
-                    		mDataProd.forEach(function(dat){ 
+                    		mDataProd.forEach(function(dat){  
+                    			tmp_html = '';
 
-                    			if (itm.val=='efficiency' || itm.val=='p_load' ) { 
-        							tr.append(
-                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( parseFloat(dat[itm.val]).toFixed(1)+'%' )
-                					); 
-        						}else{
-        							tr.append(
-                						$('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( dat[itm.val] )
-                					); 
+                    			if (itm.val=='efficiency' || itm.val=='p_load' || itm.val=='tot_productivity' ) {  
+        							tmp_html = parseFloat(dat[itm.val]).toFixed(1)+'%' ; 
+        						}else if( itm.val=='order_monthly' || itm.val=='capacity' || itm.val=='balance' || itm.val=='umh_shift'){
+        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(2)) ; 
+        						}else if(itm.val=='ot_plan' || itm.val=='exc_time' ){
+        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(0)) ; 
+        						}else if(itm.val=='ot_hours'){
+        							tmp_html = parseFloat(dat[itm.val]).toFixed(1) ; 
+        						}else{ 
+                					tmp_html = dat[itm.val] ; 
         						}
+
+        						tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );
                 				x++;
 	                    	}); 
 
@@ -669,19 +712,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                color: Highcharts.getOptions().colors[1]
 							            }
 							        },
-							        lineWidth: 1,  
-							        plotLines: [{
-									    color: 'orange', // Color value
-									    dashStyle: 'dashdot', // Style of the plot line. Default to solid
-									    value: 110, // Value of where the line will appear
-									    width: 2 // Width of the line    
-									}],
-							        plotBands: [{
-									    color: 'red', // Color value 
-									    dashStyle: 'ShortDash',  
-									    value: 100, // Value of where the line will appear
-	    								width: 2
-									  }]
+							        lineWidth: 1
 							    }, {
 							    	title: {
 							            text: '% Load',
@@ -696,7 +727,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							            }
 							        },
 							        lineWidth: 1,
-							        opposite: true
+							        opposite: true,
+							        plotLines: [{
+									    color: 'red', // Color value 
+									    dashStyle: 'dashdot', // Style of the plot line. Default to solid
+									    value: 110, // Value of where the line will appear
+									    width: 2 // Width of the line    
+									}],
+							        plotBands: [{
+									    color: 'orange', // Color value
+									    dashStyle: 'ShortDash',  
+									    value: 100, // Value of where the line will appear
+	    								width: 2
+									  }]
 								}
 							], 
 						    tooltip: {
@@ -794,13 +837,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var data = e.params.data;
 						console.log(data.id);  
 						getDataPeriode();
-					});
-				// select Line
-					$('#select_shif').on('select2:select',function(e){
-						var data = e.params.data;
-						console.log(data.id);  
-						getDataPeriode();
-					});
+					}); 
 				// CALENDAR
 					// DAtepickers
 		 			$('.month_range').datepicker({ 
@@ -891,12 +928,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            mDataProd[id][col] = val;
 
 				            if (col=='capacity' || col=='order_monthly') {
-				            	var has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;
+				            	var has=0,has1=0,has2=0;
+				            	if (mDataProd[id].order_monthly != 0) { //PERCENT LOAD
+				            		has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;	
+				            	}
+				            	//BALNCE
+				            		has1 = (Number(mDataProd[id].capacity)-Number(mDataProd[id].order_monthly)); 
+				            	//OT PLan
+				            		has2 = Number(mDataProd[id].order_monthly)-Number(mDataProd[id].capacity); 
 
 				            	console.log(has);
 				            	mDataProd[id].p_load = has;
-				            } 
+				            	mDataProd[id].balance = has1;
+				            	mDataProd[id].ot_plan = has2;
+				            }
+				            if(col=='capacity' || col=='working_days'){
+				            	var has =0;
+				            	// if (mDataProd[id].capacity != 0) { //PERCENT LOAD
+				            	// 	has = mDataProd[id].capacity/mDataProd[id].working_days;
+				            	// }
+				            	has = ((mDataProd[id].mp_dl/100)*100)*7.88*mDataProd[id].working_days;
 
+				            	console.log('umh');
+				            	console.log(has);
+				            	mDataProd[id].umh_shift = has;
+				            }
+				            if( col=='capacity' || col=='ot_plan' || col=='working_days' || col=='mp_idl'){
+
+				            	var has=0;
+				            	// OT HOURS
+				            	if (mDataProd[id].mp_idl !=0) {
+				            		has = ((mDataProd[id].ot_plan/mDataProd[id].mp_idl)*mDataProd[id].working_days)/3600;	
+				            	}
+				            	
+				            	console.log('ot hour:'+has);
+				            	mDataProd[id].ot_hours = has;	
+				            }
+				            if(col=='mp_dl' || col=='working_days' ){
+				            	// EXCL TIME
+				            	var has =0;
+				            	has =(7/60)*mDataProd[id].working_days*2*mDataProd[id].mp_dl;
+				            	console.log('EXC TIme:'+has);
+				            	mDataProd[id].exc_time = has;	
+				            }
+				            if(col=='mp_dl' || col=='exc_time' || col=='umh_shift' || col=='mp_idl' ){
+				            	// tot_productivity
+				            	var has =0;
+				            	has = mDataProd[id].umh_shift/(mDataProd[id].mp_dl+mDataProd[id].mp_idl+mDataProd[id].exc_time);
+				            	console.log('tot_productivity:'+has);
+				            	mDataProd[id].tot_productivity = has;	
+				            }
 				            loadChart();
 				            showmData();
 
