@@ -59,7 +59,7 @@ class IData extends CI_Controller {
 			echo json_encode($result);
 		}
 
-	// new mp idl
+	// new mp idl 
 		public function newIdl()
 		{
 			# code... 
@@ -102,6 +102,92 @@ class IData extends CI_Controller {
 			}
 			echo json_encode($result);
 		}
+	
+	// new mp dl pa
+		public function newDlPa()
+		{
+			# code... 
+			// init
+			$output = array('error' => false);
+
+			//data new
+			$dataDlPa = array(
+				'id_lcp' => $this->input->post('id_lcp'),
+				'cutting' => $this->input->post('cutting'),
+				'midle' => $this->input->post('midle'),
+				'manual' => $this->input->post('manual'),
+				'twist' => $this->input->post('twist'),
+				'shield' => $this->input->post('shield'),
+				'acc' => $this->input->post('acc'),
+				'bonder' => $this->input->post('bonder'),
+				'raycham' => $this->input->post('raycham'),
+				'joint' => $this->input->post('joint'),
+				'hv' => $this->input->post('hv'),
+				'end_strip' => $this->input->post('end_strip'),
+				'total' => $this->input->post('total')
+			);
+
+			$cari = $this->iData_model->cariDLPAByIdLcp($this->input->post('id_lcp'));
+			if($cari){
+				$result = $this->iData_model->updateDLPA($cari->id_lcp,$dataDlPa);
+			}else{
+				// insert data new MP
+				$result = $this->iData_model->createDLPA($dataDlPa);	
+			}
+			$updt = array(
+				'mp_dl' => $this->input->post('total')
+			);
+			$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
+
+			if($result){
+				$output ['status'] = "sukses";
+			}else{
+				$output['error'] = true;
+			}
+			echo json_encode($result);
+		}
+	// new mp idl pa
+		public function newIdlPa()
+		{
+			# code... 
+			// init
+			$output = array('error' => false);
+
+			//data new
+			$dataIdlPA = array(
+				'id_lcp' => $this->input->post('id_lcp'),
+				'line_leader' => $this->input->post('line_leader'),
+				'group_leader' => $this->input->post('group_leader'),
+				'inspector' => $this->input->post('inspector'),
+				'bundling' => $this->input->post('bundling'),
+				'csu' => $this->input->post('csu'),
+				'tanoko_ass' => $this->input->post('tanoko_ass'),
+				'tanoko_insp' => $this->input->post('tanoko_insp'),
+				'sao_bonder' => $this->input->post('sao_bonder'),
+				'helper_cuting' => $this->input->post('helper_cuting'),
+				'chorobiki' => $this->input->post('chorobiki'),
+				'total' => $this->input->post('total')
+			);
+
+			$cari = $this->iData_model->cariIDLPAByIdLcp($this->input->post('id_lcp'));
+			if($cari){
+				$result = $this->iData_model->updateIDLPA($cari->id_lcp,$dataIdlPA);
+			}else{
+				// insert data new MP
+				$result = $this->iData_model->createIDLPA($dataIdlPA);	
+			}
+			$updt = array(
+				'mp_idl' => $this->input->post('total')
+			);
+			$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
+
+			if($result){
+				$output ['status'] = "sukses";
+			}else{
+				$output['error'] = true;
+			}
+			echo json_encode($result);
+		}
 
 	public function getIData()
 	{
@@ -115,8 +201,14 @@ class IData extends CI_Controller {
 			# code...
 			$dat = $this->iData_model->cariMpByIdLcp($value->id);
 			$value->kom_dl = $dat;
+
 			$datr = $this->iData_model->cariMpByIdLcpN($value->id);
 			$value->kom_idl = $datr;
+			
+			$d = $this->iData_model->cariDLPAByIdLcp($value->id);
+			$value->kom_dl_pa = $d;
+			$da = $this->iData_model->cariIDLPAByIdLcp($value->id);
+			$value->kom_idl_pa = $da;
 		}
 		echo json_encode($data);
 	}

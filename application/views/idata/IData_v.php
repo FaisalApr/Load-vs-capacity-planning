@@ -294,7 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp" type="hidden">
+											<input id="id_lcp2" type="hidden">
 									</div>
 								</div>
 
@@ -418,14 +418,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<h4 class="modal-title">Detail komposisi MP IDL</h4>
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
 						</div>
-						<form id="form_IDL">
+						<form id="form_IDLPA">
 						<div class="modal-body">
 							<!-- row pertama -->
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Line Leader</label>
-											<input class="form-control" type="number" id="i_line_leader"  >
+											<input class="form-control" type="number" id="i_line_lead"  >
 										</div>	
 									</div>
 									<div class="col-md-4">
@@ -458,7 +458,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Ass</label>
-											<input class="form-control" type="number" id="i_tanoko_ass" >
+											<input class="form-control" type="number" id="i_tanoko_as" >
 										</div>
 									</div>
 								</div>
@@ -467,7 +467,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Insp</label>
-											<input class="form-control" type="number" id="i_tanoko_insp" >
+											<input class="form-control" type="number" id="i_tanoko_ins" >
 										</div>	
 									</div>
 									<div class="col-md-4">
@@ -487,13 +487,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label>Choroboki</label>
-											<input class="form-control" type="number" id="i_choroboki" >
+											<label>chorobiki</label>
+											<input class="form-control" type="number" id="i_chorobik" >
 										</div>	
 									</div>
 									
 									<div class="col-md-4">
-											<input id="id_lcp4" type="hidden">
+											<input id="id_lcp4" type="text">
 									</div>
 								</div>
 
@@ -534,6 +534,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var ystart = today.getFullYear();
 				var yend = (today.getFullYear()+1);
 				var mData = null;
+				var PA = false;
 			// method INIT
 				// load Carline
 					function loadCarline() { 
@@ -621,9 +622,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// select Line
 					$('#select_lin').on('select2:select',function(e){
 						var data = e.params.data;
-						// console.log(data);  
+						// console.log(data);
+						PA = false;  
 						if (data.text=='PA') {
-							alert('ini PA');
+							PA = true;
 						}
 						getDataPeriode($('#select_lin').val(), $('#select_shif').val());
 					});
@@ -709,6 +711,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			var col = ''; 
 		                    			var kom_dl = [];
 		                    			var kom_idl = [];
+		                    			var kom_dl_pa = [];
+		                    			var kom_idl_pa = [];
 
 		                    				for (var x = 0; x < data.length; x++) { 
 
@@ -737,6 +741,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						mid = x;
 		                    						kom_dl = data[x].kom_dl;
 		                    						kom_idl = data[x].kom_idl;
+		                    						kom_dl_pa = data[x].kom_dl_pa;
+		                    						kom_idl_pa = data[x].kom_idl_pa;
 		                    					}
 
 		                    				}      	
@@ -744,7 +750,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			if (col=='') {col = item[y].val;}
 
 		                    			tr.append(
-		                    						$(`<td class='inner' data-kom_idl='`+JSON.stringify(kom_idl)+`' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
+		                    						$(`<td class='inner' data-kom_idl_pa='`+JSON.stringify(kom_idl_pa)+`' data-kom_dl_pa='`+JSON.stringify(kom_dl_pa)+`' data-kom_idl='`+JSON.stringify(kom_idl)+`' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
 			                    			 	); 	
 			                    	}
 
@@ -769,46 +775,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var bln = $(this).data('periode_bln');
 			        var kom_dl = $(this).data('kom_dl');
 			        var kom_idl = $(this).data('kom_idl');
+			        var kom_dl_pa = $(this).data('kom_dl_pa');
+			        var kom_idl_pa = $(this).data('kom_idl_pa');
 			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mid: '+mid);
-			        console.log(kom_dl);
+			        // console.log(kom_dl);
 			        console.log(kom_idl);
+				    // console.log(kom_dl_pa);
+				    // console.log(kom_idl_pa);
 			        
 			        if(col=='mp_dl'){
-			        	$('#i_detail_dl_modal').modal('show');
-			        	if(kom_dl!=false){
-			        		$('#i_housing_bt').val(kom_dl.housing_bt);
-			        		$('#i_insert').val(kom_dl.insert_plug);
-			        		$('#i_setting').val(kom_dl.setting);
-			        		$('#i_tapping').val(kom_dl.taping);
-			        		$('#i_sp').val(kom_dl.sp);
-			        		$('#i_offline').val(kom_dl.offline);
-			        		$('#i_grommet').val(kom_dl.grommet);
-			        		$('#i_housing_ck').val(kom_dl.housing_ck);
-			        		$('#i_checker').val(kom_dl.checker_gri);
-			        		$('#i_dimcheck').val(kom_dl.dimchecker_sig);
-			        		$('#i_vis').val(kom_dl.vis);
+			        	if(PA==false){
+			        		$('#i_detail_dl_modal').modal('show');
+			        		if(kom_dl!=false){
+				        		$('#i_housing_bt').val(kom_dl.housing_bt);
+				        		$('#i_insert').val(kom_dl.insert_plug);
+				        		$('#i_setting').val(kom_dl.setting);
+				        		$('#i_tapping').val(kom_dl.taping);
+				        		$('#i_sp').val(kom_dl.sp);
+				        		$('#i_offline').val(kom_dl.offline);
+				        		$('#i_grommet').val(kom_dl.grommet);
+				        		$('#i_housing_ck').val(kom_dl.housing_ck);
+				        		$('#i_checker').val(kom_dl.checker_gri);
+				        		$('#i_dimcheck').val(kom_dl.dimchecker_sig);
+				        		$('#i_vis').val(kom_dl.vis);
+			        		}
+			        		$('#id_lcp').val(id);
+			        	}else{
+			        		$('#mp_dl_pa_modal').modal('show');
+			        		if(kom_dl_pa!=false){
+				        		$('#i_cutting').val(kom_dl_pa.cutting);
+				        		$('#i_midle').val(kom_dl_pa.midle);
+				        		$('#i_manual').val(kom_dl_pa.manual);
+				        		$('#i_twist').val(kom_dl_pa.twist);
+				        		$('#i_shield').val(kom_dl_pa.shield);
+				        		$('#i_acc').val(kom_dl_pa.acc);
+				        		$('#i_bonder').val(kom_dl_pa.bonder);
+				        		$('#i_raycham').val(kom_dl_pa.raycham);
+				        		$('#i_joint').val(kom_dl_pa.joint);
+				        		$('#i_hv').val(kom_dl_pa.hv);
+				        		$('#i_end_strip').val(kom_dl_pa.end_strip);
+			        		}
+			        		$('#id_lcp3').val(id);
 			        	}
+			        	
 
 			        	$('#working_id').val( mData[mid].working_days );
-			        	$('#id_lcp').val(id);
+			        	
 			        	$('#id_mid').val(mid);
 
 			        }else if(col=='mp_idl'){
-			        	$('#i_detail_idl_modal').modal('show');
-		        		if(kom_idl!=false){
-			        		$('#i_tpo').val(kom_idl.tpo);
-			        		$('#i_material_supply').val(kom_idl.material_supply);
-			        		$('#i_circuit_Supply').val(kom_idl.circuit_supply);
-			        		$('#i_supply_fuse').val(kom_idl.supply_fuse);
-			        		$('#i_chorobiki').val(kom_idl.chorobiki);
-			        		$('#i_pic_repair').val(kom_idl.pic_repair);
-			        		$('#i_tanoko_ass').val(kom_idl.tanoko_ass);
-			        		$('#i_tanoko_insp').val(kom_idl.tanoko_insp);
-			        		$('#i_gl_ass').val(kom_idl.gl_ass);
-			        		$('#i_gl_insp').val(kom_idl.gl_insp);
-			        		$('#i_line_leader').val(kom_idl.line_leader);	
-		        		}
-			        	$('#id_lcp').val(id);
+			        	if(PA==false){
+			        		$('#i_detail_idl_modal').modal('show');
+			        		if(kom_idl!=false){
+				        		$('#i_tpo').val(kom_idl.tpo);
+				        		$('#i_material_supply').val(kom_idl.material_supply);
+				        		$('#i_circuit_Supply').val(kom_idl.circuit_supply);
+				        		$('#i_supply_fuse').val(kom_idl.supply_fuse);
+				        		$('#i_chorobiki').val(kom_idl.chorobiki);
+				        		$('#i_pic_repair').val(kom_idl.pic_repair);
+				        		$('#i_tanoko_ass').val(kom_idl.tanoko_ass);
+				        		$('#i_tanoko_insp').val(kom_idl.tanoko_insp);
+				        		$('#i_gl_ass').val(kom_idl.gl_ass);
+				        		$('#i_gl_insp').val(kom_idl.gl_insp);
+				        		$('#i_line_leader').val(kom_idl.line_leader);	
+			        		}
+			        		$('#id_lcp2').val(id);
+			        	}else{
+			        		$('#mp_idl_pa_modal').modal('show');	
+			        		if(kom_idl_pa!=false){
+
+				        		$('#i_line_lead').val(kom_idl_pa.line_leader);
+				        		$('#i_group_leader').val(kom_idl_pa.group_leader);
+				        		$('#i_inspector').val(kom_idl_pa.inspector);
+				        		$('#i_bundling').val(kom_idl_pa.bundling);
+				        		$('#i_csu').val(kom_idl_pa.csu);
+				        		$('#i_tanoko_as').val(kom_idl_pa.tanoko_ass);
+				        		$('#i_tanoko_ins').val(kom_idl_pa.tanoko_insp);
+				        		$('#i_sao_bonder').val(kom_idl_pa.sao_bonder);
+				        		$('#i_helper_cuting').val(kom_idl_pa.helper_cuting);
+				        		$('#i_chorobik').val(kom_idl_pa.chorobiki);	
+			        		}
+			        		$('#id_lcp4').val(id);
+			        	}
+			        	
+			        	
 			        }else{
 			        	updateVal(currentEle, value, id, col, bln, mid);	
 			        }
@@ -925,38 +975,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
  			
  			// FUnction POST UPDATE V
- 			function postValue(idnya,col, has, bln,tgl) {
- 				$.ajax({
-            		async: false,
-                    type : "POST",
-                    url  : "<?php echo site_url(); ?>/IData/updateIData",
-                    dataType : "JSON",
-                    data : { 
-                    	id: idnya,
-                    	col: col,
-                    	val: has,
-                    	bln: bln,
-                    	lst_cr: $('#select_lin').val(),
-                    	tgl: tgl,
-                    	sif: $('#select_shif').val()
-                    },
-                    beforeSend: function(){
-	                	Swal.fire({ 
-						    allowEscapeKey: false,
-						    allowOutsideClick: false,
-						    title: "", 
-						    showConfirmButton: false,
-						    onOpen: () => {
-						      swal.showLoading();
-						    }
-						  });
-	                },
-                    success: function(data){ 
-                    	Swal.close();   
-                    	// console.log(data);
-                    }
-                });
- 			}
+	 			function postValue(idnya,col, has, bln,tgl) {
+	 				$.ajax({
+	            		async: false,
+	                    type : "POST",
+	                    url  : "<?php echo site_url(); ?>/IData/updateIData",
+	                    dataType : "JSON",
+	                    data : { 
+	                    	id: idnya,
+	                    	col: col,
+	                    	val: has,
+	                    	bln: bln,
+	                    	lst_cr: $('#select_lin').val(),
+	                    	tgl: tgl,
+	                    	sif: $('#select_shif').val()
+	                    },
+	                    beforeSend: function(){
+		                	Swal.fire({ 
+							    allowEscapeKey: false,
+							    allowOutsideClick: false,
+							    title: "", 
+							    showConfirmButton: false,
+							    onOpen: () => {
+							      swal.showLoading();
+							    }
+							  });
+		                },
+	                    success: function(data){ 
+	                    	Swal.close();   
+	                    	// console.log(data);
+	                    }
+	                });
+	 			}
 
 
 			//input mp dl
@@ -974,6 +1024,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var dimchecker_sig = Number(document.getElementById("i_dimcheck").value);
 						var vis = Number(document.getElementById("i_vis").value); 			
 						var total = housing_bt+insert_plug+seting+taping+sp+offline+grommet+housing_ck+checker_gri+dimchecker_sig+vis;
+
 					console.log(total);
 					$.ajax({
 						async : false,
@@ -1052,7 +1103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						url : "<?php echo base_url() ?>index.php/IData/newIdl",
 						dataType : "JSON",
 						data : {
-							id_lcp : $('#id_lcp').val(),
+							id_lcp : $('#id_lcp2').val(),
 							tpo : tpo,
 							material_supply : material_supply,
 							circuit_supply : circuit_supply,
@@ -1070,6 +1121,124 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							$('#i_detail_idl_modal').modal('hide');
 							$('#form_IDL').trigger('reset');
+							// document.getElementById("form_DL").reset();
+						}
+					});
+					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
+					// show(id_pdo);
+				});
+			//input mp dl pa
+				$('#btn_submit3').click(function(){ 
+	   				// 
+						var i_cutting = Number(document.getElementById("i_cutting").value);
+						var i_midle = Number(document.getElementById("i_midle").value);
+						var i_manual = Number(document.getElementById("i_manual").value);
+						var i_twist = Number(document.getElementById("i_twist").value);
+						var i_shield = Number(document.getElementById("i_shield").value);
+						var i_acc = Number(document.getElementById("i_acc").value);
+						var i_bonder = Number(document.getElementById("i_bonder").value);
+						var i_raycham = Number(document.getElementById("i_raycham").value);
+						var i_joint = Number(document.getElementById("i_joint").value);
+						var i_hv = Number(document.getElementById("i_hv").value);
+						var i_end_strip = Number(document.getElementById("i_end_strip").value);
+						var total = i_cutting+i_midle+i_manual+i_twist+i_shield+i_acc+i_bonder+i_raycham+i_joint+i_hv+i_end_strip;
+
+					console.log(total);
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo base_url() ?>index.php/IData/newDlPa",
+						dataType : "JSON",
+						data : {
+							id_lcp : $('#id_lcp3').val(),
+							cutting: i_cutting,
+							midle : i_midle,
+							manual : i_manual,
+							twist : i_twist,
+							shield : i_shield,
+							acc : i_acc,
+							bonder : i_bonder,
+							raycham : i_raycham,
+ 							joint : i_joint,
+							hv : i_hv,
+							end_strip : i_end_strip ,
+							total : total
+						},
+						beforeSend: function(){
+		                	Swal.fire({ 
+							    allowEscapeKey: false,
+							    allowOutsideClick: false,
+							    title: "", 
+							    showConfirmButton: false,
+							    onOpen: () => {
+							      swal.showLoading();
+							    }
+							  });
+		                },
+						success : function(response){
+							Swal.close();
+							
+							$('#mp_dl_pa_modal').modal('hide');
+							
+							// document.getElementById("form_DL").reset();
+						}
+					});
+
+					// hitungan
+						var mid = $('#id_mid').val();
+						// Jumlah UMH
+							var umh = (total/100*100)*7.88*$('#working_id').val();
+							console.log('hasil umh: '+umh);
+						postValue($('#id_lcp').val(), 'umh_shift' , umh, '',''); 
+						// OT PLAN
+							var excl = (7*60)*mData[mid].working_days*2*total;
+							console.log('hsil excl: '+excl);
+						postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+
+					// REFRESH
+					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
+					$('#form_DL_pa').trigger('reset');
+				});
+			//input mp idl pa
+				$('#btn_submit4').click(function(){ 
+					
+					var i_line_lead = Number(document.getElementById("i_line_lead").value);
+					var i_group_leader = Number(document.getElementById("i_group_leader").value);
+					var i_inspector = Number(document.getElementById("i_inspector").value);
+					var i_bundling = Number(document.getElementById("i_bundling").value);
+					var i_csu = Number(document.getElementById("i_csu").value);
+					var i_tanoko_as = Number(document.getElementById("i_tanoko_as").value);
+					var i_tanoko_ins = Number(document.getElementById("i_tanoko_ins").value);
+					var i_sao_bonder = Number(document.getElementById("i_sao_bonder").value);
+					var i_helper_cuting = Number(document.getElementById("i_helper_cuting").value);
+					var i_chorobik = Number(document.getElementById("i_chorobik").value);
+					
+					var total = i_line_lead+i_group_leader+i_inspector+i_bundling+i_csu+i_tanoko_as+i_tanoko_ins+i_sao_bonder+i_helper_cuting+i_chorobik;
+					console.log()
+					console.log(total);
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo base_url() ?>index.php/IData/newIdlPa",
+						dataType : "JSON",
+						data : {
+							id_lcp : $('#id_lcp4').val(),
+							line_leader : i_line_lead,
+							group_leader : i_group_leader,
+							inspector : i_inspector,
+							bundling : i_bundling,
+							csu : i_csu,
+							tanoko_ass : i_tanoko_as,
+							tanoko_insp : i_tanoko_ins,
+							sao_bonder : i_sao_bonder,
+							helper_cuting : i_helper_cuting,
+							chorobiki : i_chorobik,
+							total:total 
+						},
+						success : function(response){
+
+							$('#mp_idl_pa_modal').modal('hide');
+							$('#form_IDLPA').trigger('reset');
 							// document.getElementById("form_DL").reset();
 						}
 					});

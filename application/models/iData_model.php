@@ -81,7 +81,54 @@ class iData_model extends CI_Model {
 			return $this->db->update('mp_idl', $data);
 		}
 
+	// MP DL PA
+		public function cariDLPAByIdLcp($id)
+		{
+			# code...
+			$query = $this->db->query("SELECT * FROM mp_dl_pa WHERE id_lcp=$id"); 
+			
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
 
+		}
+		public function createDLPA($data)
+		{
+			# code...
+			return $this->db->insert('mp_dl_pa', $data);
+		}
+		public function updateDLPA($id,$data)
+		{
+			# code...
+			$this->db->where('id_lcp', $id);
+			return $this->db->update('mp_dl_pa', $data);
+		}
+
+	// MP IDL PA 
+		public function cariIDLPAByIdLcp($id)
+		{
+			# code...
+			$query = $this->db->query("SELECT * FROM mp_idl_pa WHERE id_lcp=$id"); 
+			
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+		public function createIDLPA($data)
+		{
+			# code...
+			return $this->db->insert('mp_idl_pa', $data);
+		}
+		public function updateIDLPA($id,$data)
+		{
+			# code...
+			$this->db->where('id_lcp', $id);
+			return $this->db->update('mp_idl_pa', $data);
+		}
 
 	public function insertDataI($data)
 	{ 
