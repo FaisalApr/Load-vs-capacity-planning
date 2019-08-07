@@ -26,7 +26,31 @@ class iData_model extends CI_Model {
 		}
 	}
 
-	
+
+	public function cariMpByIdLcp($id)
+	{
+		# code...
+		$query = $this->db->query("SELECT * FROM komposisi_mp WHERE id_lcp=$id"); 
+		
+		if($query->num_rows()>0){
+			return $query->first_row();
+		}else{
+			return false;
+		}
+
+	}
+	public function createMP($data)
+	{
+		# code...
+		return $this->db->insert('komposisi_mp', $data);
+	}
+	public function updateMP($id,$data)
+	{
+		# code...
+		$this->db->where('id_lcp', $id);
+		return $this->db->update('komposisi_mp', $data);
+	}
+
 	public function insertDataI($data)
 	{ 
  		return $this->db->insert('main_lcp', $data);

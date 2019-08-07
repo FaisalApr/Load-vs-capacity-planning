@@ -102,6 +102,115 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>	
 </div>
 
+<!-- START KUMPULAN MODAL  -->
+	<div>
+		<!-- START INPUT -->`
+			<div class="modal fade" id="i_detail_dl_modal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Detail komposisi MP DL</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<form id="form_DL">
+						<div class="modal-body">
+							<!-- row pertama -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Housing + BT</label>
+											<input class="form-control" type="number" id="i_housing_bt"  >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Insert Plug</label>
+											<input class="form-control" type="number" id="i_insert" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Setting</label>
+											<input class="form-control" type="number" id="i_setting" >
+										</div>
+									</div>
+								</div>
+							<!-- row kedua -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Taping</label>
+											<input class="form-control" type="number" id="i_tapping" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>SP</label>
+											<input class="form-control" type="number" id="i_sp" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Offline</label>
+											<input class="form-control" type="number" id="i_offline" >
+										</div>
+									</div>
+								</div>
+							<!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Grommet</label>
+											<input class="form-control" type="number" id="i_grommet" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Housing/CK A/B</label>
+											<input class="form-control" type="number" id="i_housing_ck" >
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Checker + GRI</label>
+											<input class="form-control" type="number" id="i_checker" >
+										</div>
+									</div>
+								</div>
+							 <!-- row ketiga -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Dimcheck + Sig</label>
+											<input class="form-control" type="number" id="i_dimcheck" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Vis</label>
+											<input class="form-control" type="number" id="i_vis" >
+										</div>
+									</div>
+									<div class="col-md-4">
+											<input id="id_lcp" type="hidden">
+									</div>
+								</div>
+
+
+						</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" id="btn_submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- END INPUT -->
+	</div>
+<!-- END KUMPULAN MODAL -->
+
+
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
@@ -281,7 +390,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    success: function(data){
 	                    	mData = data;
 	                    	// console.log('isi');
-	                    	// console.log(data);
+	                    	console.log(data);
 
 	                    	$("#tbody_data").html('');
 	                    	
@@ -299,6 +408,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			var tmp_html='';
 		                    			var id =0,val=0,mid=0;
 		                    			var col = ''; 
+		                    			var kom_dl = [];
 
 		                    				for (var x = 0; x < data.length; x++) { 
 
@@ -317,6 +427,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						val = data[x][item[y].val];
 		                    						col = item[y].val; 
 		                    						mid = x;
+		                    						kom_dl = data[x].kom_dl;
 		                    					}
 
 		                    				}      	
@@ -324,7 +435,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			if (col=='') {col = item[y].val;}
 
 		                    			tr.append(
-		                    						$('<td class="inner" data-id="'+id+'" data-col="'+col+'" data-periode_bln="'+periode[i]+'" data-val="'+val+'" data-mid="'+mid+'">').text(tmp_html)
+		                    						$(`<td class='inner' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
 			                    			 	); 	
 			                    	}
 
@@ -347,11 +458,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var col = $(this).data('col');
 			        var mid = $(this).data('mid'); 
 			        var bln = $(this).data('periode_bln');
-
+			        var kom_dl = $(this).data('kom_dl');
 			        console.log('id data: '+id+' col: '+col +'| bln: '+bln+'|mid: '+mid);
+			        console.log(kom_dl);
 
-			        updateVal(currentEle, value, id, col, bln, mid);
+			        
+			        if(col=='mp_dl'){
+			        	$('#i_detail_dl_modal').modal('show');
+			        	if(kom_dl!=false){
+			        		$('#i_housing_bt').val(kom_dl.housing_bt);
+			        		$('#i_insert').val(kom_dl.insert_plug);
+			        		$('#i_setting').val(kom_dl.setting);
+			        		$('#i_tapping').val(kom_dl.taping);
+			        		$('#i_sp').val(kom_dl.sp);
+			        		$('#i_offline').val(kom_dl.offline);
+			        		$('#i_grommet').val(kom_dl.grommet);
+			        		$('#i_housing_ck').val(kom_dl.housing_ck);
+			        		$('#i_checker').val(kom_dl.checker_gri);
+			        		$('#i_dimcheck').val(kom_dl.dimchecker_sig);
+			        		$('#i_vis').val(kom_dl.vis);
+			        	}
+			        	$('#id_lcp').val(id);
+			        }else{
+			        	updateVal(currentEle, value, id, col, bln, mid);	
+			        }
+
 			    });
+
+
 
 			    function updateVal(currentEle, value, id, col, bln, mid) { 
 				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
@@ -492,7 +626,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    });
 				}
  
-
+			//input mp dl
+				$('#btn_submit').click(function(){ 
+	   				
+					var housing_bt = Number(document.getElementById("i_housing_bt").value);
+					var insert_plug = Number(document.getElementById("i_insert").value);
+					var seting = Number(document.getElementById("i_setting").value);
+					var taping = Number(document.getElementById("i_tapping").value);
+					var sp = Number(document.getElementById("i_sp").value);
+					var offline = Number(document.getElementById("i_offline").value);
+					var grommet = Number(document.getElementById("i_grommet").value);
+					var housing_ck = Number(document.getElementById("i_housing_ck").value);
+					var checker_gri = Number(document.getElementById("i_checker").value);
+					var dimchecker_sig = Number(document.getElementById("i_dimcheck").value);
+					var vis = Number(document.getElementById("i_vis").value);
+					
+					var total = housing_bt+insert_plug+seting+taping+sp+offline+grommet+housing_ck+checker_gri+dimchecker_sig+vis;
+					console.log(total);
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo base_url() ?>index.php/IData/newMP",
+						dataType : "JSON",
+						data : {
+							id_lcp : $('#id_lcp').val(),
+							housing_bt: housing_bt,
+							insert_plug : insert_plug,
+							setting : seting,
+							taping : taping,
+							sp : sp,
+							offline : offline,
+							grommet : grommet,
+							housing_ck : housing_ck,
+							checker_gri : checker_gri,
+							dimchecker_sig : dimchecker_sig,
+							vis : vis,
+							total : total
+						},
+						success : function(response){
+							
+							$('#i_detail_dl_modal').modal('hide');
+							$('#form_DL').trigger('reset');
+							// document.getElementById("form_DL").reset();
+						}
+					});
+					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
+					// show(id_pdo);
+				});
 
 		});
 	</script>

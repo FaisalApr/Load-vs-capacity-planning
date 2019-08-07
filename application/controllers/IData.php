@@ -16,6 +16,51 @@ class IData extends CI_Controller {
 	}
 
 
+	public function newMP()
+	{
+		# code... 
+		// init
+		$output = array('error' => false);
+
+		//data new
+		$dataMP = array(
+			'id_lcp' => $this->input->post('id_lcp'),
+			'housing_bt' => $this->input->post('housing_bt'),
+			'insert_plug' => $this->input->post('insert_plug'),
+			'setting' => $this->input->post('setting'),
+			'taping' => $this->input->post('taping'),
+			'sp' => $this->input->post('sp'),
+			'offline' => $this->input->post('offline'),
+			'grommet' => $this->input->post('grommet'),
+			'housing_ck' => $this->input->post('housing_ck'),
+			'checker_gri' => $this->input->post('checker_gri'),
+			'dimchecker_sig	' => $this->input->post('dimchecker_sig'),
+			'vis' => $this->input->post('vis'),
+			'total' => $this->input->post('total'),
+		);
+
+		$cari = $this->iData_model->cariMpByIdLcp($this->input->post('id_lcp'));
+		if($cari){
+			$result = $this->iData_model->updateMP($cari->id_lcp,$dataMP);
+		}else{
+			// insert data new MP
+			$result = $this->iData_model->createMP($dataMP);	
+		}
+		$updt = array(
+			'mp_dl' => $this->input->post('total')
+		);
+		$res = $this->iData_model->updateDataI($this->input->post('id_lcp'),$updt);
+
+		if($result){
+			$output ['status'] = "sukses";
+		}else{
+			$output['error'] = true;
+		}
+		echo json_encode($result);
+		
+
+	}
+
 	public function getIData()
 	{
 		$id_lstcrln = $this->input->post('id_lstcrln');
@@ -24,7 +69,11 @@ class IData extends CI_Controller {
 		$end = ($this->input->post('yend')).'-06-30';
 
 		$data  =  $this->iData_model->cariDataPeriode($id_lstcrln,$shift,$start,$end);
-
+		foreach ($data as $key => $value) {
+			# code...
+			$dat = $this->iData_model->cariMpByIdLcp($value->id);
+			$value->kom_dl = $dat;
+		}
 		echo json_encode($data);
 	}
 

@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div  style="margin-top: 50px; margin-right: -50px" >
 						<div class="da-card box-shadow">
 							<div class="da-card-photo">
-								<img src="<?php echo base_url() ?>assets/vendors/images/img3.jpg" alt="">
+								<img src="<?php echo base_url() ?>assets/vendors/images/Capture.png" alt="" style="height: 270px; width: 500px" >
 								<div class="da-overlay">
 									<div class="da-social">
 										<a href="<?php echo site_url() ?>/IData" >
@@ -69,12 +69,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div  style="margin-top: 50px; margin-right: -50px" >
 						<div class="da-card box-shadow">
 							<div class="da-card-photo">
-								<img src="<?php echo base_url() ?>assets/vendors/images/img3.jpg" alt="">
+								<img src="<?php echo base_url() ?>assets/vendors/images/w.png" alt="">
 								<div class="da-overlay">
 									<div class="da-social">
 										<a href="<?php echo site_url() ?>/Simulasi" >
 											<div class="clearfix simulasi" style="outline: 2px solid white; vertical-align: center">
-												<h3 class="simulasi" style="padding: 4px">&nbsp Simulasi &nbsp</h3>
+												<h3 class="simulasi" style="padding: 4px">&nbsp Summary &nbsp</h3>
 											</div>
 										</a>
 										
