@@ -807,6 +807,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    // console.log(kom_dl_pa);
 				    // console.log(kom_idl_pa);
 			        
+			        if (id == 0) {
+			        	Swal.fire({
+			        		title:'Data Tidak Tersedia',
+			        		text:'Silahkan Import file PPC dahulu'
+			        	});
+			        	return;
+			        }
 			        if(col=='mp_dl'){
 			        	if(PA==false){
 			        		$('#i_detail_dl_modal').modal('show');
