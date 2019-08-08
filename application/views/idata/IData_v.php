@@ -116,19 +116,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Housing + BT</label>
-											<input class="form-control" type="number" id="i_housing_bt"  >
+											<input class="form-control num" type="number" id="i_housing_bt"  >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Insert Plug</label>
-											<input class="form-control" type="number" id="i_insert" >
+											<input class="form-control num" type="number" id="i_insert" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Setting</label>
-											<input class="form-control" type="number" id="i_setting" >
+											<input class="form-control num" type="number" id="i_setting" >
 										</div>
 									</div>
 								</div>
@@ -137,19 +137,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Taping</label>
-											<input class="form-control" type="number" id="i_tapping" >
+											<input class="form-control num" type="number" id="i_tapping" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>SP</label>
-											<input class="form-control" type="number" id="i_sp" >
+											<input class="form-control num" type="number" id="i_sp" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Offline</label>
-											<input class="form-control" type="number" id="i_offline" >
+											<input class="form-control num" type="number" id="i_offline" >
 										</div>
 									</div>
 								</div>
@@ -158,19 +158,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Grommet</label>
-											<input class="form-control" type="number" id="i_grommet" >
+											<input class="form-control num" type="number" id="i_grommet" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Housing/CK A/B</label>
-											<input class="form-control" type="number" id="i_housing_ck" >
+											<input class="form-control num" type="number" id="i_housing_ck" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Checker + GRI</label>
-											<input class="form-control" type="number" id="i_checker" >
+											<input class="form-control num" type="number" id="i_checker" >
 										</div>
 									</div>
 								</div>
@@ -179,17 +179,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Dimcheck + Sig</label>
-											<input class="form-control" type="number" id="i_dimcheck" >
+											<input class="form-control num" type="number" id="i_dimcheck" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Vis</label>
-											<input class="form-control" type="number" id="i_vis" >
+											<input class="form-control num" type="number" id="i_vis" >
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp" type="hidden">
+											<label style="font-size: 18px"> Total MP: </label> <br>
+											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost" class="cost">&nbsp&nbsp&nbsp&nbsp0</label>
+											<input class="form-control" id="id_lcp" type="hidden">
 											<input id="working_id" type="hidden">
 											<input type="hidden" id="id_mid">
 									</div>
@@ -221,19 +223,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>TPO</label>
-											<input class="form-control" type="number" id="i_tpo"  >
+											<input class="form-control num2" type="number" id="i_tpo"  >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Material Supply</label>
-											<input class="form-control" type="number" id="i_material_supply" >
+											<input class="form-control num2" type="number" id="i_material_supply" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Circuit Supply</label>
-											<input class="form-control" type="number" id="i_circuit_Supply" >
+											<input class="form-control num2" type="number" id="i_circuit_Supply" >
 										</div>
 									</div>
 								</div>
@@ -242,19 +244,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Supply Fuse</label>
-											<input class="form-control" type="number" id="i_supply_fuse" >
+											<input class="form-control num2" type="number" id="i_supply_fuse" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Chorobiki A/B</label>
-											<input class="form-control" type="number" id="i_chorobiki" >
+											<input class="form-control num2" type="number" id="i_chorobiki" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>PIC Repair</label>
-											<input class="form-control" type="number" id="i_pic_repair" >
+											<input class="form-control num2" type="number" id="i_pic_repair" >
 										</div>
 									</div>
 								</div>
@@ -263,19 +265,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Ass</label>
-											<input class="form-control" type="number" id="i_tanoko_ass" >
+											<input class="form-control num2" type="number" id="i_tanoko_ass" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Insp</label>
-											<input class="form-control" type="number" id="i_tanoko_insp" >
+											<input class="form-control num2" type="number" id="i_tanoko_insp" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>GL Ass</label>
-											<input class="form-control" type="number" id="i_gl_ass" >
+											<input class="form-control num2" type="number" id="i_gl_ass" >
 										</div>
 									</div>
 								</div>
@@ -284,17 +286,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>GL Insp</label>
-											<input class="form-control" type="number" id="i_gl_insp" >
+											<input class="form-control num2" type="number" id="i_gl_insp" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Line Leader</label>
-											<input class="form-control" type="number" id="i_line_leader" >
+											<input class="form-control num2" type="number" id="i_line_leader" >
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp2" type="hidden">
+											<label style="font-size: 18px"> Total MP: </label> <br>
+											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost2" class="cost2">&nbsp&nbsp&nbsp&nbsp0</label>
+											<input class="form-control" id="id_lcp2" type="hidden">
 									</div>
 								</div>
 
@@ -324,19 +328,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Cutting</label>
-											<input class="form-control" type="number" id="i_cutting">
+											<input class="form-control num3" type="number" id="i_cutting">
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Midle</label>
-											<input class="form-control" type="number" id="i_midle">
+											<input class="form-control num3" type="number" id="i_midle">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Manual</label>
-											<input class="form-control" type="number" id="i_manual" >
+											<input class="form-control num3" type="number" id="i_manual" >
 										</div>
 									</div>
 								</div>
@@ -345,19 +349,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Twist</label>
-											<input class="form-control" type="number" id="i_twist" >
+											<input class="form-control num3" type="number" id="i_twist" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Shield</label>
-											<input class="form-control" type="number" id="i_shield">
+											<input class="form-control num3" type="number" id="i_shield">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Acc</label>
-											<input class="form-control" type="number" id="i_acc" >
+											<input class="form-control num3" type="number" id="i_acc" >
 										</div>
 									</div>
 								</div>
@@ -366,19 +370,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Bonder</label>
-											<input class="form-control" type="number" id="i_bonder" >
+											<input class="form-control num3" type="number" id="i_bonder" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Raycham</label>
-											<input class="form-control" type="number" id="i_raycham">
+											<input class="form-control num3" type="number" id="i_raycham">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Joint</label>
-											<input class="form-control" type="number" id="i_joint">
+											<input class="form-control num3" type="number" id="i_joint">
 										</div>
 									</div>
 								</div>
@@ -387,18 +391,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>HV</label>
-											<input class="form-control" type="number" id="i_hv">
+											<input class="form-control num3" type="number" id="i_hv">
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>End Strip</label>
-											<input class="form-control" type="number" id="i_end_strip">
+											<input class="form-control num3" type="number" id="i_end_strip">
 										</div>
 									</div>
 									<div class="col-md-4">
-											<input id="id_lcp3" type="hidden">
+										<div class="form-group">
+											<label style="font-size: 18px"> Total MP: </label> <br>
+											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost3" class="cost3">&nbsp&nbsp&nbsp&nbsp0</label>
+											<input class="form-control" id="id_lcp3" type="hidden">
+										</div>
 									</div>
+									
+									<!-- <div class="col-md-4">
+										<div class="form-group">
+											
+										</div>	
+									</div> -->
+									
 								</div>
 						</div>
 						</form>
@@ -425,19 +440,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Line Leader</label>
-											<input class="form-control" type="number" id="i_line_lead"  >
+											<input class="form-control num4" type="number" id="i_line_lead"  >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Group leader</label>
-											<input class="form-control" type="number" id="i_group_leader" >
+											<input class="form-control num4" type="number" id="i_group_leader" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>inspector</label>
-											<input class="form-control" type="number" id="i_inspector" >
+											<input class="form-control num4" type="number" id="i_inspector" >
 										</div>
 									</div>
 								</div>
@@ -446,19 +461,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Bundling</label>
-											<input class="form-control" type="number" id="i_bundling" >
+											<input class="form-control num4" type="number" id="i_bundling" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>CSU</label>
-											<input class="form-control" type="number" id="i_csu" >
+											<input class="form-control num4" type="number" id="i_csu" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Ass</label>
-											<input class="form-control" type="number" id="i_tanoko_as" >
+											<input class="form-control num4" type="number" id="i_tanoko_as" >
 										</div>
 									</div>
 								</div>
@@ -467,19 +482,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Tanoko Insp</label>
-											<input class="form-control" type="number" id="i_tanoko_ins" >
+											<input class="form-control num4" type="number" id="i_tanoko_ins" >
 										</div>	
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Sao Bonder</label>
-											<input class="form-control" type="number" id="i_sao_bonder" >
+											<input class="form-control num4" type="number" id="i_sao_bonder" >
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>Helper Cuting</label>
-											<input class="form-control" type="number" id="i_helper_cuting" >
+											<input class="form-control num4" type="number" id="i_helper_cuting" >
 										</div>
 									</div>
 								</div>
@@ -488,12 +503,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label>chorobiki</label>
-											<input class="form-control" type="number" id="i_chorobik" >
+											<input class="form-control num4" type="number" id="i_chorobik" >
 										</div>	
 									</div>
 									
 									<div class="col-md-4">
-											<input id="id_lcp4" type="text">
+										<div class="form-group">
+											<label style="font-size: 18px"> Total MP: </label> <br>
+											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost4" class="cost4">&nbsp&nbsp&nbsp&nbsp0</label>
+										</div>
+									</div>
+									
+									<div class="col-md-4">
+										<div class="form-group">
+											<input class="form-control" id="id_lcp4" type="hidden">
+										</div>	
 									</div>
 								</div>
 
@@ -1245,6 +1269,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
 					// show(id_pdo);
 				});
+				// mp dl
+					$('.num').on('blur', function(){
+					    var cost = 0;
+					    $(".num").each(function(e) {
+					        v = parseFloat($(this).val());
+					        if(!isNaN(v)) {
+					            cost += v;    
+					        }
+					          
+					        document.getElementById('cost').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+					    });
+					});
+				// mp idl
+					$('.num2').on('blur', function(){
+					    var cost = 0;
+					    $(".num2").each(function(e) {
+					        v = parseFloat($(this).val());
+					        if(!isNaN(v)) {
+					            cost += v;    
+					        }
+					          
+					        document.getElementById('cost2').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+					    });
+					});
+				// mp dl pa
+					$('.num3').on('blur', function(){
+					    var cost = 0;
+					    $(".num3").each(function(e) {
+					        v = parseFloat($(this).val());
+					        if(!isNaN(v)) {
+					            cost += v;    
+					        }
+					          
+					        document.getElementById('cost3').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+					    });
+					});
+				// mp idl pa
+					$('.num4').on('blur', function(){
+					    var cost = 0;
+					    $(".num4").each(function(e) {
+					        v = parseFloat($(this).val());
+					        if(!isNaN(v)) {
+					            cost += v;    
+					        }
+					          
+					        document.getElementById('cost4').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+					    });
+					});
+				// $('#mp_idl_pa_modal').on('show.bs.modal', function(){
+				//  	console.log();
+				//  	var cost = 0;
+				// 	    $(".num4").each(function(e) {
+				// 	        v = parseFloat($(this).val());
+				// 	        if(!isNaN(v)) {
+				// 	            cost += v;    
+				// 	    	}      
+				// 	    document.getElementById('cost4').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+				//    		});
+				// });
 
 		});
 	</script>
