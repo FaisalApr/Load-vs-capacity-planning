@@ -262,8 +262,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							crln:id
 						},
 						success: function(data){ 
-							// console.log('isi line');
-							// console.log(data);
+							console.log('isi line');
+							console.log(data);
 
 							$('#select_lin').empty();
 							$('#select_lin').select2({ 
@@ -390,30 +390,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                				thed.append(
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
-			                				// cek isi line sudah diisi 
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                				// cek isi line sudah diisi  
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
 			                						vald = true;
-			                						sf=1;
+			                						sf=0;
 			                					}
 			                				//in local DB
-			                				var u_dat = { 
-			                							is_valid: vald,
-			                							shift_qty: dat.shift_qty,
-														mp_dl: dat.mp_dl,
-														mp_idl: dat.mp_idl,
-														umh_shift: dat.umh_shift,
-														working_days: dat.working_days,
-														order_monthly: dat.order_monthly,
-														capacity: dat.umh_shift,
-														balance: dat.balance,
-														p_load: dat.p_load,
-														ot_plan: dat.ot_plan,
-														ot_hours: dat.ot_hours,
-														efficiency: dat.efficiency, 
-														exc_time: dat.exc_time,
-														tot_productivity: dat.tot_productivity
-													};
-											mDataProd.push(u_dat);
+				                				var u_dat = { 
+				                							is_valid: vald,
+				                							shift_qty: dat.shift_qty,
+															mp_dl: dat.mp_dl,
+															mp_idl: dat.mp_idl,
+															umh_shift: dat.umh_shift,
+															working_days: dat.working_days,
+															order_monthly: dat.order_monthly,
+															capacity: dat.umh_shift,
+															balance: dat.balance,
+															p_load: dat.p_load,
+															ot_plan: dat.ot_plan,
+															ot_hours: dat.ot_hours,
+															efficiency: dat.efficiency, 
+															exc_time: dat.exc_time,
+															tot_productivity: dat.tot_productivity,
+															tanggal: dat.tanggal
+														};
+												mDataProd.push(u_dat);
 			                			}
 			                			// jika ini sama dengan sebelumya beda sif
 			                			else if (tg == monthName[tgl.getMonth()] && lstcr == dat.id_carline_has_line ) {
@@ -421,67 +422,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
 			                				var last = (mDataProd.length-1); 
-			                				// cek isi line sudah diisi 
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                				// cek isi line sudah diisi  
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
 			                						vald = true;
-			                						sf=1;
+			                						sf=0;
 			                					}
 			                				// Penggabungan data dengan sebelumnya 
-											var u_dat = {	
-													is_valid: vald,
-													shift_qty: dat.shift_qty,
-													mp_dl: Number(mDataProd[last].mp_dl)+Number(dat.mp_dl),
-													mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
-													umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-													working_days:  dat.working_days,
-													order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
-													capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-													balance: Number(mDataProd[last].balance)+Number(dat.balance),
-													p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
-													ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
-													ot_hours: Number(mDataProd[last].ot_hours)+Number(dat.ot_hours),
-													efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency)/Number(dat.shift_qty)),
-													exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
-													tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity)
-												};
-											mDataProd[last] = u_dat;
+												var u_dat = {	
+														is_valid: vald,
+														shift_qty: dat.shift_qty,
+														mp_dl: Number(mDataProd[last].mp_dl)+Number(dat.mp_dl),
+														mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
+														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
+														working_days:  dat.working_days,
+														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
+														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
+														balance: Number(mDataProd[last].balance)+Number(dat.balance),
+														p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
+														ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
+														ot_hours: Number(mDataProd[last].ot_hours)+Number(dat.ot_hours),
+														efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency)/Number(dat.shift_qty)),
+														exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
+														tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity),
+														tanggal: dat.tanggal
+													};
+												mDataProd[last] = u_dat;
 			                			}
 			                			//  Blan baru
 			                			else if (tg != monthName[tgl.getMonth()]){
 			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
-			                				// cek isi line sudah diisi 
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                				// cek isi line sudah diisi  
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
 			                						vald = true;
-			                						sf=1;
+			                						sf=0;
 			                					}
 			                				//in local DB
-			                				var u_dat = { 
-			                							is_valid: vald,
-			                							shift_qty: dat.shift_qty,
-														mp_dl: dat.mp_dl,
-														mp_idl: dat.mp_idl,
-														umh_shift: dat.umh_shift,
-														working_days: dat.working_days,
-														order_monthly: dat.order_monthly,
-														capacity: dat.capacity,
-														balance: dat.balance,
-														p_load: dat.p_load,
-														ot_plan: dat.ot_plan,
-														ot_hours: dat.ot_hours,
-														efficiency: dat.efficiency, 
-														exc_time: dat.exc_time,
-														tot_productivity: dat.tot_productivity
-													};
-											mDataProd.push(u_dat);
+				                				var u_dat = { 
+				                							is_valid: vald,
+				                							shift_qty: dat.shift_qty,
+															mp_dl: dat.mp_dl,
+															mp_idl: dat.mp_idl,
+															umh_shift: dat.umh_shift,
+															working_days: dat.working_days,
+															order_monthly: dat.order_monthly,
+															capacity: dat.capacity,
+															balance: dat.balance,
+															p_load: dat.p_load,
+															ot_plan: dat.ot_plan,
+															ot_hours: dat.ot_hours,
+															efficiency: dat.efficiency, 
+															exc_time: dat.exc_time,
+															tot_productivity: dat.tot_productivity,
+															tanggal: dat.tanggal
+														};
+												mDataProd.push(u_dat);
+			                			} 
+
+			                			// jika sif sesuai 
+			                			if (dat.shift_qty== sf) {
+			                				sf=0;
 			                			}
+
 			                			sf++;
 				                    });
-				                    if (data.length==0) {//JIKA DATA KOSONG
-				                    	var thed = $('#thead_testing').find('tr'); 
-			                    		thed.append(
-			            						$('<th class="monn">').text( 'No Data' )
-			            					); 
-			                    	}
+
+									
+									//JIKA DATA KOSONG
+					                    if (data.length==0) {
+					                    	var thed = $('#thead_testing').find('tr'); 
+				                    		thed.append(
+				            						$('<th class="monn">').text( 'No Data' )
+				            					); 
+				                    	}
 			                    	
 		                    }
 		                }); 
@@ -519,9 +531,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 
 				function showmData() { 
-					$('#tbody_testing').html('');
-					hitungRumus();
-					console.log(mDataProd);
+					$('#tbody_testing').html(''); 
+
                 	// item Y kebawah
                 	var y=0;
                 	item_prod.forEach(function(itm){
@@ -564,7 +575,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 					tmp_html = dat[itm.val] ; 
         						}
 
-        						console.log( Math.abs(parseFloat(dat.ot_hours).toFixed(1))+'='+Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) );
+        						// console.log( Math.abs(parseFloat(dat.ot_hours).toFixed(1))+'='+Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) );
         						if(itm.val=='ot_hours' && Math.abs(parseFloat(dat.ot_hours).toFixed(1))== Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) ){
         							tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );	 
         						}else if ( parseFloat(dat[itm.val]).toFixed(0) != parseFloat(ppcData[x][itm.val]).toFixed(0) && ppcData[x][itm.val]!=null) { 
@@ -725,157 +736,167 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            	var chart = new Highcharts.Chart(options); 
 
 	            // Testing
-            	var options_tes ={  
-						    chart: {
-						        renderTo: 'container_testing'
-						    },
-						    title: {
-						        text: 'Data Produksi'
-						    },
-						    xAxis: {
-						        categories: (
-						        			function(){
-						        				var da = [];
+	            	var options_tes ={  
+							    chart: {
+							        renderTo: 'container_testing'
+							    },
+							    title: {
+							        text: 'Data Produksi'
+							    },
+							    xAxis: {
+							        categories: (
+							        			function(){
+							        				var da = [];
 
-						        					mDataProd.forEach(function(dat){
-						        						var tgl = new Date(dat.tanggal);
-						        						da.push(monthName[tgl.getMonth()]);
-						        					});
+							        					mDataProd.forEach(function(dat){
 
-						        				return da;
-						        			}()
-						        		),
-						        crosshair: true
-						    },
-						    yAxis: [
-						    	{
-						    		labels: {
-							            format: '{value}',
-							            style: {
-							                color: Highcharts.getOptions().colors[1]
-							            }
-							        },
-							        title: {
-							            text: '',
-							            style: {
-							                color: Highcharts.getOptions().colors[1]
-							            }
-							        },
-							        lineWidth: 1
-							    }, {
-							    	title: {
-							            text: '% Load',
-							            style: {
-							                color: '#000000'
-							            }
-							        },
-							        labels: {
-							            format: '{value} %',
-							            style: {
-							                color: '#000000'
-							            }
-							        },
-							        lineWidth: 1,
-							        opposite: true,
-							        plotLines: [{
-									    color: 'red', // Color value 
-									    dashStyle: 'dashdot', // Style of the plot line. Default to solid
-									    value: 110, // Value of where the line will appear
-									    width: 2 // Width of the line    
-									}],
-							        plotBands: [{
-									    color: 'orange', // Color value
-									    dashStyle: 'ShortDash',  
-									    value: 100, // Value of where the line will appear
-	    								width: 2
-									  }]
+							        						var tgl = new Date(dat.tanggal);
+							        						// console.log(dat.tanggal);
+							        						// if (dat.is_valid) {
+								        						da.push(monthName[tgl.getMonth()]);
+								        					// }
+							        					});
+
+							        				return da;
+							        			}()
+							        		),
+							        crosshair: true
+							    },
+							    yAxis: [
+							    	{
+							    		labels: {
+								            format: '{value}',
+								            style: {
+								                color: Highcharts.getOptions().colors[1]
+								            }
+								        },
+								        title: {
+								            text: '',
+								            style: {
+								                color: Highcharts.getOptions().colors[1]
+								            }
+								        },
+								        lineWidth: 1
+								    }, {
+								    	title: {
+								            text: '% Load',
+								            style: {
+								                color: '#000000'
+								            }
+								        },
+								        labels: {
+								            format: '{value} %',
+								            style: {
+								                color: '#000000'
+								            }
+								        },
+								        lineWidth: 1,
+								        opposite: true,
+								        plotLines: [{
+										    color: 'red', // Color value 
+										    dashStyle: 'dashdot', // Style of the plot line. Default to solid
+										    value: 110, // Value of where the line will appear
+										    width: 2 // Width of the line    
+										}],
+								        plotBands: [{
+										    color: 'orange', // Color value
+										    dashStyle: 'ShortDash',  
+										    value: 100, // Value of where the line will appear
+		    								width: 2
+										  }]
+									}
+								], 
+							    tooltip: {
+							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+							                      '<td style="padding:0"><b>{point.y:.0f}  </b></td></tr>',
+							        footerFormat: '</table>',
+							        shared: true,
+							        useHTML: true
+							    },
+							    plotOptions: {
+							        column: {
+							            pointPadding: 0.2,
+							            borderWidth: 0
+							        }
+							    },
+							    series: [
+							    	{
+							    		type: 'column',
+								        name: 'Kap Prod',
+								        data: (
+							        			function(){
+							        				var da = [];
+
+							        					mDataProd.forEach(function(dat){ 
+							        						if (dat.is_valid) {
+							        							da.push(parseFloat(dat.capacity));
+							        						}else{
+							        							da.push(0);
+							        						}
+							        					});
+
+							        				return da;
+							        			}()
+							        		)
+								    }, 
+								    {
+								    	type: 'column',
+								        name: 'Order',
+								        data: (
+							        			function(){
+							        				var da = [];
+
+							        					mDataProd.forEach(function(dat){ 
+							        						if (dat.is_valid) {
+							        							da.push(parseFloat(dat.order_monthly));
+							        						}else{
+							        							da.push(0);
+							        						}
+							        					});
+
+							        				return da;
+							        			}()
+							        		)
+								    }, 
+								    {
+								        type: 'spline',
+								        name: '% Load',
+								        yAxis: 1,
+								        data: (
+							        			function(){
+							        				var da = [];
+
+							        					mDataProd.forEach(function(dat){ 
+							        						if (dat.is_valid) {
+							        							da.push(parseFloat(dat.p_load));
+							        						}else{
+							        							da.push(0);
+							        						}
+							        					});
+
+							        				return da;
+							        			}()
+							        		),
+								        marker: {
+								            lineWidth: 2,
+								            lineColor: Highcharts.getOptions().colors[3],
+								            fillColor: 'white'
+								      	}
+							    	}
+							    ],
+							    legend: {
+									layout: 'vertical',
+									align: 'left',
+									verticalAlign: 'top',
+									x: 70,
+									y: -10,
+									floating: true,
+									borderWidth: 1,
+									backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 								}
-							], 
-						    tooltip: {
-						        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-						        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-						                      '<td style="padding:0"><b>{point.y:.0f}  </b></td></tr>',
-						        footerFormat: '</table>',
-						        shared: true,
-						        useHTML: true
-						    },
-						    plotOptions: {
-						        column: {
-						            pointPadding: 0.2,
-						            borderWidth: 0
-						        }
-						    },
-						    series: [
-						    	{
-						    		type: 'column',
-							        name: 'Kap Prod',
-							        data: (
-						        			function(){
-						        				var da = [];
-
-						        					mDataProd.forEach(function(dat){ 
-						        						if (dat.is_valid) {
-						        							da.push(parseFloat(dat.capacity));
-						        						} 
-						        					});
-
-						        				return da;
-						        			}()
-						        		)
-							    }, 
-							    {
-							    	type: 'column',
-							        name: 'Order',
-							        data: (
-						        			function(){
-						        				var da = [];
-
-						        					mDataProd.forEach(function(dat){ 
-						        						if (dat.is_valid) {
-						        							da.push(parseFloat(dat.order_monthly));
-						        						}
-						        					});
-
-						        				return da;
-						        			}()
-						        		)
-							    }, 
-							    {
-							        type: 'spline',
-							        name: '% Load',
-							        yAxis: 1,
-							        data: (
-						        			function(){
-						        				var da = [];
-
-						        					mDataProd.forEach(function(dat){ 
-						        						if (dat.is_valid) {
-						        							da.push(parseFloat(dat.p_load));
-						        						}
-						        					});
-
-						        				return da;
-						        			}()
-						        		),
-							        marker: {
-							            lineWidth: 2,
-							            lineColor: Highcharts.getOptions().colors[3],
-							            fillColor: 'white'
-							      	}
-						    	}
-						    ],
-						    legend: {
-								layout: 'vertical',
-								align: 'left',
-								verticalAlign: 'top',
-								x: 70,
-								y: -10,
-								floating: true,
-								borderWidth: 1,
-								backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-							}
-		            	};
-            	var chart_plan = new Highcharts.Chart(options_tes); 
+			            	};
+	            	var chart_plan = new Highcharts.Chart(options_tes); 
 			} 
 
             // Trigger
@@ -976,19 +997,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    $(".thVal").select();
 				    $(".thVal").keyup(function (event) {
 				        if (event.keyCode == 13) {
+				        	var val = $(".thVal").val();
+
 				        	console.log('before');
 				            console.log(mDataProd[id][col]);
+				            console.log('after');
+				            console.log(val);
 
-				        	var val = $(".thVal").val();
+				        	
+				            mDataProd[id][col] = val;  
 				            $(currentEle).html( $(".thVal").val() );  
-				            mDataProd[id][col] = val; 
+				             
 
 				            // HITUNG DUlu 
 				            loadChart();
 				            showmData();
-
-				            console.log('after enter');
-				            console.log(mDataProd);
+ 
 				        }
 				    });
 
@@ -1016,7 +1040,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							mDataProd[x].ot_hours = ((parseFloat(dat.ot_plan)/parseFloat(dat.mp_dl))*parseFloat(dat.working_days))/3600;
 						// excl time
 							var excl = (7/60)*parseFloat(dat.working_days)*2*parseFloat(dat.mp_dl);
-							console.log('hsil excl: '+excl);
+							// console.log('hsil excl: '+excl);
 							mDataProd[x].exc_time = excl;
 						// TOT PROD
 							// console.log('cap'+dat.capacity+'|mp_dl');
