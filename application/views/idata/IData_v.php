@@ -13,7 +13,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css"> 
-	 
+	<style>
+		i {
+		  font-size:30px;
+		  position: absolute;
+		  padding-top: 22px;
+		  padding-left: -10px;
+		}
+	</style>
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -190,7 +197,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-md-4">
 											<label style="font-size: 18px"> Total MP: </label> <br>
-											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost" class="cost">&nbsp&nbsp&nbsp&nbsp0</label>
+											<div style="margin-left: 30px; margin-top: -10px" >
+												<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+												<label class="text-blue" style="font-size: 40px;" id="cost" class="cost">&nbsp&nbsp&nbsp0</label>
+											</div>
 											<input class="form-control" id="id_lcp" type="hidden">
 											<input id="working_id" type="hidden">
 											<input type="hidden" id="id_mid">
@@ -281,7 +291,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
-							 <!-- row ketiga -->
+							<!-- row keempat -->
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
@@ -297,7 +307,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-md-4">
 											<label style="font-size: 18px"> Total MP: </label> <br>
-											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost2" class="cost2">&nbsp&nbsp&nbsp&nbsp0</label>
+											<div style="margin-left: 30px; margin-top: -10px" >
+												<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+												<label class="text-blue" style="font-size: 40px;" id="cost2" class="cost2">&nbsp&nbsp&nbsp0</label>
+											</div>
 											<input class="form-control" id="id_lcp2" type="hidden">
 									</div>
 								</div>
@@ -386,7 +399,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
-							 <!-- row ketiga -->
+							<!-- row keempat -->
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
@@ -403,7 +416,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label style="font-size: 18px"> Total MP: </label> <br>
-											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost3" class="cost3">&nbsp&nbsp&nbsp&nbsp0</label>
+											<div style="margin-left: 30px; margin-top: -10px" >
+												<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+												<label class="text-blue" style="font-size: 40px;" id="cost3" class="cost3">&nbsp&nbsp&nbsp0</label>
+											</div>
+											
 											<input class="form-control" id="id_lcp3" type="hidden">
 										</div>
 									</div>
@@ -498,7 +515,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
-							 <!-- row ketiga -->
+							<!-- row keempat -->
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
@@ -510,7 +527,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-md-4">
 										<div class="form-group">
 											<label style="font-size: 18px"> Total MP: </label> <br>
-											<label class="text-blue" style="font-size: 35px; margin-top: -10px;" id="cost4" class="cost4">&nbsp&nbsp&nbsp&nbsp0</label>
+											<div style="margin-left: 30px; margin-top: -10px" >
+												<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+												<label class="text-blue" style="font-size: 40px;" id="cost4" class="cost4">&nbsp&nbsp&nbsp0</label>
+											</div>
+
 										</div>
 									</div>
 									
@@ -807,13 +828,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    // console.log(kom_dl_pa);
 				    // console.log(kom_idl_pa);
 			        
-			        if (id == 0) {
-			        	Swal.fire({
-			        		title:'Data Tidak Tersedia',
-			        		text:'Silahkan Import file PPC dahulu'
-			        	});
-			        	return;
-			        }
 			        if(col=='mp_dl'){
 			        	if(PA==false){
 			        		$('#i_detail_dl_modal').modal('show');
@@ -1277,7 +1291,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					// show(id_pdo);
 				});
 				// mp dl
-					$('.num').on('blur', function(){
+					$('.num').on('keyup', function(){
 					    var cost = 0;
 					    $(".num").each(function(e) {
 					        v = parseFloat($(this).val());
@@ -1285,11 +1299,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					            cost += v;    
 					        }
 					          
-					        document.getElementById('cost').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
+					        document.getElementById('cost').innerHTML="&nbsp&nbsp&nbsp"+cost;
 					    });
 					});
 				// mp idl
-					$('.num2').on('blur', function(){
+					$('.num2').on('keyup', function(){
 					    var cost = 0;
 					    $(".num2").each(function(e) {
 					        v = parseFloat($(this).val());
@@ -1301,7 +1315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    });
 					});
 				// mp dl pa
-					$('.num3').on('blur', function(){
+					$('.num3').on('keyup', function(){
 					    var cost = 0;
 					    $(".num3").each(function(e) {
 					        v = parseFloat($(this).val());
@@ -1313,7 +1327,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    });
 					});
 				// mp idl pa
-					$('.num4').on('blur', function(){
+					$('.num4').on('keyup', function(){
 					    var cost = 0;
 					    $(".num4").each(function(e) {
 					        v = parseFloat($(this).val());
@@ -1322,7 +1336,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        }
 					          
 					        document.getElementById('cost4').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
-					    });
+					    });z
 					});
 				// $('#mp_idl_pa_modal').on('show.bs.modal', function(){
 				//  	console.log();
