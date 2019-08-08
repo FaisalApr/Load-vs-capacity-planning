@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<p><label>Select Excel File</label>
 						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
 						<br />
-						<input type="submit" name="import" value="Import" class="btn btn-info" />
+						<input type="submit" id="btn_importfil" name="import" value="Import" class="btn btn-info" />
 					</form>
 
 				</div> 
@@ -337,7 +337,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                    			if (item[y].val=='efficiency' || item[y].val=='p_load') {
 			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(1)+'%';
-			                    			}else if( item[y].val=='order_monthly' || item[y].val=='capacity' ){
+			                    			}else if( item[y].val=='order_monthly' || item[y].val=='capacity'  || item[y].val=='balance' ){
 			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(2);
 			                    			}else{
 			                    				tmp_html = data[i][item[y].val];
@@ -372,18 +372,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
-		                    	console.log('isi data prod:');
-		                    	console.log(data);
-		                    	// return;
-		                    	// mDataProd=data;
+		                    	// console.log('isi data prod:');
+		                    	// console.log(data); 
 		                    	mDataProd=[];
 		                    	// Conf HEADER
 		                    		var tg = '';
 		                    		var lstcr = 0;
-		                    		var i = 0;
+		                    		var i = 0, sf=1;
 			                    	data.forEach(function(dat){
 			                    		var thed = $('#thead_testing').find('tr'); 
 			                			var tgl = new Date(dat.tanggal);
+			                			var vald = false;
 
 			                			// awal GET
 			                			if (i=0) {
@@ -391,14 +390,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                				thed.append(
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
+			                				// cek isi line sudah diisi 
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                						vald = true;
+			                						sf=1;
+			                					}
 			                				//in local DB
 			                				var u_dat = { 
+			                							is_valid: vald,
+			                							shift_qty: dat.shift_qty,
 														mp_dl: dat.mp_dl,
 														mp_idl: dat.mp_idl,
 														umh_shift: dat.umh_shift,
 														working_days: dat.working_days,
 														order_monthly: dat.order_monthly,
-														capacity: dat.capacity,
+														capacity: dat.umh_shift,
 														balance: dat.balance,
 														p_load: dat.p_load,
 														ot_plan: dat.ot_plan,
@@ -415,19 +421,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
 			                				var last = (mDataProd.length-1); 
+			                				// cek isi line sudah diisi 
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                						vald = true;
+			                						sf=1;
+			                					}
 			                				// Penggabungan data dengan sebelumnya 
 											var u_dat = {	
+													is_valid: vald,
+													shift_qty: dat.shift_qty,
 													mp_dl: Number(mDataProd[last].mp_dl)+Number(dat.mp_dl),
 													mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
 													umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
 													working_days:  dat.working_days,
 													order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
-													capacity: Number(mDataProd[last].capacity)+Number(dat.capacity),
+													capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
 													balance: Number(mDataProd[last].balance)+Number(dat.balance),
 													p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
 													ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
 													ot_hours: Number(mDataProd[last].ot_hours)+Number(dat.ot_hours),
-													efficiency: Number(mDataProd[last].efficiency)+Number(dat.efficiency),
+													efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency)/Number(dat.shift_qty)),
 													exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
 													tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity)
 												};
@@ -436,8 +449,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                			//  Blan baru
 			                			else if (tg != monthName[tgl.getMonth()]){
 			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
+			                				// cek isi line sudah diisi 
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) {
+			                						vald = true;
+			                						sf=1;
+			                					}
 			                				//in local DB
 			                				var u_dat = { 
+			                							is_valid: vald,
+			                							shift_qty: dat.shift_qty,
 														mp_dl: dat.mp_dl,
 														mp_idl: dat.mp_idl,
 														umh_shift: dat.umh_shift,
@@ -454,7 +474,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													};
 											mDataProd.push(u_dat);
 			                			}
-			                			
+			                			sf++;
 				                    });
 				                    if (data.length==0) {//JIKA DATA KOSONG
 				                    	var thed = $('#thead_testing').find('tr'); 
@@ -462,11 +482,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            						$('<th class="monn">').text( 'No Data' )
 			            					); 
 			                    	}
+			                    	
 		                    }
-		                });
-	 				console.log('isi mdata');
-	 				console.log(mDataProd.length);
-	 				console.log(mDataProd);
+		                }); 
+	 				
+	 				// HITUNG DUlu
+	 				hitungRumus()
 
 	 				// LOAD Char
 	 				loadChart();
@@ -499,18 +520,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				function showmData() { 
 					$('#tbody_testing').html('');
-
+					hitungRumus();
+					console.log(mDataProd);
                 	// item Y kebawah
+                	var y=0;
                 	item_prod.forEach(function(itm){
+
                 		// jika itm ditampilkan
                 		if (itm.view ==true) { 
+
                     		var tr = $('<tr>').append(
                     					$('<th scope="row">').text(itm.name));	
 
                     		// Data X samping 
-                    		var x = 0;
+                    		var x = 0; 
                     		mDataProd.forEach(function(dat){  
-                    			tmp_html = '';
+                    			tmp_html = ''; 
+
+                    			// awal TUlisan DAta kurang Lengkap
+                    			if (dat['is_valid']==false && item_prod[0].name==itm.name) {
+									tmp_html = 'Data BELUM Lengkap'; 
+									tr.append( $('<td>').text( tmp_html ) );
+									y++;
+									return;                   				
+                    			}
+                    			else if(dat['is_valid']==false && y!=0){
+                    				tmp_html = '-'; 
+									tr.append( $('<td>').text( tmp_html ) );
+									y++;
+									return;                   				
+                    			}
+
 
                     			if (itm.val=='efficiency' || itm.val=='p_load' || itm.val=='tot_productivity' ) {  
         							tmp_html = parseFloat(dat[itm.val]).toFixed(1)+'%' ; 
@@ -524,7 +564,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 					tmp_html = dat[itm.val] ; 
         						}
 
-        						tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );
+        						console.log( Math.abs(parseFloat(dat.ot_hours).toFixed(1))+'='+Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) );
+        						if(itm.val=='ot_hours' && Math.abs(parseFloat(dat.ot_hours).toFixed(1))== Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) ){
+        							tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );	 
+        						}else if ( parseFloat(dat[itm.val]).toFixed(0) != parseFloat(ppcData[x][itm.val]).toFixed(0) && ppcData[x][itm.val]!=null) { 
+        							tr.append( $('<td class="inner" bgcolor="#FFF4C1" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );
+        						}else{
+        							tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );	 
+        						}
+        						
+        						y++;
                 				x++;
 	                    	}); 
 
@@ -579,13 +628,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    	title: {
 								            text: '% Load',
 								            style: {
-								                color: Highcharts.getOptions().colors[0]
+								                color: '#000000'
 								            }
 								        },
 								        labels: {
 								            format: '{value} %',
 								            style: {
-								                color: Highcharts.getOptions().colors[0]
+								                color: '#000000'
 								            }
 								        },
 								        lineWidth: 1,
@@ -717,13 +766,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							    	title: {
 							            text: '% Load',
 							            style: {
-							                color: Highcharts.getOptions().colors[0]
+							                color: '#000000'
 							            }
 							        },
 							        labels: {
 							            format: '{value} %',
 							            style: {
-							                color: Highcharts.getOptions().colors[0]
+							                color: '#000000'
 							            }
 							        },
 							        lineWidth: 1,
@@ -765,7 +814,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        				var da = [];
 
 						        					mDataProd.forEach(function(dat){ 
-						        						da.push(parseFloat(dat.capacity));
+						        						if (dat.is_valid) {
+						        							da.push(parseFloat(dat.capacity));
+						        						} 
 						        					});
 
 						        				return da;
@@ -780,8 +831,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        				var da = [];
 
 						        					mDataProd.forEach(function(dat){ 
-						        						
-						        						da.push(parseFloat(dat.order_monthly));
+						        						if (dat.is_valid) {
+						        							da.push(parseFloat(dat.order_monthly));
+						        						}
 						        					});
 
 						        				return da;
@@ -797,7 +849,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        				var da = [];
 
 						        					mDataProd.forEach(function(dat){ 
-						        						da.push(parseFloat(dat.p_load));
+						        						if (dat.is_valid) {
+						        							da.push(parseFloat(dat.p_load));
+						        						}
 						        					});
 
 						        				return da;
@@ -917,71 +971,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    });
 
 			    function updateVal(currentEle, id, col, value) {
-				    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
+				    $(currentEle).html('<input class="thVal form-control" style="width: 100%;" type="number" value="' + value + '" />');
 				    $(".thVal").focus();
 				    $(".thVal").select();
 				    $(".thVal").keyup(function (event) {
 				        if (event.keyCode == 13) {
+				        	console.log('before');
+				            console.log(mDataProd[id][col]);
+
 				        	var val = $(".thVal").val();
-				            $(currentEle).html( $(".thVal").val() ); 
+				            $(currentEle).html( $(".thVal").val() );  
+				            mDataProd[id][col] = val; 
 
-				            mDataProd[id][col] = val;
-
-				            if (col=='capacity' || col=='order_monthly') {
-				            	var has=0,has1=0,has2=0;
-				            	if (mDataProd[id].order_monthly != 0) { //PERCENT LOAD
-				            		has = (Number(mDataProd[id].order_monthly)/Number(mDataProd[id].capacity))*100;	
-				            	}
-				            	//BALNCE
-				            		has1 = (Number(mDataProd[id].capacity)-Number(mDataProd[id].order_monthly)); 
-				            	//OT PLan
-				            		has2 = Number(mDataProd[id].order_monthly)-Number(mDataProd[id].capacity); 
-
-				            	console.log(has);
-				            	mDataProd[id].p_load = has;
-				            	mDataProd[id].balance = has1;
-				            	mDataProd[id].ot_plan = has2;
-				            }
-				            if(col=='capacity' || col=='working_days'){
-				            	var has =0;
-				            	// if (mDataProd[id].capacity != 0) { //PERCENT LOAD
-				            	// 	has = mDataProd[id].capacity/mDataProd[id].working_days;
-				            	// }
-				            	has = ((mDataProd[id].mp_dl/100)*100)*7.88*mDataProd[id].working_days;
-
-				            	console.log('umh');
-				            	console.log(has);
-				            	mDataProd[id].umh_shift = has;
-				            }
-				            if( col=='capacity' || col=='ot_plan' || col=='working_days' || col=='mp_idl'){
-
-				            	var has=0;
-				            	// OT HOURS
-				            	if (mDataProd[id].mp_idl !=0) {
-				            		has = ((mDataProd[id].ot_plan/mDataProd[id].mp_idl)*mDataProd[id].working_days)/3600;	
-				            	}
-				            	
-				            	console.log('ot hour:'+has);
-				            	mDataProd[id].ot_hours = has;	
-				            }
-				            if(col=='mp_dl' || col=='working_days' ){
-				            	// EXCL TIME
-				            	var has =0;
-				            	has =(7/60)*mDataProd[id].working_days*2*mDataProd[id].mp_dl;
-				            	console.log('EXC TIme:'+has);
-				            	mDataProd[id].exc_time = has;	
-				            }
-				            if(col=='mp_dl' || col=='exc_time' || col=='umh_shift' || col=='mp_idl' ){
-				            	// tot_productivity
-				            	var has =0;
-				            	has = mDataProd[id].umh_shift/(mDataProd[id].mp_dl+mDataProd[id].mp_idl+mDataProd[id].exc_time);
-				            	console.log('tot_productivity:'+has);
-				            	mDataProd[id].tot_productivity = has;	
-				            }
+				            // HITUNG DUlu 
 				            loadChart();
 				            showmData();
 
-				            console.log('enter');
+				            console.log('after enter');
 				            console.log(mDataProd);
 				        }
 				    });
@@ -989,26 +995,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    // Focus losss same state value
 				    $(".thVal").focusout(function(){
 				    	console.log('losss');
- 
-				    	// jika itu
-				    	if (col=='efficiency' || col=='p_load' ) {
-
-							var tmp = parseFloat(value).toFixed(1)+'%';
-							$(currentEle).html( tmp ); 
-						}else{
-							$(currentEle).html( value ); 
-						}  
-
-						console.log(mDataProd);
+ 						showmData(); 
 				    }); 
 
 				}
  
+			// RUMUS -RUMUS
+				function hitungRumus() { 
+
+					var x=0;
+					mDataProd.forEach(function(dat){
+						// hitung BALANCE
+							mDataProd[x].balance = (parseFloat(dat.capacity)- parseFloat(dat.order_monthly));
+						// hitung % LOAD 
+							mDataProd[x].p_load = (parseFloat(dat.order_monthly)/parseFloat(dat.capacity))*100;
+							// console.log('pload :'+mDataProd[x].p_load);
+						// Hitung OT Plan
+							mDataProd[x].ot_plan = (parseFloat(dat.order_monthly)-parseFloat(dat.capacity));
+						// OT HOURS
+							mDataProd[x].ot_hours = ((parseFloat(dat.ot_plan)/parseFloat(dat.mp_dl))*parseFloat(dat.working_days))/3600;
+						// excl time
+							var excl = (7/60)*parseFloat(dat.working_days)*2*parseFloat(dat.mp_dl);
+							console.log('hsil excl: '+excl);
+							mDataProd[x].exc_time = excl;
+						// TOT PROD
+							// console.log('cap'+dat.capacity+'|mp_dl');
+							mDataProd[x].tot_productivity = (parseFloat(dat.capacity)/(parseFloat(dat.mp_dl)+parseFloat(dat.mp_idl)+parseFloat(mDataProd[x].exc_time)));
+							// console.log('tot_productivity: '+mDataProd[x].tot_productivity);
+						x++;
+					});
+					// console.log(mDataProd);
+
+				}
 
 			// IMPORT FUNC
 
 				$('#import_form').on('submit', function(event){
 					event.preventDefault();
+					document.getElementById('btn_importfil').disabled =true;
+					Swal.fire({ 
+					    allowEscapeKey: false,
+					    allowOutsideClick: false,
+					    title: "Tunggu Sebentar", 
+					    showConfirmButton: false,
+					    onOpen: () => {
+					      swal.showLoading();
+					    }
+					});
+
 					$.ajax({
 						async: false,
 						url:"<?php echo site_url(); ?>/Excel_import/import",
@@ -1016,19 +1050,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						data:new FormData(this),
 						contentType:false,
 						cache:false,
-						processData:false,
-						beforeSend: function(){
-							Swal.fire({ 
-							    allowEscapeKey: false,
-							    allowOutsideClick: false,
-							    title: "", 
-							    showConfirmButton: false,
-							    onOpen: () => {
-							      swal.showLoading();
-							    }
-							});
-						},
+						processData:false, 
 						success:function(data){
+							// swal.hideLoading();
+							// Swal.close();
+							// console.log(data);
+							// // return;
+
 							if (!data) {
 								swal.hideLoading();
 								Swal.close();
@@ -1053,9 +1081,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 							
 
-							$('#file').val('');
-
-							console.log(data);
+							$('#file').val(''); 
 
 							$('#modal_importexcl').modal('hide');
 

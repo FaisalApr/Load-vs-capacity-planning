@@ -1073,7 +1073,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log('hasil umh: '+umh);
 						postValue($('#id_lcp').val(), 'umh_shift' , umh, '',''); 
 						// OT PLAN
-							var excl = (7*60)*mData[mid].working_days*2*total;
+							var excl = (7/60)*mData[mid].working_days*2*total;
 							console.log('hsil excl: '+excl);
 						postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
 
@@ -1191,7 +1191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log('hasil umh: '+umh);
 						postValue($('#id_lcp3').val(), 'umh_shift' , umh, '',''); 
 						// OT PLAN
-							var excl = (7*60)*mData[mid].working_days*2*total;
+							var excl = (7/60)*mData[mid].working_days*2*total;
 							console.log('hsil excl: '+excl);
 						postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
 

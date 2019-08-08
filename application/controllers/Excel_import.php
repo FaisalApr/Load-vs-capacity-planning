@@ -21,7 +21,8 @@ class Excel_import extends CI_Controller {
 		# code...
 		if(isset($_FILES["file"]["name"]))
 		{
-			$err = false;
+			$err = false; 
+
 			$path = $_FILES["file"]["tmp_name"];
 			$object = PHPExcel_IOFactory::load($path);
 			foreach($object->getWorksheetIterator() as $worksheet)
@@ -29,7 +30,7 @@ class Excel_import extends CI_Controller {
 				// echo "string";
 				// return;
 				$highestRow = $worksheet->getHighestRow();
-				// $highestRow = 10;
+				// $highestRow = 4;
 				$highestColumn = $worksheet->getHighestColumn();
 				for($row=3; $row<=$highestRow; $row++)
 				{
@@ -70,13 +71,14 @@ class Excel_import extends CI_Controller {
 						$capacity_month=0;
 					}
 					$ot_plan = $worksheet->getCellByColumnAndRow(12, $row)->getFormattedValue();  
-					 
+					$ot_plan = str_replace(",", ".", $ot_plan);
+
 					if($ot_plan==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
 						$ot_plan=0;
 					}
 					
 					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getFormattedValue();
-					if($ot_hour==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
+					if($ot_hour==null || $ot_hour=='#VALUE!' || $ot_hour=='#DIV\/0!'){
 						$ot_hour=0;
 					}
 					// mencari id district
@@ -153,8 +155,8 @@ class Excel_import extends CI_Controller {
 							'ot_plan' => $ot_plan,
 							'p_load' => $plod,
 							'balance' => ($capacity_month-$month_order)
-						);
-						
+						); 
+
 						// echo json_encode($datas);
 						// return;
 						$updt_tanggal = $this->excel_import_model->cektanggal($tanggal,$lstCarline->id); 
@@ -191,6 +193,7 @@ class Excel_import extends CI_Controller {
 										'id_shift' => $sfi[$i],
 										'id_carline_has_line' => $lstCarline->id,
 										'working_days' => $wd,
+										'shift_qty' => $shift_qyt,
 										'order_monthly' => $month_order,
 										'tanggal' => $tanggal
 									); 
