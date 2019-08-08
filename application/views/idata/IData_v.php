@@ -1189,11 +1189,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// Jumlah UMH
 							var umh = (total/100*100)*7.88*$('#working_id').val();
 							console.log('hasil umh: '+umh);
-						postValue($('#id_lcp').val(), 'umh_shift' , umh, '',''); 
+						postValue($('#id_lcp3').val(), 'umh_shift' , umh, '',''); 
 						// OT PLAN
 							var excl = (7*60)*mData[mid].working_days*2*total;
 							console.log('hsil excl: '+excl);
-						postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+						postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
 
 					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
