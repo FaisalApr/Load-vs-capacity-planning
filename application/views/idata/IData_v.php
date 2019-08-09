@@ -569,7 +569,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const item = [
 								{name:'MP DL/SHIFT',val: 'mp_dl', view: true},
 								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true}, 
-								{name:'PLAN EFFICIENCY (%)',val: 'efficiency', view: true},  
+								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'PLAN EFFICIENCY (%)',val: 'efficiency', view: true},
+								{name:'MP BUFFER',val: 'mpbuffer', view: true},
+								{name:'DOWNTIME',val: 'downtime', view: true},
+								{name:'ATTENDANCE',val: 'attendance', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
 								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},  
 								{name:'UMH /SHIFT',val: 'umh_shift', view: true},   
@@ -580,6 +584,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var yend = (today.getFullYear()+1);
 				var mData = null;
 				var PA = false;
+				var wh = 7.88;
 			// method INIT
 				// load Carline
 					function loadCarline() { 
@@ -1116,11 +1121,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// Jumlah UMH
 							var umh = (total/100*100)*7.88*$('#working_id').val();
 							console.log('hasil umh: '+umh);
-						postValue($('#id_lcp').val(), 'umh_shift' , umh, '',''); 
+						// umh OT HOURS
+							var ot_hours = (umh/wh)*mData[mid].ot_hours;
+							console.log('hasil ot_hours: '+ot_hours);
+						// umh MP BUFFER
+							var mp_buffer = mData[mid].mpbuffer*wh*mData[mid].working_days*(100/100);
+							console.log('hasil mp_buffer: '+mp_buffer);
+							// postValue($('#id_lcp').val(), 'mpbuffer' , mp_buffer, '',''); 
+						// umh EFFICIENCY
+							var umh_eff = umh*((mData[mid].efficiency/100)-1);
+							console.log('hasil umh_eff: '+umh_eff);
+						// umh DOWNTIME
+							var downtime = (mData[mid].downtime*umh)/100;
+							console.log('hasil downtime: '+downtime);
+							// postValue($('#id_lcp').val(), 'downtime' , downtime, '',''); 
+						// umh ATTENDANCE
+							var attendance = (mData[mid].attendance/100)*umh;
+							console.log('hasil attendance: '+attendance);
+						// penambah dan pengurang
+							var penambah = umh_eff+mp_buffer+ot_hours;
+							var pengurang = downtime+attendance;
 						// OT PLAN
 							var excl = (7/60)*mData[mid].working_days*2*total;
-							console.log('hsil excl: '+excl);
-						postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+							console.log('hasil excl: '+excl);
+							postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+						// total umh/shift 
+							var total_umh = umh+(penambah-pengurang);
+							console.log('hasil total: '+total_umh);
+							postValue($('#id_lcp').val(), 'umh_shift' , total_umh, '','');
 
 					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
@@ -1238,7 +1266,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// OT PLAN
 							var excl = (7/60)*mData[mid].working_days*2*total;
 							console.log('hsil excl: '+excl);
-						postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
+							postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
 
 					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
