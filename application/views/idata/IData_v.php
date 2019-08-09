@@ -817,10 +817,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    				}      	
 
 		                    			if (col=='') {col = item[y].val;}
-
-		                    			tr.append(
+		                    			if(col=='umh_shift' || col=='order_monthly' || col=='exc_time'){
+		                    				tr.append(
+		                    						$(`<td class='' data-kom_idl_pa='`+JSON.stringify(kom_idl_pa)+`' data-kom_dl_pa='`+JSON.stringify(kom_dl_pa)+`' data-kom_idl='`+JSON.stringify(kom_idl)+`' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
+			                    			 	);
+		                    			}else{
+		                    				tr.append(
 		                    						$(`<td class='inner' data-kom_idl_pa='`+JSON.stringify(kom_idl_pa)+`' data-kom_dl_pa='`+JSON.stringify(kom_dl_pa)+`' data-kom_idl='`+JSON.stringify(kom_idl)+`' data-kom_dl='`+JSON.stringify(kom_dl)+`' data-id='`+id+`' data-col='`+col+`' data-periode_bln='`+periode[i]+`' data-val='`+val+`' data-mid='`+mid+`'>`).text(tmp_html)
-			                    			 	); 	
+			                    			 	);	
+		                    			}
+		                    			 	
 			                    	}
 
 			                    	tr.appendTo('#tbody_data');
