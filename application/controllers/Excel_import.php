@@ -76,11 +76,6 @@ class Excel_import extends CI_Controller {
 					if($ot_plan==null || $ot_plan=='#VALUE!' || $ot_plan=='#DIV\/0!'){
 						$ot_plan=0;
 					}
-					
-					$ot_hour = $worksheet->getCellByColumnAndRow(13, $row)->getFormattedValue();
-					if($ot_hour==null || $ot_hour=='#VALUE!' || $ot_hour=='#DIV\/0!'){
-						$ot_hour=0;
-					}
 					// mencari id district
 					
 					$comp = $this->excel_import_model->cekComp($distric); 
@@ -151,7 +146,6 @@ class Excel_import extends CI_Controller {
 							'mp_dl' => ($mpdl_shift*$shift_qyt),
 							'shift_qty' => $shift_qyt,
 							'capacity' => $capacity_month,
-							'ot_hours' => $ot_hour,
 							'ot_plan' => $ot_plan,
 							'p_load' => $plod,
 							'balance' => ($capacity_month-$month_order)
