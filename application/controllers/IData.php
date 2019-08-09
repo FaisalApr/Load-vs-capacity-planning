@@ -233,7 +233,20 @@ class IData extends CI_Controller {
 		$end = ($this->input->post('yend'));
 
 		$data  =  $this->iData_model->cariDataPeriodeSimulasi($id_lstcrln,$start,$end);
+		foreach ($data as $key => $value) {
+			# code...
+			$dat = $this->iData_model->cariMpByIdLcp($value->id);
+			$value->kom_dl = $dat;
 
+			$datr = $this->iData_model->cariMpByIdLcpN($value->id);
+			$value->kom_idl = $datr;
+			
+			$d = $this->iData_model->cariDLPAByIdLcp($value->id);
+			$value->kom_dl_pa = $d;
+			
+			$da = $this->iData_model->cariIDLPAByIdLcp($value->id);
+			$value->kom_idl_pa = $da;
+		}
 		echo json_encode($data);
 	}
 	

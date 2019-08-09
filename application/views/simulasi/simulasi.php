@@ -155,29 +155,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- modal -->
 <div>
 	<!-- import file -->
-	<div class="modal fade" id="modal_importexcl">
-		<div class="modal-dialog modal-dialog-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
-				</div>
-				<div class="modal-body">
-					<form method="post" id="import_form" enctype="multipart/form-data"> 
-						<div class="alert alert-warning" role="alert">
-							Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
-							<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
-						</div>
-						<p><label>Select Excel File</label>
-						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-						<br />
-						<input type="submit" id="btn_importfil" name="import" value="Import" class="btn btn-info" />
-					</form>
+		<div class="modal fade" id="modal_importexcl">
+			<div class="modal-dialog modal-dialog-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+					</div>
+					<div class="modal-body">
+						<form method="post" id="import_form" enctype="multipart/form-data"> 
+							<div class="alert alert-warning" role="alert">
+								Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
+								<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
+							</div>
+							<p><label>Select Excel File</label>
+							<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+							<br />
+							<input type="submit" id="btn_importfil" name="import" value="Import" class="btn btn-info" />
+						</form>
 
-				</div> 
+					</div> 
+				</div>
 			</div>
 		</div>
-	</div>
+	<!-- MODAL TOLTIP -->
+		<div class="modal fade" id="cek_mp">
+		    <div class="modal-dialog modal-dialog-centered modal-lg"> 
+		      <div class="modal-content"> 
+		      	<div style="margin-top: 10px;">
+		      		<center>
+	      				<h3 id="head_mp">Man Power</h3>
+	      				<hr style="width: 75%; height:2px; margin-top: 0px; border:none; background-color: #D50000;">
+	      			</center> 	
+		      	</div> 
+	      		<div style="min-height: 250px; margin: 30px; margin-top: 0px; margin-bottom: 0px;" >  
+	      			<table class="table table-hover table-bordered ">
+	      				<tbody style="text-align: left;" class="tb_mp"> 
+	      				</tbody> 
+	      			</table>
+	      		</div> 
+		      </div>
+		    </div>
+		</div>
 
 </div>
 <!-- end modal -->
@@ -197,38 +216,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 				var periode = [6,7,8,9,10,11,0,1,2,3,4,5];
 				const item = [
-								{name:'MP DL',val: 'mp_dl', view: true},
+								{name:'MP DL /Shift',val: 'mp_dl', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
 								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
 								{name:'CAPACITY',val: 'capacity', view: true}, 
 								{name:'BALANCE',val: 'balance', view: true},  
 								{name:'% LOAD',val: 'p_load', view: true},
-								{name:'OT PLAN',val: 'ot_plan', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'OT PLAN /Shift',val: 'ot_plan', view: true},
+								// {name:'OT HOURS',val: 'ot_hours', view: true},
 								{name:'EFFICIENCY (%)',val: 'efficiency', view: true}, 
-								{name:'MH OUT/SHIFT',val: 'mhout_shift', view: true}, 
+								{name:'UMH /SHIFT',val: 'mhout_shift', view: true}, 
 								{name:'SHIFT QTY',val: 'shift_qty', view: true}
 							];
 				const item_prod = [
-								{name:'MP DL',val: 'mp_dl', view: true},
+								{name:'MP DL /SHIFT',val: 'mp_dl', view: true},
 								{name:'WORKING DAYS',val: 'working_days', view: true},
 								{name:'MONTHLY ORDER',val: 'order_monthly', view: true},
 								{name:'CAPACITY',val: 'capacity', view: true},
 								{name:'BALANCE',val: 'balance', view: true},  
 								{name:'% LOAD',val: 'p_load', view: true},
 								{name:'OT PLAN',val: 'ot_plan', view: true},
-								{name:'OT HOURS',val: 'ot_hours', view: true}, 
+								{name:'OT',val: 'ot_hours', view: true}, 
 								{name:'EFFICIENCY (%)',val: 'efficiency', view: true}, 
-								{name:'MP IDL/SHIFT',val: 'mp_idl', view: true}, 
+								{name:'MP IDL /SHIFT',val: 'mp_idl', view: true},
+								{name:'MP BUFFER',val: 'mpbuffer', view: true},
+								{name:'DOWNTIME',val: 'downtime', view: true},
+								{name:'ATTENDANCE',val: 'attendance', view: true}, 
 								{name:'EXCL TIME',val: 'exc_time', view: true},
 								{name:'% Tot Prod',val: 'tot_productivity', view: true}
 								// {name:'SHIFT QTY',val: 'shift_qty', view: true},
 							]; 
+				// Template Modal Labor
+					const view_mpdl=[
+									[{nama: 'Housing + BT',val: 'housing_bt'},{nama:'Insert Plug	',val:'insert_plug'}],
+									[{nama: 'Setting',val: 'setting'},{nama:'Taping',val:'taping'}],
+									[{nama: 'SP',val: 'sp'},{nama:'Offline',val:'offline'}],
+									[{nama: 'Grommet',val: 'grommet'},{nama:'Housing/Ck A|B',val:'housing_ck'}],
+									[{nama: 'Checker + GRI',val: 'checker_gri'},{nama:'Dimcheck + SIG',val:'dimchecker_sig'}],
+									[{nama: 'VIS',val: 'vis'},{nama:'Total',val:'total'}]
+								];
+					const view_mpidl=[
+									[{nama: 'TPO',val: 'tpo'},{nama:'Material Supply',val:'material_supply'}],
+									[{nama: 'Circuit Supply',val: 'circuit_supply'},{nama:'Supply Fuse',val:'supply_fuse'}],
+									[{nama: 'Chorobiki A/B',val: 'chorobiki'},{nama:'PIC Repair',val:'pic_repair'}],
+									[{nama: 'Tanoko Ass',val: 'tanoko_ass'},{nama:'Tanoko Insp',val:'tanoko_insp'}],
+									[{nama: 'GL Ass',val: 'gl_ass'},{nama:'GL Insp',val:'gl_insp'}],
+									[{nama: 'Line Leader',val: 'line_leader'},{nama:'Total',val:'total'}]
+								];
+					const view_mpdlpa=[
+									[{nama: 'Cutting',val: 'cutting'},{nama:'Midle',val:'midle'}],
+									[{nama: 'Manual',val: 'manual'},{nama:'Twist',val:'twist'}],
+									[{nama: 'Shield',val: 'shield'},{nama:'Acc',val:'acc'}],
+									[{nama: 'Bonder',val: 'bonder'},{nama:'Raycham',val:'raycham'}],
+									[{nama: 'Joint',val: 'joint'},{nama:'HV',val:'hv'}],
+									[{nama: 'End Strip',val: 'end_strip'},{nama:'Total',val:'total'}]
+								];
+					const view_mpidlpa=[
+									[{nama: 'Line Leader',val: 'line_leader'},{nama:'Group leader',val:'group_leader'}],
+									[{nama: 'inspector',val: 'inspector'},{nama:'Bundling',val:'bundling'}],
+									[{nama: 'CSU',val: 'csu'},{nama:'Tanoko Ass',val:'tanoko_ass'}],
+									[{nama: 'Tanoko Insp',val: 'tanoko_insp'},{nama:'Sao Bonder',val:'sao_bonder'}],
+									[{nama: 'Helper Cuting',val: 'helper_cutting'},{nama:'chorobiki',val:'chorobiki'}],
+									[{nama:'Total',val:'total'}]
+								];
+
 				var today =  new Date();
 				var ystart='';
 				var yend='';
 				var mDataProd=[];
-				var ppcData=null;
+				var ppcData=[];
+				var kom_dl = [];
+				var kom_idl = [];
+				var kom_dl_pa = [];
+				var kom_idl_pa = [];
+
+				const wh = 7.88;
+				var typeline = 'reg';
+
 
 			// load Carline
 				function loadCarline() { 
@@ -262,8 +326,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							crln:id
 						},
 						success: function(data){ 
-							console.log('isi line');
-							console.log(data);
+							data.push({id:0,text:'TOTAL'});
+							// console.log('isi line');
+							// console.log(data);
 
 							$('#select_lin').empty();
 							$('#select_lin').select2({ 
@@ -372,28 +437,298 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
-		                    	// console.log('isi data prod:');
-		                    	// console.log(data); 
+		                    	console.log('isi data prod:');
+		                    	console.log(data); 
 		                    	mDataProd=[];
 		                    	// Conf HEADER
 		                    		var tg = '';
 		                    		var lstcr = 0;
 		                    		var i = 0, sf=1;
-			                    	data.forEach(function(dat){
+			                    	data.forEach(function(dat){ 
 			                    		var thed = $('#thead_testing').find('tr'); 
 			                			var tgl = new Date(dat.tanggal);
 			                			var vald = false;
-
+			                			// console.log('ike:'+i);
 			                			// awal GET
-			                			if (i=0) {
+			                			if (i==0) {
+
 			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
 			                				thed.append(
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
 			                				// cek isi line sudah diisi  
 			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true;
-			                						sf=0;
+			                						vald = true; 
+			                					}
+			                				//in local DB
+				                				var u_dat = { 
+				                							is_valid: vald,
+				                							shift_qty: dat.shift_qty,
+															mp_dl: dat.mp_dl,
+															mp_idl: dat.mp_idl,
+															umh_shift: dat.umh_shift,
+															working_days: dat.working_days,
+															order_monthly: dat.order_monthly,
+															capacity: dat.umh_shift,
+															balance: dat.balance,
+															p_load: dat.p_load,
+															ot_plan: dat.ot_plan,
+															ot_hours: dat.ot_hours,
+															efficiency: dat.efficiency, 
+															exc_time: dat.exc_time,
+															tot_productivity: dat.tot_productivity,
+															tanggal: dat.tanggal, 
+															mpbuffer: dat.mpbuffer,
+															attendance: dat.attendance,
+															downtime: dat.downtime, 
+															kom_dl: dat.kom_dl,
+															kom_idl: dat.kom_idl
+														};
+												mDataProd.push(u_dat);
+			                			}
+			                			// jika ini sama dengan sebelumya beda sif
+			                			else if (tg == monthName[tgl.getMonth()] && lstcr == dat.id_carline_has_line ) { 
+			                				var last = (mDataProd.length-1); 
+			                				// cek isi line sudah diisi  
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
+			                						vald = true; 
+			                					}
+			                				// Penggabungan data dengan sebelumnya 
+												var u_dat = {	
+														is_valid: vald,
+														shift_qty: dat.shift_qty,
+														mp_dl: (Number(mDataProd[last].mp_dl)+Number(dat.mp_dl))/Number(dat.shift_qty),
+														mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
+														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
+														working_days:  dat.working_days,
+														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
+														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
+														balance: Number(mDataProd[last].balance)+Number(dat.balance),
+														p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
+														ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
+														ot_hours: Number(mDataProd[last].ot_hours)+Number(dat.ot_hours),
+														efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency)/Number(dat.shift_qty)),
+														exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
+														tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity),
+														tanggal: dat.tanggal,
+														kom_dl: dat.kom_dl,
+														kom_idl: dat.kom_idl,
+														mpbuffer: Number(mDataProd[last].mpbuffer)+Number(dat.mpbuffer),
+														attendance: Number(mDataProd[last].attendance)+Number(dat.attendance),
+														downtime: Number(mDataProd[last].downtime)+Number(dat.downtime)
+													};
+												mDataProd[last] = u_dat;
+			                			}
+			                			//  Blan baru
+			                			else if (tg != monthName[tgl.getMonth()]){
+			                				thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
+			                				// cek isi line sudah diisi  
+			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
+			                						vald = true; 
+			                					}
+			                				//in local DB
+				                				var u_dat = { 
+				                							is_valid: vald,
+				                							shift_qty: dat.shift_qty,
+															mp_dl: dat.mp_dl,
+															mp_idl: dat.mp_idl,
+															umh_shift: dat.umh_shift,
+															working_days: dat.working_days,
+															order_monthly: dat.order_monthly,
+															capacity: dat.capacity,
+															balance: dat.balance,
+															p_load: dat.p_load,
+															ot_plan: dat.ot_plan,
+															ot_hours: dat.ot_hours,
+															efficiency: dat.efficiency, 
+															exc_time: dat.exc_time,
+															tot_productivity: dat.tot_productivity,
+															tanggal: dat.tanggal,
+															kom_dl: dat.kom_dl,
+															kom_idl: dat.kom_idl,
+															mpbuffer: dat.mpbuffer,
+															attendance: dat.attendance,
+															downtime: dat.downtime 
+														};
+												mDataProd.push(u_dat);
+			                			} 
+
+			                			// jika sif sesuai 
+			                			if (dat.shift_qty== sf) {
+			                				sf=0;
+			                			}
+
+			                			i++;
+			                			sf++;
+				                    });
+
+								//JIKA DATA KOSONG
+				                    if (data.length==0) {
+				                    	var thed = $('#thead_testing').find('tr'); 
+			                    		thed.append(
+			            						$('<th class="monn">').text( 'No Data' )
+			            					); 
+			                    	}
+			                    
+		                    }
+		                }); 
+	 				
+	 				// HITUNG DUlu
+	 				hitungRumus();
+
+	 				// LOAD Char
+	 				loadChart();
+	 				showmData();
+				}
+
+				function getDataPeriodTotal() { 
+					console.log('isis carline');
+					// console.log($('#select_carline').val());
+
+					if (!$('#pilih_monthrange').val()) {
+						ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
+						yend = today.getFullYear()+'-'+(today.getMonth()+2)+'-1';
+					} 
+
+					// SHOW DATA TOTAL PPC
+		                $('#tbody_actual').html('');// clear tabel
+		                $('#thead_act th.pcc').remove(); //Clear THEAD
+					// Show Data TOTAL PPC
+						$.ajax({
+							async : false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/simulasi/getSimulasiTotalPpc",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	carline: $('#select_carline').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){
+		                    	// console.log('data ppc:');
+		                    	// console.log(data); 
+		                    	ppcData = [];
+
+		                    	// var CONF HEAD
+		                    		var tg = '',i=0;
+
+		                    	data.forEach(function(dat){
+		                    		var thead = $('#thead_act thead').find('tr');
+		                    		var tgl = new Date(dat.tanggal);
+
+
+		                    		// AWAL get
+		                    		if (i==0) {
+		                    			tg = monthName[tgl.getMonth()];
+		                    			thead.append(
+		                    					$('<th class="pcc">').text(monthName[tgl.getMonth()])
+		                    				);
+		                    			// Add Varr Local
+		                    			var u_dat = {
+		                    						mp_dl: dat.mp_dl,
+		                    						working_days: dat.working_days,
+		                    						order_monthly: dat.order_monthly,
+		                    						capacity: dat.capacity,
+		                    						balance: dat.balance,
+		                    						p_load: dat.p_load,
+		                    						ot_plan: dat.ot_plan,
+		                    						ot_hours: dat.ot_hours,
+		                    						efficiency: dat.efficiency,
+		                    						mhout_shift: dat.mhout_shift,
+		                    						shift_qty: dat.shift_qty
+		                    					};
+		                    			ppcData.push(u_dat);
+		                    		}else if( tg == monthName[tgl.getMonth()]){
+		                    			var las = (ppcData.length-1);
+		                    			// UPDaate var local
+		                    			var u_dat = {
+		                    						mp_dl: Number(ppcData[las].mp_dl)+Number(dat.mp_dl),
+		                    						working_days: Number(ppcData[las].working_days)+ Number(dat.working_days),
+		                    						order_monthly: Number(ppcData[las].order_monthly)+Number(dat.order_monthly),
+		                    						capacity: Number(ppcData[las].capacity)+Number(dat.capacity),
+		                    						balance: Number(ppcData[las].balance)+Number(dat.balance),
+		                    						p_load: Number(ppcData[las].p_load)+Number(dat.p_load),
+		                    						ot_plan: Number(ppcData[las].ot_plan)+Number(dat.ot_plan),
+		                    						ot_hours: Number(ppcData[las].ot_hours)+Number(dat.ot_hours),
+		                    						efficiency: Number(ppcData[las].efficiency)+Number(dat.efficiency),
+		                    						mhout_shift: Number(ppcData[las].mhout_shift)+Number(dat.mhout_shift),
+		                    						shift_qty: Number(ppcData[las].shift_qty)+Number(dat.shift_qty)
+		                    					};
+		                    			
+		                    			ppcData[las] = u_dat; 
+		                    		}else if( tg != monthName[tgl.getMonth()] ){
+		                    			tg = monthName[tgl.getMonth()];
+		                    			thead.append(
+		                    					$('<th class="pcc">').text(monthName[tgl.getMonth()])
+		                    				);
+
+		                    			// Add Varr Local
+		                    			var u_dat = {
+		                    						mp_dl: dat.mp_dl,
+		                    						working_days: dat.working_days,
+		                    						order_monthly: dat.order_monthly,
+		                    						capacity: dat.capacity,
+		                    						balance: dat.balance,
+		                    						p_load: dat.p_load,
+		                    						ot_plan: dat.ot_plan,
+		                    						ot_hours: dat.ot_hours,
+		                    						efficiency: dat.efficiency,
+		                    						mhout_shift: dat.mhout_shift,
+		                    						shift_qty: dat.shift_qty
+		                    					};
+		                    			ppcData.push(u_dat);
+		                    		}
+
+		                    		i++;
+		                    	});
+ 
+
+		                      }
+		                });
+	                
+
+	                // SHOW DATA TOTAL PROD
+		                $('#tbody_testing').html('');// clear tabel
+		                $('#thead_testing th.monn').remove(); //Clear THEAD
+		            // get Dataa TOTAL PROD
+		                $.ajax({
+		                	async: false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/Simulasi/getSimulasiTotalProd",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	carline: $('#select_carline').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){ 
+		                    	console.log('isi data total prod:');
+		                    	console.log(data); 
+		                    	
+		                    	mDataProd=[];
+		                    	// Conf HEADER
+		                    		var tg = ''; 
+		                    		var i = 0, sf=1;
+
+		                    		var vald = true;
+			                    	data.forEach(function(dat){
+			                    		var thed = $('#thead_testing').find('tr'); 
+			                			var tgl = new Date(dat.tanggal); 
+			                			// console.log('ike:'+i);
+			                			// console.log('mp:'+dat.mp_dl);
+			                			// awal GET
+			                			if (i==0) { 
+			                				tg = monthName[tgl.getMonth()];
+			                				thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+			                				// cek isi line sudah diisi  
+			                					if (dat.mp_dl==0) { 
+			                						vald = false; 
+			                						console.log('false');
 			                					}
 			                				//in local DB
 				                				var u_dat = { 
@@ -417,24 +752,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												mDataProd.push(u_dat);
 			                			}
 			                			// jika ini sama dengan sebelumya beda sif
-			                			else if (tg == monthName[tgl.getMonth()] && lstcr == dat.id_carline_has_line ) {
-			                				thed.append(
-			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
-			                				);
+			                			else if (tg == monthName[tgl.getMonth()]) { 
 			                				var last = (mDataProd.length-1); 
 			                				// cek isi line sudah diisi  
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true;
-			                						sf=0;
+			                					if (dat.mp_dl==0) { 
+			                						vald = false;
+			                						console.log('false'); 
 			                					}
 			                				// Penggabungan data dengan sebelumnya 
 												var u_dat = {	
 														is_valid: vald,
-														shift_qty: dat.shift_qty,
+														shift_qty: Number(mDataProd[last].shift_qty)+Number(dat.shift_qty),
 														mp_dl: Number(mDataProd[last].mp_dl)+Number(dat.mp_dl),
 														mp_idl: Number(mDataProd[last].mp_idl)+Number(dat.mp_idl),
 														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														working_days:  dat.working_days,
+														working_days:  Number(mDataProd[last].working_days)+Number(dat.working_days),
 														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
 														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
 														balance: Number(mDataProd[last].balance)+Number(dat.balance),
@@ -450,11 +782,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                			}
 			                			//  Blan baru
 			                			else if (tg != monthName[tgl.getMonth()]){
-			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
+			                				vald = true;
+			                				thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+			                				tg = monthName[tgl.getMonth()];
 			                				// cek isi line sudah diisi  
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true;
-			                						sf=0;
+			                					if (dat.mp_dl==0) { 
+			                						vald = false; 
+			                						console.log('false');
 			                					}
 			                				//in local DB
 				                				var u_dat = { 
@@ -483,31 +819,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                				sf=0;
 			                			}
 
+			                			i++;
 			                			sf++;
 				                    });
 
-									
-									//JIKA DATA KOSONG
-					                    if (data.length==0) {
-					                    	var thed = $('#thead_testing').find('tr'); 
-				                    		thed.append(
-				            						$('<th class="monn">').text( 'No Data' )
-				            					); 
-				                    	}
+								//JIKA DATA KOSONG
+				                    if (data.length==0) {
+				                    	var thed = $('#thead_testing').find('tr'); 
+			                    		thed.append(
+			            						$('<th class="monn">').text( 'No Data' )
+			            					); 
+			                    	}
 			                    	
 		                    }
 		                }); 
 	 				
+	 				console.log('end ISI md');
+	 				console.log(mDataProd);
 	 				// HITUNG DUlu
 	 				hitungRumus()
 
 	 				// LOAD Char
 	 				loadChart();
 	 				showmData();
+	 				showmdPpc();
 				}
 
-				function showmD() { 
-					$('#tbody_actual').html('');
+				function showmdPpc() { 
+					$('#tbody_actual').html('');// clear tabel
+					$('#thead_act th.pcc').remove(); //Clear THEAD
 
                 	// item Y kebawah
                 	item.forEach(function(itm){
@@ -519,8 +859,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     		// Data X samping 
                     		var x = 0;
                     		ppcData.forEach(function(dat){ 
+                    			var htm = '';
+
+
+                    			if (itm.val=='order_monthly' || itm.val=='capacity' || itm.val=='balance' || itm.val=='ot_plan' ) {
+                    				htm = parseFloat(dat[itm.val]).toFixed(2);
+                    			}else if(itm.val =='p_load' || itm.val=='efficiency'){
+                    				htm = parseFloat(dat[itm.val]).toFixed(2)+'%';
+                    			}else{
+                    				htm = dat[itm.val];
+                    			}
+
+
         						tr.append(
-                						$('<td>').text( dat[itm.val] )
+                						$('<td>').text( htm )
                 					);
                 				x++;
 	                    	}); 
@@ -532,7 +884,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				function showmData() { 
 					$('#tbody_testing').html(''); 
-
+					console.log(mDataProd);
                 	// item Y kebawah
                 	var y=0;
                 	item_prod.forEach(function(itm){
@@ -549,39 +901,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     			tmp_html = ''; 
 
                     			// awal TUlisan DAta kurang Lengkap
-                    			if (dat['is_valid']==false && item_prod[0].name==itm.name) {
-									tmp_html = 'Data BELUM Lengkap'; 
-									tr.append( $('<td>').text( tmp_html ) );
-									y++;
-									return;                   				
-                    			}
-                    			else if(dat['is_valid']==false && y!=0){
-                    				tmp_html = '-'; 
-									tr.append( $('<td>').text( tmp_html ) );
-									y++;
-									return;                   				
-                    			}
+	                    			if (dat['is_valid']==false && item_prod[0].name==itm.name) {
+										tmp_html = 'Data BELUM Lengkap'; 
+										tr.append( $('<td>').text( tmp_html ) );
+										x++;
+										y++;
+										return;                   				
+	                    			}
+	                    			else if(dat['is_valid']==false && y!=0){
+	                    				tmp_html = '-'; 
+										tr.append( $('<td>').text( tmp_html ) );
+										x++;
+										y++;
+										return;                   				
+	                    			}
 
-
-                    			if (itm.val=='efficiency' || itm.val=='p_load' || itm.val=='tot_productivity' ) {  
-        							tmp_html = parseFloat(dat[itm.val]).toFixed(1)+'%' ; 
-        						}else if( itm.val=='order_monthly' || itm.val=='capacity' || itm.val=='balance' || itm.val=='umh_shift'){
-        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(2)) ; 
-        						}else if(itm.val=='ot_plan' || itm.val=='exc_time' ){
-        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(0)) ; 
-        						}else if(itm.val=='ot_hours'){
-        							tmp_html = parseFloat(dat[itm.val]).toFixed(1) ; 
-        						}else{ 
-                					tmp_html = dat[itm.val] ; 
-        						}
+	                    		// Formating
+	                    			if (itm.val=='efficiency' || itm.val=='p_load' || itm.val=='tot_productivity' ) {  
+	        							tmp_html = parseFloat(dat[itm.val]).toFixed(1)+'%' ; 
+	        						}else if( itm.val=='order_monthly' || itm.val=='capacity' || itm.val=='balance' || itm.val=='umh_shift'){
+	        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(2)) ; 
+	        						}else if(itm.val=='ot_plan' || itm.val=='exc_time' ){
+	        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(0)) ; 
+	        						}else if(itm.val=='ot_hours'){
+	        							tmp_html = parseFloat(dat[itm.val]).toFixed(1) ; 
+	        						}else{ 
+	                					tmp_html = dat[itm.val] ; 
+	        						}
 
         						// console.log( Math.abs(parseFloat(dat.ot_hours).toFixed(1))+'='+Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) );
-        						if(itm.val=='ot_hours' && Math.abs(parseFloat(dat.ot_hours).toFixed(1))== Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) ){
-        							tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );	 
-        						}else if ( parseFloat(dat[itm.val]).toFixed(0) != parseFloat(ppcData[x][itm.val]).toFixed(0) && ppcData[x][itm.val]!=null) { 
-        							tr.append( $('<td class="inner" bgcolor="#FFF4C1" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );
+        						// Check Warna
+        						if ( parseFloat(dat[itm.val]).toFixed(0) != parseFloat(ppcData[x][itm.val]).toFixed(0) && ppcData[x][itm.val]!=null) { 
+        							tr.append( 
+        								$(`<td class='inner' bgcolor='#FFF4C1' data-id='`+x+`' data-mpdl='`+JSON.stringify(dat.kom_dl)+`'  data-mpidl='`+JSON.stringify(dat.kom_idl)+`'  data-col='`+itm.val+`' data-val='`+dat[itm.val]+`'>`).text( tmp_html ) 
+        								);
         						}else{
-        							tr.append( $('<td class="inner" data-id="'+x+'" data-col="'+itm.val+'" data-val="'+dat[itm.val]+'">').text( tmp_html ) );	 
+        							tr.append( 
+        								$(`<td class='inner' data-id='`+x+`' data-mpdl='`+JSON.stringify(dat.kom_dl)+`'  data-mpidl='`+JSON.stringify(dat.kom_idl)+`'  data-col='`+itm.val+`' data-val='`+dat[itm.val]+`'>`).text( tmp_html ) 
+        								);
         						}
         						
         						y++;
@@ -596,313 +953,317 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 			// ====   CHART   ====  //
-			function loadChart() {
-				// Actual
-	            	var options ={  
-							    chart: {
-							        renderTo: 'container'
-							    },
-							    title: {
-							        text: 'Data PPC'
-							    },
-							    xAxis: {
-							        categories: (
-						        			function(){
-						        				var da = [];
-
-						        					ppcData.forEach(function(dat){
-						        						var tgl = new Date(dat.tanggal);
-						        						da.push(monthName[tgl.getMonth()]);
-						        					});
-
-						        				return da;
-						        			}()
-						        		),
-							        crosshair: true
-							    },
-							    yAxis: [
-							    	{
-							    		labels: {
-								            format: '{value}',
-								            style: {
-								                color: Highcharts.getOptions().colors[1]
-								            }
-								        },
-								        title: {
-								            text: '',
-								            style: {
-								                color: Highcharts.getOptions().colors[1]
-								            }
-								        },
-								        lineWidth: 1
-								    }, {
-								    	title: {
-								            text: '% Load',
-								            style: {
-								                color: '#000000'
-								            }
-								        },
-								        labels: {
-								            format: '{value} %',
-								            style: {
-								                color: '#000000'
-								            }
-								        },
-								        lineWidth: 1,
-								        opposite: true
-									}
-								], 
-							    tooltip: {
-							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-							            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-							        footerFormat: '</table>',
-							        shared: true,
-							        useHTML: true
-							    },
-							    plotOptions: {
-							        column: {
-							            pointPadding: 0.2,
-							            borderWidth: 0
-							        }
-							    },
-							    series: [
-							    	{
-							    		type: 'column',
-								        name: 'Kap Prod',
-								        data: (
-						        			function(){
-						        				var da = [];
-
-						        					ppcData.forEach(function(dat){ 
-						        						da.push(parseFloat(dat.capacity));
-						        					});
-
-						        				return da;
-						        			}()
-						        		)
-								    }, 
-								    {
-								    	type: 'column',
-								        name: 'Order',
-								        data:  (
-						        			function(){
-						        				var da = [];
-
-						        					ppcData.forEach(function(dat){ 
-						        						da.push(parseFloat(dat.order_monthly));
-						        					});
-
-						        				return da;
-						        			}()
-						        		),
-								        color: '#B22625'
-
-								    }, 
-								    {
-								        type: 'spline',
-								        name: '% Load',
-								        yAxis: 1,
-								        data:  (
-						        			function(){
-						        				var da = [];
-
-						        					ppcData.forEach(function(dat){ 
-						        						da.push(parseFloat(dat.p_load));
-						        					});
-
-						        				return da;
-						        			}()
-						        		),
-								        marker: {
-								            lineWidth: 2,
-								            lineColor: Highcharts.getOptions().colors[3],
-								            fillColor: 'white'
-								      	}
-							    	}
-							    ],
-							    legend: {
-									layout: 'vertical',
-									align: 'left',
-									verticalAlign: 'top',
-									x: 70,
-									y: -10,
-									floating: true,
-									borderWidth: 1,
-									backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-								}
-
-			            	};
-	            	var chart = new Highcharts.Chart(options); 
-
-	            // Testing
-	            	var options_tes ={  
-							    chart: {
-							        renderTo: 'container_testing'
-							    },
-							    title: {
-							        text: 'Data Produksi'
-							    },
-							    xAxis: {
-							        categories: (
+				function loadChart() {
+					// Actual
+		            	var options ={  
+								    chart: {
+								        renderTo: 'container'
+								    },
+								    title: {
+								        text: 'Data PPC'
+								    },
+								    xAxis: {
+								        categories: (
 							        			function(){
 							        				var da = [];
 
-							        					mDataProd.forEach(function(dat){
-
+							        					ppcData.forEach(function(dat){
 							        						var tgl = new Date(dat.tanggal);
-							        						// console.log(dat.tanggal);
-							        						// if (dat.is_valid) {
-								        						da.push(monthName[tgl.getMonth()]);
-								        					// }
+							        						da.push(monthName[tgl.getMonth()]);
 							        					});
 
 							        				return da;
 							        			}()
 							        		),
-							        crosshair: true
-							    },
-							    yAxis: [
-							    	{
-							    		labels: {
-								            format: '{value}',
-								            style: {
-								                color: Highcharts.getOptions().colors[1]
-								            }
-								        },
-								        title: {
-								            text: '',
-								            style: {
-								                color: Highcharts.getOptions().colors[1]
-								            }
-								        },
-								        lineWidth: 1
-								    }, {
-								    	title: {
-								            text: '% Load',
-								            style: {
-								                color: '#000000'
-								            }
-								        },
-								        labels: {
-								            format: '{value} %',
-								            style: {
-								                color: '#000000'
-								            }
-								        },
-								        lineWidth: 1,
-								        opposite: true,
-								        plotLines: [{
-										    color: 'red', // Color value 
-										    dashStyle: 'dashdot', // Style of the plot line. Default to solid
-										    value: 110, // Value of where the line will appear
-										    width: 2 // Width of the line    
-										}],
-								        plotBands: [{
-										    color: 'orange', // Color value
-										    dashStyle: 'ShortDash',  
-										    value: 100, // Value of where the line will appear
-		    								width: 2
-										  }]
+								        crosshair: true
+								    },
+								    yAxis: [
+								    	{
+								    		max:40000,
+								    		min:12000,
+								    		labels: {
+									            format: '{value}',
+									            style: {
+									                color: Highcharts.getOptions().colors[1]
+									            }
+									        },
+									        title: {
+									            text: '',
+									            style: {
+									                color: Highcharts.getOptions().colors[1]
+									            }
+									        },
+									        lineWidth: 1
+									    }, {
+									    	title: {
+									            text: '% Load',
+									            style: {
+									                color: '#000000'
+									            }
+									        },
+									        labels: {
+									            format: '{value} %',
+									            style: {
+									                color: '#000000'
+									            }
+									        },
+									        lineWidth: 1,
+									        opposite: true
+										}
+									], 
+								    tooltip: {
+								        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+								        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+								            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+								        footerFormat: '</table>',
+								        shared: true,
+								        useHTML: true
+								    },
+								    plotOptions: {
+								        column: {
+								            pointPadding: 0.2,
+								            borderWidth: 0
+								        }
+								    },
+								    series: [
+								    	{
+								    		type: 'column',
+									        name: 'Kap Prod',
+									        data: (
+							        			function(){
+							        				var da = [];
+
+							        					ppcData.forEach(function(dat){ 
+							        						da.push(parseFloat(dat.capacity));
+							        					});
+
+							        				return da;
+							        			}()
+							        		)
+									    }, 
+									    {
+									    	type: 'column',
+									        name: 'Order',
+									        data:  (
+							        			function(){
+							        				var da = [];
+
+							        					ppcData.forEach(function(dat){ 
+							        						da.push(parseFloat(dat.order_monthly));
+							        					});
+
+							        				return da;
+							        			}()
+							        		),
+									        color: '#B22625'
+
+									    }, 
+									    {
+									        type: 'spline',
+									        name: '% Load',
+									        yAxis: 1,
+									        data:  (
+							        			function(){
+							        				var da = [];
+
+							        					ppcData.forEach(function(dat){ 
+							        						da.push(parseFloat(dat.p_load));
+							        					});
+
+							        				return da;
+							        			}()
+							        		),
+									        marker: {
+									            lineWidth: 2,
+									            lineColor: Highcharts.getOptions().colors[3],
+									            fillColor: 'white'
+									      	}
+								    	}
+								    ],
+								    legend: {
+										layout: 'vertical',
+										align: 'left',
+										verticalAlign: 'top',
+										x: 70,
+										y: -10,
+										floating: true,
+										borderWidth: 1,
+										backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 									}
-								], 
-							    tooltip: {
-							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-							                      '<td style="padding:0"><b>{point.y:.0f}  </b></td></tr>',
-							        footerFormat: '</table>',
-							        shared: true,
-							        useHTML: true
-							    },
-							    plotOptions: {
-							        column: {
-							            pointPadding: 0.2,
-							            borderWidth: 0
-							        }
-							    },
-							    series: [
-							    	{
-							    		type: 'column',
-								        name: 'Kap Prod',
-								        data: (
-							        			function(){
-							        				var da = [];
 
-							        					mDataProd.forEach(function(dat){ 
-							        						if (dat.is_valid) {
-							        							da.push(parseFloat(dat.capacity));
-							        						}else{
-							        							da.push(0);
-							        						}
-							        					});
+				            	};
+		            	var chart = new Highcharts.Chart(options); 
 
-							        				return da;
-							        			}()
-							        		)
-								    }, 
-								    {
-								    	type: 'column',
-								        name: 'Order',
-								        data: (
-							        			function(){
-							        				var da = [];
+		            // Testing
+		            	var options_tes ={  
+								    chart: {
+								        renderTo: 'container_testing'
+								    },
+								    title: {
+								        text: 'Data Produksi'
+								    },
+								    xAxis: {
+								        categories: (
+								        			function(){
+								        				var da = [];
 
-							        					mDataProd.forEach(function(dat){ 
-							        						if (dat.is_valid) {
-							        							da.push(parseFloat(dat.order_monthly));
-							        						}else{
-							        							da.push(0);
-							        						}
-							        					});
+								        					mDataProd.forEach(function(dat){
 
-							        				return da;
-							        			}()
-							        		)
-								    }, 
-								    {
-								        type: 'spline',
-								        name: '% Load',
-								        yAxis: 1,
-								        data: (
-							        			function(){
-							        				var da = [];
+								        						var tgl = new Date(dat.tanggal);
+								        						// console.log(dat.tanggal);
+								        						// if (dat.is_valid) {
+									        						da.push(monthName[tgl.getMonth()]);
+									        					// }
+								        					});
 
-							        					mDataProd.forEach(function(dat){ 
-							        						if (dat.is_valid) {
-							        							da.push(parseFloat(dat.p_load));
-							        						}else{
-							        							da.push(0);
-							        						}
-							        					});
+								        				return da;
+								        			}()
+								        		),
+								        crosshair: true
+								    },
+								    yAxis: [
+								    	{ 
 
-							        				return da;
-							        			}()
-							        		),
-								        marker: {
-								            lineWidth: 2,
-								            lineColor: Highcharts.getOptions().colors[3],
-								            fillColor: 'white'
-								      	}
-							    	}
-							    ],
-							    legend: {
-									layout: 'vertical',
-									align: 'left',
-									verticalAlign: 'top',
-									x: 70,
-									y: -10,
-									floating: true,
-									borderWidth: 1,
-									backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-								}
-			            	};
-	            	var chart_plan = new Highcharts.Chart(options_tes); 
-			} 
+								    		labels: {
+									            format: '{value}',
+									            style: {
+									                color: Highcharts.getOptions().colors[1]
+									            }
+									        },
+									        title: {
+									            text: '',
+									            style: {
+									                color: Highcharts.getOptions().colors[1]
+									            }
+									        },
+									        lineWidth: 1
+									    }, {
+									    	title: {
+									            text: '% Load',
+									            style: {
+									                color: '#000000'
+									            }
+									        },
+									        labels: {
+									            format: '{value} %',
+									            style: {
+									                color: '#000000'
+									            }
+									        },
+									        lineWidth: 1,
+									        opposite: true,
+									        plotLines: [{
+											    color: 'red', // Color value 
+											    dashStyle: 'dashdot', // Style of the plot line. Default to solid
+											    value: 110, // Value of where the line will appear
+											    width: 2 // Width of the line    
+											}],
+									        plotBands: [{
+											    color: 'orange', // Color value
+											    dashStyle: 'ShortDash',  
+											    value: 100, // Value of where the line will appear
+			    								width: 2
+											  }]
+										}
+									], 
+								    tooltip: {
+								        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+								        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+								                      '<td style="padding:0"><b>{point.y:.0f}  </b></td></tr>',
+								        footerFormat: '</table>',
+								        shared: true,
+								        useHTML: true
+								    },
+								    plotOptions: {
+								        column: {
+								            pointPadding: 0.2,
+								            borderWidth: 0
+								        }
+								    },
+								    series: [
+								    	{
+								    		type: 'column',
+									        name: 'Kap Prod',
+									        data: (
+								        			function(){
+								        				var da = [];
+
+								        					mDataProd.forEach(function(dat){ 
+								        						if (dat.is_valid) {
+								        							da.push(parseFloat(dat.capacity));
+								        						}else{
+								        							da.push(0);
+								        						}
+								        					});
+
+								        				return da;
+								        			}()
+								        		)
+									    }, 
+									    {
+									    	type: 'column',
+									        name: 'Order',
+									        data: (
+								        			function(){
+								        				var da = [];
+
+								        					mDataProd.forEach(function(dat){ 
+								        						if (dat.is_valid) {
+								        							da.push(parseFloat(dat.order_monthly));
+								        						}else{
+								        							da.push(0);
+								        						}
+								        					});
+
+								        				return da;
+								        			}()
+								        		)
+									    }, 
+									    {
+									        type: 'spline',
+									        name: '% Load',
+									        yAxis: 1,
+									        data: (
+								        			function(){
+								        				var da = [];
+
+								        					mDataProd.forEach(function(dat){ 
+								        						if (dat.is_valid) {
+								        							da.push(parseFloat(dat.p_load));
+								        						}else{
+								        							da.push(0);
+								        						}
+								        					});
+
+								        				return da;
+								        			}()
+								        		),
+									        marker: {
+									            lineWidth: 2,
+									            lineColor: Highcharts.getOptions().colors[3],
+									            fillColor: 'white'
+									      	}
+								    	}
+								    ],
+								    legend: {
+										layout: 'vertical',
+										align: 'left',
+										verticalAlign: 'top',
+										x: 70,
+										y: -10,
+										floating: true,
+										borderWidth: 1,
+										backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+									}
+				            	};
+		            	var chart_plan = new Highcharts.Chart(options_tes); 
+				} 
 
             // Trigger
 				// select carline
 					$('#select_carline').on('select2:select',function(e){
 						var data = e.params.data;
+						
 						console.log(data.id); 
 						loadLine(data.id);
 						getDataPeriode();
@@ -910,8 +1271,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// select Line
 					$('#select_lin').on('select2:select',function(e){
 						var data = e.params.data;
-						console.log(data.id);  
-						getDataPeriode();
+						// console.log(data.id);
+						typeline = 'reg'; 
+
+						if (data.text=='TOTAL') {
+							typeline = 'TOTAL';
+							getDataPeriodTotal(); 
+						}else{
+							if (data.text=='PA') {
+								typeline = 'PA';
+							}
+
+							getDataPeriode();
+						}   
 					}); 
 				// CALENDAR
 					// DAtepickers
@@ -933,7 +1305,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								ystart = s.getFullYear()+'-'+(s.getMonth()+1)+'-1'; 
 								yend = e.getFullYear()+'-'+(e.getMonth()+1)+'-'+endInM; 
 								
-								getDataPeriode();
+								if ($('#select_lin').val()==0) {
+									getDataPeriodTotal(); 
+								}else{
+									getDataPeriode();
+								} 
 							}  
 						}
 					});
@@ -975,7 +1351,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  			item[sel[x]].view = true;
 				  		}
 
-				  		showmD();
+				  		showmdPpc();
 					});
 
             // Update val
@@ -985,10 +1361,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var id = $(this).data('id');
 			        var col = $(this).data('col');
 			        var val = $(this).data('val');
+			        // Data Dl
+			        kom_dl = $(this).data('mpdl');
+			        kom_dl.mid = id;   
+			        kom_idl = $(this).data('mpidl');  
+			        kom_idl.mid = id;
+			        console.log('id:'+id+'|col:'+col+'|val:'+val); 
 
-			        console.log('id:'+id+'|col:'+col+'|val:'+val);
+			        // Reguler MP_DL
+			        if (col == 'mp_dl' && typeline=='reg') {
 
-			        updateVal(currentEle, id, col, val);
+			        	document.getElementById('head_mp').innerHTML = 'ManPower DL'; 
+			        	
+			        	buatTabelView('mpdl');
+			        	$('#cek_mp').modal('show');
+			        }
+			        // Reguler IDL
+			        else if (col == 'mp_idl' && typeline=='reg') {
+			        	
+			        	document.getElementById('head_mp').innerHTML = 'ManPower IDL'; 
+			        	
+			        	buatTabelView('mpidl');
+			        	$('#cek_mp').modal('show');
+			        }
+			        else{	
+			        	updateVal(currentEle, id, col, val);
+			        } 
 			    });
 
 			    function updateVal(currentEle, id, col, value) {
@@ -1007,7 +1405,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        	
 				            mDataProd[id][col] = val;  
 				            $(currentEle).html( $(".thVal").val() );  
-				             
+
+				            if ( col=='mpbuffer' || col=='downtime' || col=='attendance' || col=='efficiency' || col=='ot_hours' ) {
+				            	// Hutungan UMH
+									// Jumlah UMH
+										var umh = (Number(mDataProd[id].mp_dl)/100*100)*7.88*Number(mDataProd[id].working_days);
+										console.log('hasil umh: '+umh);
+									// umh OT HOURS
+										var ot_hours = (umh/wh)*mDataProd[id].ot_hours;
+										console.log('hasil ot_hours: '+ot_hours);
+									// umh MP BUFFER 
+										var mp_buffer = Number(mDataProd[id].mpbuffer)*wh*Number(mDataProd[id].working_days)*(100/100);
+										console.log('hasil mp_buffer: '+mp_buffer); 
+									// umh EFFICIENCY
+										var umh_eff = umh*((mDataProd[id].efficiency/100)-1);
+										console.log('hasil umh_eff: '+umh_eff);
+									// umh DOWNTIME
+										var downtime = (mDataProd[id].downtime*umh)/100;
+										console.log('hasil downtime: '+downtime); 
+									// umh ATTENDANCE
+										var attendance = (mDataProd[id].attendance/100)*umh;
+										console.log('hasil attendance: '+attendance);
+									// penambah dan pengurang
+										var penambah = umh_eff+mp_buffer+ot_hours;
+										var pengurang = downtime+attendance;
+									// OT PLAN
+										var excl = (7/60)*mDataProd[id].working_days*2*mDataProd[id].mp_dl;
+										console.log('hasil excl: '+excl); 
+									// total umh/shift 
+										var total_umh = umh+(penambah-pengurang);
+										console.log('hasil total: '+total_umh);
+
+									mDataProd[id].capacity = total_umh;
+				            }
+
 
 				            // HITUNG DUlu 
 				            loadChart();
@@ -1023,19 +1454,162 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    }); 
 
 				}
+				// ===== MAN POWER =====
+				$('.tb_mp').on('dblclick','.inn',function(e){
+					e.stopPropagation();
+					var currentEle = $(this); 
+					var val = $(this).data('val');
+					var col = $(this).data('col');
+					var typ = $(this).data('type');
+
+					console.log(col);
+					updateValMp(currentEle,val,typ,col);
+				})
+				function updateValMp(elmnt,value,typ,col) { // ==== MAN POWER =====
+					$(elmnt).html('<input class="thVal form-control" style="width: 50%;" type="number" value="' + value + '" />');
+				    $(".thVal").focus();
+				    $(".thVal").select(); 
+				    // Enter
+				    $(".thVal").keyup(function (event) {
+				        if (event.keyCode == 13) {
+				        	var val = $('.thVal').val();
+				        	var mid = 0;
+				        	
+				        	// Update
+					        	if (typ=='mpdl') {
+					        		mid = kom_dl.mid;
+					        		kom_dl[col] = val; 
+					        		// hitung total
+						        		var to = 0; 
+						        		view_mpdl.forEach(function(d){  
+							        			d.forEach(function(din){
+							        				if(din.val!='total'){ 	 
+								        				to+= Number(kom_dl[din.val]);
+								        			}
+							        			}); 
+						        			});
+
+					        		kom_dl['total'] = to; 
+					        		mDataProd[kom_dl.mid].mp_dl = to;  // Memasukkan Data Dl
+					        		mDataProd[kom_dl.mid].kom_dl = kom_dl; // memperbarui in data DL
+					        	}else if( typ=='mpidl' ){
+					        		mid = kom_idl.mid;
+					        		kom_idl[col] = val;
+					        		// hitung total
+						        		var to = 0; 
+						        		view_mpidl.forEach(function(d){  
+							        			d.forEach(function(din){
+							        				if(din.val!='total'){ 	 
+								        				to+= Number(kom_idl[din.val]);
+								        			}
+							        			}); 
+						        			});
+
+					        		kom_idl['total'] = to; 
+					        		mDataProd[kom_idl.mid].mp_idl = to;  // Memasukkan Data Dl
+					        		mDataProd[kom_idl.mid].kom_idl = kom_idl; // memperbarui in data DL
+					        	}
+					        // Hutungan UMH
+								// Jumlah UMH
+									var umh = (Number(mDataProd[mid].mp_dl)/100*100)*7.88*Number(mDataProd[mid].working_days);
+									console.log('hasil umh: '+umh);
+								// umh OT HOURS
+									var ot_hours = (umh/wh)*mDataProd[mid].ot_hours;
+									console.log('hasil ot_hours: '+ot_hours);
+								// umh MP BUFFER 
+									var mp_buffer = Number(mDataProd[mid].mpbuffer)*wh*Number(mDataProd[mid].working_days)*(100/100);
+									console.log('hasil mp_buffer: '+mp_buffer); 
+								// umh EFFICIENCY
+									var umh_eff = umh*((mDataProd[mid].efficiency/100)-1);
+									console.log('hasil umh_eff: '+umh_eff);
+								// umh DOWNTIME
+									var downtime = (mDataProd[mid].downtime*umh)/100;
+									console.log('hasil downtime: '+downtime); 
+								// umh ATTENDANCE
+									var attendance = (mDataProd[mid].attendance/100)*umh;
+									console.log('hasil attendance: '+attendance);
+								// penambah dan pengurang
+									var penambah = umh_eff+mp_buffer+ot_hours;
+									var pengurang = downtime+attendance;
+								// OT PLAN
+									var excl = (7/60)*mDataProd[mid].working_days*2*mDataProd[mid].mp_dl;
+									console.log('hasil excl: '+excl); 
+								// total umh/shift 
+									var total_umh = umh+(penambah-pengurang);
+									console.log('hasil total: '+total_umh);
+
+								mDataProd[kom_idl.mid].capacity = total_umh;
+
+
+				        	// Refresh Tabel
+				        	$(elmnt).html( val );
+				        	buatTabelView(typ); 
+				        }
+				    });
+				    // Loss Focus
+				    $(".thVal").focusout(function(){
+				    	$(elmnt).html( value ); 
+				    }); 
+				}
+			// Tabel View
+				function buatTabelView(jenis) { 
+
+					$('.tb_mp').html('');
+					var total = 0;
+					var type = '';
+					var mDat = [];
+
+					// Cek jenis Yang akan Ditampilkan
+					if (jenis == 'mpdl') {
+						view_tabel = view_mpdl;
+						type = 'mpdl';
+						mDat = kom_dl;
+					}else if(jenis == 'mpidl') {
+						view_tabel = view_mpidl;
+						type = 'mpidl';
+						mDat = kom_idl;
+					}
+
+					var tb = $('.tb_mp');  
+					view_tabel.forEach(function(dat){
+						var tr = $('<tr>');
+						dat.forEach(function(d){ 
+							
+							// mencari data 
+							if (d.nama=='Total') {
+								tr.append(
+									$('<th style="text-align: center">').text(d.nama),
+									$('<td class="total_mp">').text( total )
+								);
+							}else{
+								total += Number(mDat[d.val]);
+
+								tr.append(
+									$('<th>').text(d.nama),
+									$('<td class="inn" data-val="'+mDat[d.val]+'" data-type="'+type+'" data-col="'+d.val+'">').text(mDat[d.val])
+								);	
+							}
+							
+						});
+						
+						tr.appendTo(tb);
+					}); 
+				}
  
 			// RUMUS -RUMUS
 				function hitungRumus() { 
 
 					var x=0;
 					mDataProd.forEach(function(dat){
+						// capacyty
+							mDataProd[x].capacity = ((parseFloat(dat.mp_dl)*100)/100)* 7.88*parseFloat(dat.working_days);
 						// hitung BALANCE
-							mDataProd[x].balance = (parseFloat(dat.capacity)- parseFloat(dat.order_monthly));
+							mDataProd[x].balance = (parseFloat(mDataProd[x].capacity)- parseFloat(dat.order_monthly));
 						// hitung % LOAD 
-							mDataProd[x].p_load = (parseFloat(dat.order_monthly)/parseFloat(dat.capacity))*100;
+							mDataProd[x].p_load = (parseFloat(dat.order_monthly)/parseFloat(mDataProd[x].capacity))*100;
 							// console.log('pload :'+mDataProd[x].p_load);
 						// Hitung OT Plan
-							mDataProd[x].ot_plan = (parseFloat(dat.order_monthly)-parseFloat(dat.capacity));
+							mDataProd[x].ot_plan = (parseFloat(dat.order_monthly)-parseFloat(mDataProd[x].capacity));
 						// OT HOURS
 							mDataProd[x].ot_hours = ((parseFloat(dat.ot_plan)/parseFloat(dat.mp_dl))*parseFloat(dat.working_days))/3600;
 						// excl time
@@ -1043,8 +1617,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							// console.log('hsil excl: '+excl);
 							mDataProd[x].exc_time = excl;
 						// TOT PROD
-							// console.log('cap'+dat.capacity+'|mp_dl');
-							mDataProd[x].tot_productivity = (parseFloat(dat.capacity)/(parseFloat(dat.mp_dl)+parseFloat(dat.mp_idl)+parseFloat(mDataProd[x].exc_time)));
+							// console.log('cap'+mDataProd[x].capacity+'|mp_dl');
+							mDataProd[x].tot_productivity = (parseFloat(mDataProd[x].capacity)/(parseFloat(dat.mp_dl)+parseFloat(dat.mp_idl)+parseFloat(mDataProd[x].exc_time)));
 							// console.log('tot_productivity: '+mDataProd[x].tot_productivity);
 						x++;
 					});
@@ -1115,7 +1689,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 					})
 				});
-		
+			// Auto Sum
+				$('#cek_mp').on('hide.bs.modal', function(){
+					console.log('modal Hidde');  
+
+					hitungRumus();
+					loadChart();
+	 				showmData();
+				})
+
 		}); 
 	</script> 
 </body>
