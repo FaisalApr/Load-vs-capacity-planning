@@ -73,11 +73,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<select class="form-control" id="item_view" multiple data-actions-box="true" data-selected-text-format="count" data-width="auto">
 								<option value="0">MP DL/SHIFT</option>
 								<option value="1">MP IDL/SHIFT</option>
-								<option value="2">PLAN EFFICIENCY (%)</option> 
-								<option value="3">WORKING DAYS</option>
-								<option value="4">MONTHLY ORDER</option>   
-								<option value="5">UMH /SHIFT</option>  
-								<option value="6">EXCL TIME</option>
+								<option value="2">OT</option>
+								<option value="3">PLAN EFFICIENCY (%)</option> 
+								<option value="4">MP BUFFER</option>
+								<option value="5">DOWNTIME</option>
+								<option value="6">ATTENDANCE</option>
+								<option value="7">WORKING DAYS</option>
+								<option value="8">MONTHLY ORDER</option>   
+								<option value="9">UMH /SHIFT</option>  
+								<option value="10">EXCL TIME</option>
 							</select>
 						</th>
 
@@ -862,6 +866,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        	if(PA==false){
 			        		$('#i_detail_dl_modal').modal('show');
 			        		if(kom_dl!=false){
+			        			document.getElementById('cost').innerHTML='&nbsp&nbsp&nbsp'+mData[mid].mp_dl;
 				        		$('#i_housing_bt').val(kom_dl.housing_bt);
 				        		$('#i_insert').val(kom_dl.insert_plug);
 				        		$('#i_setting').val(kom_dl.setting);
@@ -878,6 +883,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        	}else{
 			        		$('#mp_dl_pa_modal').modal('show');
 			        		if(kom_dl_pa!=false){
+			        			document.getElementById('cost3').innerHTML='&nbsp&nbsp&nbsp'+mData[mid].mp_dl;
 				        		$('#i_cutting').val(kom_dl_pa.cutting);
 				        		$('#i_midle').val(kom_dl_pa.midle);
 				        		$('#i_manual').val(kom_dl_pa.manual);
@@ -902,6 +908,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        	if(PA==false){
 			        		$('#i_detail_idl_modal').modal('show');
 			        		if(kom_idl!=false){
+				        		document.getElementById('cost2').innerHTML='&nbsp&nbsp&nbsp'+mData[mid].mp_idl;
 				        		$('#i_tpo').val(kom_idl.tpo);
 				        		$('#i_material_supply').val(kom_idl.material_supply);
 				        		$('#i_circuit_Supply').val(kom_idl.circuit_supply);
@@ -918,7 +925,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        	}else{
 			        		$('#mp_idl_pa_modal').modal('show');	
 			        		if(kom_idl_pa!=false){
-
+			        			document.getElementById('cost4').innerHTML='&nbsp&nbsp&nbsp'+mData[mid].mp_idl;
 				        		$('#i_line_lead').val(kom_idl_pa.line_leader);
 				        		$('#i_group_leader').val(kom_idl_pa.group_leader);
 				        		$('#i_inspector').val(kom_idl_pa.inspector);
@@ -1452,19 +1459,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        }
 					          
 					        document.getElementById('cost4').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
-					    });z
+					    });
 					});
-				// $('#mp_idl_pa_modal').on('show.bs.modal', function(){
-				//  	console.log();
-				//  	var cost = 0;
-				// 	    $(".num4").each(function(e) {
-				// 	        v = parseFloat($(this).val());
-				// 	        if(!isNaN(v)) {
-				// 	            cost += v;    
-				// 	    	}      
-				// 	    document.getElementById('cost4').innerHTML="&nbsp&nbsp&nbsp&nbsp"+cost;
-				//    		});
-				// });
 
 		});
 	</script>
