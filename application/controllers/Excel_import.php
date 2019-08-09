@@ -143,7 +143,7 @@ class Excel_import extends CI_Controller {
 							'mhout_shift' => $mhout_shift,
 							'order_monthly' => $month_order,
 							'efficiency' => $efficiency,
-							'mp_dl' => ($mpdl_shift*$shift_qyt),
+							'mp_dl' => $mpdl_shift,
 							'shift_qty' => $shift_qyt,
 							'capacity' => $capacity_month,
 							'ot_plan' => $ot_plan,
