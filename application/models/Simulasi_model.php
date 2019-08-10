@@ -33,12 +33,13 @@ class Simulasi_model extends CI_Model {
 	public function cariDataPeriodeTotalProd($carline,$stat,$end)
 	{
 		# code...
-		$q = $this->db->query("SELECT * 
+		$q = $this->db->query("SELECT *,main_lcp.id
 								FROM main_lcp 
 								    JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
 								    JOIN carline on carline_has_line.id_carline=carline.id
 								WHERE 
-									carline.id=$carline AND tanggal>='$stat' AND tanggal<='$end' ORDER BY tanggal ASC");
+									carline.id=$carline AND tanggal>='$stat' AND tanggal<='$end' 
+								ORDER BY tanggal ASC");
 		return $q->result();
 	}
 

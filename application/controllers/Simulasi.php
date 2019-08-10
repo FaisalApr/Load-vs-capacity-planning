@@ -5,6 +5,7 @@ class Simulasi extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('iData_model'); 
 		$this->load->model('Simulasi_model'); 
 	}
 	public function index()
@@ -48,6 +49,19 @@ class Simulasi extends CI_Controller {
 
 		$data  =  $this->Simulasi_model->cariDataPeriodeTotalProd($id_carline,$start,$end);
 
+		foreach ($data as $key => $value) {
+			# code...
+			$dat = $this->iData_model->cariMpByIdLcp($value->id);
+			$value->kom_dl = $dat;
+
+			$datr = $this->iData_model->cariMpByIdLcpN($value->id);
+			$value->kom_idl = $datr;
+			
+			$d = $this->iData_model->cariDLPAByIdLcp($value->id);
+			$value->kom_dl_pa = $d;
+			$da = $this->iData_model->cariIDLPAByIdLcp($value->id);
+			$value->kom_idl_pa = $da;
+		}
 		echo json_encode($data);
 	}
 
