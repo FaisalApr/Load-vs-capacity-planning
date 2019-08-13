@@ -861,7 +861,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        console.log(kom_idl);
 				    // console.log(kom_dl_pa);
 				    // console.log(kom_idl_pa);
-			        
+			        if (id == 0) {
+			        	Swal.fire({
+			        		title:'Data Tidak Tersedia',
+			        		text:'Silahkan Import file PPC dahulu'
+			        	});
+			        	return;
+			        }
 			        if(col=='mp_dl'){
 			        	if(PA==false){
 			        		$('#i_detail_dl_modal').modal('show');
@@ -1036,7 +1042,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														var umh = (Number(mData[mid].mp_dl)/100*100)*7.88*Number(mData[mid].working_days);
 														console.log('hasil umh: '+umh);
 													// umh OT HOURS
-														var ot_hours = (umh/wh)*mData[mid].ot_hours;
+														var ot_hours = (umh/wh)*(Number(mData[mid].ot_hours));
 														console.log('hasil ot_hours: '+ot_hours);
 													// umh MP BUFFER
 														var mp_buffer = mData[mid].mpbuffer*wh*mData[mid].working_days*(100/100);
@@ -1194,7 +1200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var umh = (total/100*100)*7.88*$('#working_id').val();
 							console.log('hasil umh: '+umh);
 						// umh OT HOURS
-							var ot_hours = (umh/wh)*mData[mid].ot_hours;
+							var ot_hours = (umh/wh)*(Number(mData[mid].ot_hours));
 							console.log('hasil ot_hours: '+ot_hours);
 						// umh MP BUFFER
 							var mp_buffer = mData[mid].mpbuffer*wh*mData[mid].working_days*(100/100);
@@ -1214,13 +1220,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var penambah = umh_eff+mp_buffer+ot_hours;
 							var pengurang = downtime+attendance;
 						// OT PLAN
-							var excl = (7/60)*mData[mid].working_days*2*total;
+							var excl = (7/60)*(Number(mData[mid].working_days))*2*total;
 							console.log('hasil excl: '+excl);
-							postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+							postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
 						// total umh/shift 
 							var total_umh = umh+(penambah-pengurang);
 							console.log('hasil total: '+total_umh);
-							postValue($('#id_lcp').val(), 'umh_shift' , total_umh, '','');
+							postValue($('#id_lcp3').val(), 'umh_shift' , total_umh, '','');
 
 					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
@@ -1345,7 +1351,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var umh_eff = umh*((mData[mid].efficiency/100)-1);
 							console.log('hasil umh_eff: '+umh_eff);
 						// umh DOWNTIME
-							var downtime = (mData[mid].downtime*umh)/100;
+							var downtime = (mData[mid].downtime/100)*umh;
 							console.log('hasil downtime: '+downtime);
 							// postValue($('#id_lcp').val(), 'downtime' , downtime, '',''); 
 						// umh ATTENDANCE
