@@ -13,14 +13,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/Year-Picker/yearpicker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css"> 
+	
 	<style>
-		i {
+		.pos {
 		  font-size:30px;
 		  position: absolute;
 		  padding-top: 22px;
-		  padding-left: -10px;
+		  padding-left: -12px;
 		}
 	</style>
+
 <body>
 <?php $this->load->view('include/header_users'); ?>
 <?php $this->load->view('include/sidebar_users'); ?>
@@ -201,8 +203,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-md-4">
 											<label style="font-size: 18px"> Total MP: </label> <br>
-											<div style="margin-left: 30px; margin-top: -10px" >
-												<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+											<div style="margin-left: 28px; margin-top: -10px" >
+												<i class="fa fa-users fa-lg pos" aria-hidden="true"></i>
 												<label class="text-blue" style="font-size: 40px;" id="cost" class="cost">&nbsp&nbsp&nbsp0</label>
 											</div>
 											<input class="form-control" id="id_lcp" type="hidden">
@@ -1049,7 +1051,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														console.log('hasil mp_buffer: '+mp_buffer);
 														// postValue($('#id_lcp').val(), 'mpbuffer' , mp_buffer, '',''); 
 													// umh EFFICIENCY
-														var umh_eff = umh*((mData[mid].efficiency/100)-1);
+														var umh_eff = 0
+														if(mData[mid].efficiency != 0){
+															umh_eff = umh*((mData[mid].efficiency/100)-1);	
+														}
+														
 														console.log('hasil umh_eff: '+umh_eff);
 													// umh DOWNTIME
 														var downtime = (mData[mid].downtime*umh)/100;
@@ -1348,7 +1354,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log('hasil mp_buffer: '+mp_buffer);
 							// postValue($('#id_lcp').val(), 'mpbuffer' , mp_buffer, '',''); 
 						// umh EFFICIENCY
-							var umh_eff = umh*((mData[mid].efficiency/100)-1);
+							console.log('adsadasdsad :'+mData[mid].efficiency);
+							var umh_eff = 0;
+							if(mData[mid].efficiency != 0){
+								umh_eff = umh*((mData[mid].efficiency/100)-1);	
+							}
 							console.log('hasil umh_eff: '+umh_eff);
 						// umh DOWNTIME
 							var downtime = (mData[mid].downtime/100)*umh;
@@ -1363,11 +1373,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// OT PLAN
 							var excl = (7/60)*mData[mid].working_days*2*total;
 							console.log('hasil excl: '+excl);
-							postValue($('#id_lcp').val(), 'exc_time' , excl, '',''); 
+							postValue($('#id_lcp3').val(), 'exc_time' , excl, '',''); 
 						// total umh/shift 
-							var total_umh = umh+(penambah-pengurang);
+							var total_umh = umh + (penambah-pengurang);
 							console.log('hasil total: '+total_umh);
-							postValue($('#id_lcp').val(), 'umh_shift' , total_umh, '','');
+							postValue($('#id_lcp3').val(), 'umh_shift' , total_umh, '','');
 
 					// REFRESH
 					getDataPeriode( $('#select_lin').val(), $('#select_shif').val() ); 
