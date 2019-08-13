@@ -54,7 +54,7 @@
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 						<span class="user-icon"><i class="fa fa-user-o"></i></span>
-						<span class="user-name">Jhonson</span>
+						<span class="user-name">Admin</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right"> 
 						<a class="dropdown-item" href="profile.php"><i class="fa fa-cog" aria-hidden="true"></i> Setting</a>

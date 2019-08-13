@@ -11,20 +11,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
-	<style>
-		.data_:hover {
-		  background-color: white;
-		  color: black;
-		}
+	<style> 
 		.data_{
+			color: white;
+		} 
+		.simulasi{
 			color: white;
 		}
 		.simulasi:hover {
 		  background-color: white;
 		  color: black;
 		}
-		.simulasi{
-			color: white;
+		.data_:hover {
+		  background-color: white;
+		  color: black;
 		}
 	</style>
 
@@ -39,51 +39,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				
 			</div>
-			<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
-				
-					<div  style="margin-top: 50px; margin-right: -50px" >
-						<div class="da-card box-shadow">
-							<div class="da-card-photo">
-								<img src="<?php echo base_url() ?>assets/vendors/images/Capture.png" alt="" style="height: 270px; width: 500px" >
-								<div class="da-overlay">
-									<div class="da-social">
-										<a href="<?php echo site_url() ?>/IData" >
-											<div class="clearfix data_" style="outline: 2px solid white; vertical-align: center">
-												<h3 class="data_" style="padding: 4px">&nbsp Data &nbsp</h3>
-											</div>
-										</a>
-										
-									</div>
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-30"> 
+				<div  style="margin-top: 50px; margin-right: -50px;">
+					<div class="da-card box-shadow" >
+						<div class="da-card-photo">
+							<img src="<?php echo base_url() ?>assets/vendors/images/Data.png">
+							<div class="da-overlay">
+								<div class="da-social">
+									<a href="<?php echo site_url() ?>/IData" >
+										<div class="clearfix data_" style="outline: 2px solid white; vertical-align: center">
+											<h3 class="data_" style="padding: 4px">&nbsp Data &nbsp</h3>
+										</div>
+									</a>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-				
+				</div> 
 			</div>
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				
 			</div>
 
-			<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
-				
-					<div  style="margin-top: 50px; margin-right: -50px" >
-						<div class="da-card box-shadow">
-							<div class="da-card-photo">
-								<img src="<?php echo base_url() ?>assets/vendors/images/w.png" alt="">
-								<div class="da-overlay">
-									<div class="da-social">
-										<a href="<?php echo site_url() ?>/Simulasi" >
-											<div class="clearfix simulasi" style="outline: 2px solid white; vertical-align: center">
-												<h3 class="simulasi" style="padding: 4px">&nbsp Summary &nbsp</h3>
-											</div>
-										</a>
-										
-									</div>
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-30"> 
+				<div  style="margin-top: 50px; margin-right: -50px" >
+					<div class="da-card box-shadow">
+						<div class="da-card-photo">
+							<img src="<?php echo base_url() ?>assets/vendors/images/w.png" alt="">
+							<div class="da-overlay">
+								<div class="da-social">
+									<a href="<?php echo site_url() ?>/Simulasi" >
+										<div class="clearfix simulasi" style="outline: 2px solid white; vertical-align: center">
+											<h3 class="simulasi" style="padding: 4px">&nbsp Simulasi &nbsp</h3>
+										</div>
+									</a>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-			
+				</div> 
 			</div>
 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">

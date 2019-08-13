@@ -363,11 +363,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// ====  START SHOW  ======/
 				function getDataPeriode() { 
 					// jika bulan belum diisi auto bulan +1
-					if (!$('#pilih_monthrange').val()) {
-						ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
-						yend = today.getFullYear()+'-'+(today.getMonth()+2)+'-1';
-					} 
+						if (!$('#pilih_monthrange').val()) { 
+							ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
+							yend = (today.getFullYear())+'-'+(today.getMonth()+2)+'-1';
 
+							if ((today.getMonth()+2)>12) {
+								yend = (today.getFullYear()+1)+'-'+(1)+'-1';
+							}
+						} 
+					// console.log(ystart+'|'+yend);
 					// SHOW DATA PPC
 		                $('#tbody_actual').html('');// clear tabel
 		                $('#thead_act th.act').remove(); //Clear THEAD
@@ -627,12 +631,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				function getDataPeriodTotal() { 
 					// console.log('isis carline');
-					// console.log($('#select_carline').val());
+					// console.log($('#select_carline').val()); 
+						if (!$('#pilih_monthrange').val()) { 
+							ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
+							yend = (today.getFullYear())+'-'+(today.getMonth()+2)+'-1';
 
-					if (!$('#pilih_monthrange').val()) {
-						ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
-						yend = today.getFullYear()+'-'+(today.getMonth()+2)+'-1';
-					} 
+							if ((today.getMonth()+2)>12) {
+								yend = (today.getFullYear()+1)+'-'+(1)+'-1';
+							}
+						} 
 
 					// SHOW DATA TOTAL PPC
 		                $('#tbody_actual').html('');// clear tabel
@@ -685,9 +692,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		}else if( tg == monthName[tgl.getMonth()]){
 		                    			var las = (ppcData.length-1);
 		                    			// UPDaate var local
+		                    			var wd = (Number(ppcData[las].working_days)+ Number(dat.working_days));//Number(dat.shift_qty); 
 		                    			var u_dat = {
 		                    						mp_dl: Number(ppcData[las].mp_dl)+Number(dat.mp_dl),
-		                    						working_days: Number(ppcData[las].working_days)+ Number(dat.working_days),
+		                    						working_days: wd,
 		                    						order_monthly: Number(ppcData[las].order_monthly)+Number(dat.order_monthly),
 		                    						capacity: Number(ppcData[las].capacity)+Number(dat.capacity),
 		                    						balance: Number(ppcData[las].balance)+Number(dat.balance),
@@ -725,7 +733,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		                    		i++;
 		                    	});
- 
+ 								
+ 								//Working Days * sf qty
+	 								// i=0;
+	 								// ppcData.forEach(function(dat){
+	 								// 	ppcData[i].working_days = dat.working_days*dat.shift_qty; 
+
+	 								// });
 
 		                      }
 		                });
@@ -1902,11 +1916,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						contentType:false,
 						cache:false,
 						processData:false, 
-						success:function(data){
-							// swal.hideLoading();
-							// Swal.close();
-							// console.log(data);
-							// // return;
+						success:function(data){ 
 
 							if (!data) {
 								swal.hideLoading();
@@ -1917,6 +1927,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								  type: 'success', 
 								  showConfirmButton: true,
 								  timer: 1000
+								}).then(function(){
+									location.reload();
 								});
 
 								console.log('no error');
@@ -1927,18 +1939,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								  title: 'Terjadi Kesalahan',
 								  type: 'error', 
 								  showConfirmButton: true, 
+								}).then(function(){
+									location.reload();
 								});
+
 								console.log('is error');
-							}
-							
+							} 
 
-							$('#file').val(''); 
-
-							$('#modal_importexcl').modal('hide');
-
-							
-
-							// show(); 
+							$('#file').val('');  
+							$('#modal_importexcl').modal('hide');  
 						}
 					})
 				});
