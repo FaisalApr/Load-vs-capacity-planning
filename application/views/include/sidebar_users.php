@@ -45,22 +45,22 @@
 
 					<br><br><br><br>
 					<hr>
-					<li class=" <?php echo $this->uri->segment(1) == 'Users' ? 'aktip': '' ?>">
+					<!-- <li class=" <?php echo $this->uri->segment(1) == 'Users' ? 'aktip': '' ?>">
 						<a href="<?php echo site_url() ?>/Users" class="dropdown-toggle no-arrow"> 
 							<i class="icon-copy fa fa-id-card-o" aria-hidden="true"></i><span class="mtext">Users</span>
 						</a>
-					</li> 
+					</li>  -->
 					<li class=" <?php echo $this->uri->segment(1) == 'Carline' ? 'aktip': '' ?>">
 						<a href="<?php echo site_url() ?>/Carline" class="dropdown-toggle no-arrow">
 							<i class="icon-copy fa fa-car" aria-hidden="true"></i><span class="mtext">Carline</span>
 						</a>
 					</li>
 
-					<li class=" <?php echo $this->uri->segment(1) == 'line' ? 'aktip': '' ?>">
+					<!-- <li class=" <?php echo $this->uri->segment(1) == 'line' ? 'aktip': '' ?>">
 						<a href="<?php echo site_url() ?>/Line" class="dropdown-toggle no-arrow">
 							<i class="icon-copy fa fa-code-fork" aria-hidden="true"></i><span class="mtext">Line</span>
 						</a>
-					</li>
+					</li> -->
 
 
 				</ul>

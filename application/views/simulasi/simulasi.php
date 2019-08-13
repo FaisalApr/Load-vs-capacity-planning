@@ -620,7 +620,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    
 		                    }
 		                }); 
-	 				
+
 	 				// HITUNG DUlu
 	 				hitungRumus();
 
@@ -656,12 +656,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){
-		                    	// console.log('data ppc:');
-		                    	// console.log(data); 
+		                    	console.log('data ppc:');
+		                    	console.log(data); 
 		                    	ppcData = [];
 
 		                    	// var CONF HEAD
-		                    		var tg = '',i=0;
+		                    		var tg = '',i=0,ti=1;
 
 		                    	data.forEach(function(dat){
 		                    		var thead = $('#thead_act thead').find('tr');
@@ -691,18 +691,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    			ppcData.push(u_dat);
 		                    		}else if( tg == monthName[tgl.getMonth()]){
 		                    			var las = (ppcData.length-1);
-		                    			// UPDaate var local
-		                    			var wd = (Number(ppcData[las].working_days)+ Number(dat.working_days));//Number(dat.shift_qty); 
+		                    			// Hitung Untuk Nilai median (%load
+			                    			var pload = Number(ppcData[las].p_load)+Number(dat.p_load);
+			                    			var eff = Number(ppcData[las].efficiency)+Number(dat.efficiency);
+			                    			// Mengetahui batas bulann 
+			                    			if ( i == (data.length-1) ) {
+	 											console.log('ini te:'+ti);
+	 											pload = pload/ti;
+	 											eff = eff/ti;
+			                    			}else{
+			                    				var tgo = new Date(data[i+1].tanggal); 
+
+			                    				if (monthName[tgl.getMonth()] != monthName[tgo.getMonth()] ) {
+				                    				console.log('ini te:'+ti);
+				                    				pload = pload/ti;
+				                    				eff = eff/ti;
+				                    				ti=0;
+				                    			}
+			                    			}
+		                    			 
+		                    			// UPDaate var local 
 		                    			var u_dat = {
 		                    						mp_dl: Number(ppcData[las].mp_dl)+Number(dat.mp_dl),
-		                    						working_days: wd,
+		                    						working_days: Number(dat.working_days),
 		                    						order_monthly: Number(ppcData[las].order_monthly)+Number(dat.order_monthly),
 		                    						capacity: Number(ppcData[las].capacity)+Number(dat.capacity),
 		                    						balance: Number(ppcData[las].balance)+Number(dat.balance),
-		                    						p_load: Number(ppcData[las].p_load)+Number(dat.p_load),
+		                    						p_load: pload,
 		                    						ot_plan: Number(ppcData[las].ot_plan)+Number(dat.ot_plan),
 		                    						ot_hours: Number(ppcData[las].ot_hours)+Number(dat.ot_hours),
-		                    						efficiency: Number(ppcData[las].efficiency)+Number(dat.efficiency),
+		                    						efficiency: eff,
 		                    						mhout_shift: Number(ppcData[las].mhout_shift)+Number(dat.mhout_shift),
 		                    						shift_qty: Number(ppcData[las].shift_qty)+Number(dat.shift_qty)
 		                    					};
@@ -732,8 +750,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		}
 
 		                    		i++;
+		                    		ti++;
 		                    	});
- 								
+ 								console.log(i);
  								//Working Days * sf qty
 	 								// i=0;
 	 								// ppcData.forEach(function(dat){
@@ -743,8 +762,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		                      }
 		                });
-	                
-
+	                  
 	                // SHOW DATA TOTAL PROD
 		                $('#tbody_testing').html('');// clear tabel
 		                $('#thead_testing th.monn').remove(); //Clear THEAD
@@ -752,7 +770,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                $.ajax({
 		                	async: false,
 		                    type : "POST",
-		                    url  : "<?php echo site_url(); ?>/Simulasi/getSimulasiTotalProd",
+		                    url  : "<?php echo site_url(); ?>/Simulasi/getSimulasiTotalProdNew",
 		                    dataType : "JSON",
 		                    data : { 
 		                    	carline: $('#select_carline').val(),
@@ -767,7 +785,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	// Conf HEADER
 		                    		var tg = ''; 
 		                    		var lstcr = 0;
-		                    		var i = 0, sf=1; 
+		                    		var i = 0, sf=1,ti=1; 
 		                    		var vald = true;
 
 			                    	data.forEach(function(dat){
@@ -786,16 +804,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                					if ( dat.mp_dl ==0) { 
 			                						vald = false; 
 			                					}
-			                				//in local DB
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
-
+			                				//in local DB  
 				                				var u_dat = { 
 				                							is_valid: vald,
-				                							shift_qty: dat.shift_qty,
+				                							shift_qty: dat.shift_qty, 
 															mp_dl: dat.mp_dl,
 															mp_idl: dat.mp_idl,
 															umh_shift: dat.umh_shift,
@@ -812,11 +824,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															tanggal: dat.tanggal, 
 															mpbuffer: dat.mpbuffer,
 															attendance: dat.attendance,
-															downtime: dat.downtime, 
-															kom_dl: dl,
-															kom_idl: idl,
-															kom_dl_pa: dlpa,
-															kom_idl_pa: idlpa
+															downtime: dat.downtime
 														};
 												mDataProd.push(u_dat);
 			                			}
@@ -827,42 +835,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                					if (dat.mp_dl ==0) { 
 			                						vald = false; 
 			                					}
-			                				// Penggabungan data dengan sebelumnya 
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl = Array.from(mDataProd[last].kom_dl);
-			                					idl = Array.from(mDataProd[last].kom_idl);
-			                					dlpa = Array.from(mDataProd[last].kom_dl_pa);
-			                					idlpa = Array.from(mDataProd[last].kom_idl_pa);
-			                					//|
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
+			                				// Hitung Untuk Nilai median (%load
+				                    			var pload = Number(ppcData[last].p_load)+Number(dat.p_load);
+				                    			var eff = Number(ppcData[last].efficiency)+Number(dat.efficiency);
+				                    			// Mengetahui batas bulann 
+				                    			if ( i == (data.length-1) ) {
+		 											console.log('ini te:'+ti);
+		 											pload = pload/ti;
+		 											eff = eff/ti;
+				                    			}else{
+				                    				var tgo = new Date(data[i+1].tanggal); 
 
+				                    				if (monthName[tgl.getMonth()] != monthName[tgo.getMonth()] ) {
+					                    				console.log('ini te:'+ti);
+					                    				pload = pload/ti;
+					                    				eff = eff/ti;
+					                    				ti=0;
+					                    			}
+				                    			}
+			                    			
+			                				// Isi A  
 												var u_dat = {	
 														is_valid: vald,
 														shift_qty: dat.shift_qty,
+														mp_dl_tmp: dat.mp_dl, //temp for total in carline
 														mp_dl: (Number(mDataProd[last].mp_dl)+Number(dat.mp_dl)),
 														mp_idl: (Number(mDataProd[last].mp_idl)+Number(dat.mp_idl)),
 														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														working_days:  (Number(mDataProd[last].working_days)+Number(dat.working_days)),
+														working_days:  Number(dat.working_days),
 														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
 														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
 														balance: Number(mDataProd[last].balance)+Number(dat.balance),
 														p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
 														ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
 														ot_hours: (Number(mDataProd[last].ot_hours)+Number(dat.ot_hours)), 
-														efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency)), 
+														efficiency: eff,//(Number(mDataProd[last].efficiency)+Number(dat.efficiency)), 
 														exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
 														tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity), 
 														mpbuffer: Number(mDataProd[last].mpbuffer)+Number(dat.mpbuffer),
 														attendance: Number(mDataProd[last].attendance)+Number(dat.attendance),
 														downtime: Number(mDataProd[last].downtime)+Number(dat.downtime),
-														tanggal: dat.tanggal,
-														kom_dl: dl,
-														kom_idl: idl,
-														kom_dl_pa: dlpa,
-														kom_idl_pa: idlpa
+														tanggal: dat.tanggal
 													};
 												mDataProd[last] = u_dat;
 			                			}
@@ -876,16 +889,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                					if (dat.mp_dl ==0 ) { 
 			                						vald = false; 
 			                					}
-			                				//in local DB
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
-
+			                				//in local DB  
 				                				var u_dat = { 
 				                							is_valid: vald,
 				                							shift_qty: dat.shift_qty,
+				                							mp_dl_tmp: dat.mp_dl, //temp for total in carline
 															mp_dl: dat.mp_dl,
 															mp_idl: dat.mp_idl,
 															umh_shift: dat.umh_shift,
@@ -902,11 +910,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															tanggal: dat.tanggal, 
 															mpbuffer: dat.mpbuffer,
 															attendance: dat.attendance,
-															downtime: dat.downtime,
-															kom_dl: dl,
-															kom_idl: idl,
-															kom_dl_pa: dlpa,
-															kom_idl_pa: idlpa
+															downtime: dat.downtime
 														};
 												mDataProd.push(u_dat);
 			                			} 
@@ -919,6 +923,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                			i++;
 			                			sf++;
+			                			ti++;
 				                    });
 
 								//JIKA DATA KOSONG
@@ -932,9 +937,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    }
 		                }); 
 	 				
-	 				console.log('end ISI md');
-	 				console.log(mDataProd);
+	 				// console.log('end ISI md');
+	 				// console.log(mDataProd);
 	 				// HITUNG DUlu 
+	 					hitungRumus();
 
 	 				// LOAD Char
 	 				loadChart();
@@ -1076,6 +1082,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    },
 								    yAxis: [
 								    	{ 
+								    		max: 60000,
 								    		labels: {
 									            format: '{value}',
 									            style: {
@@ -1231,7 +1238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    },
 								    yAxis: [
 								    	{ 
-
+								    		max: 60000,
 								    		labels: {
 									            format: '{value}',
 									            style: {
@@ -1479,7 +1486,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var col = $(this).data('col');
 			        var val = $(this).data('val');
 
-			        // ISi Data Base Local
+			        // Bukan total
+			        if (typeline != 'TOTAL') {
+			        	// ISi Data Base Local
 				        // Data Dl
 					        kom_dl = $(this).data('mpdl');
 						        if (kom_dl) { var y=0; kom_dl.forEach(function(d){ kom_dl[y].mid = id; y++});};  
@@ -1495,6 +1504,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        kom_idl_pa = $(this).data('kom_idl_pa');  
 						        if (kom_idl_pa) {  var y=0; kom_idl_pa.forEach(function(d){ kom_idl_pa[y].mid = id; y++}); }
 						        // console.log(kom_idl_pa); 
+			        }
+			        
 
 			        console.log('id:'+id+'|col:'+col+'|val:'+val); 
 
@@ -1598,7 +1609,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            mDataProd[id][col] = val;  
 				            $(currentEle).html( $(".thVal").val() );  
 
-				            if ( col=='mpbuffer' || col=='downtime' || col=='attendance' || col=='efficiency' || col=='ot_hours' ) {
+				            if ( col=='mpbuffer' || col=='downtime' || col=='attendance' || col=='efficiency' || col=='ot_hours' || col=='mp_dl' || col=='working_days' ) {
 				            	// Hutungan UMH
 									// Jumlah UMH
 										var umh = ((Number(mDataProd[id].mp_dl)*Number(mDataProd[id].shift_qty))/100*100)*7.88*Number(mDataProd[id].working_days);

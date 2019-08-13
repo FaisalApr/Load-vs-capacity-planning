@@ -43,6 +43,29 @@ class Simulasi_model extends CI_Model {
 		return $q->result();
 	}
 
+	public function cariDataCarlineTerpilih($carline)
+	{
+		# code...
+		$q = $this->db->query("SELECT *
+									FROM carline_has_line 
+								WHERE 
+								    carline_has_line.id_carline=$carline
+								ORDER BY carline_has_line.id_line ASC");
+		return $q->result();
+	}
+
+	public function cariDataByListCr($lstcr,$stat,$end)
+	{
+		# code...
+		$q = $this->db->query("SELECT *
+								FROM main_lcp
+								WHERE  
+									main_lcp.id_carline_has_line=$lstcr AND
+								    main_lcp.tanggal >= '$stat' AND main_lcp.tanggal <= '$end' 
+								ORDER BY main_lcp.tanggal ASC");
+		return $q->result();
+	}
+
 
 }
 
