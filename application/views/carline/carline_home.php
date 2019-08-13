@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="pull-right">
 						<div class="row clearfix">	
-							<a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px;">Import File .Xlsx</a>
+							<!-- <a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px;">Import File .Xlsx</a> -->
 
 							<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_carlinemodal" style="margin-right: 30px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
 						</div>
@@ -288,6 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#tbl_bodycarline').html('');
 
 				$.ajax({
+					// async: false,
                     type : "ajax",
                     url  : "<?php echo site_url(); ?>/Carline/showCarline",
                     dataType : "JSON", 
