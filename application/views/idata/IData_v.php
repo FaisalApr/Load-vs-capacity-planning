@@ -529,7 +529,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input class="form-control num4" type="number" id="i_chorobik" >
 										</div>	
 									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Helper Raycham</label>
+											<input class="form-control num4" type="number" id="i_helper_raycham" >
+										</div>	
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>Hunter</label>
+											<input class="form-control num4" type="number" id="i_hunter" >
+										</div>	
+									</div>
 									
+								</div>
+							<!-- row kelima -->
+								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
 											<label style="font-size: 18px"> Total MP: </label> <br>
@@ -943,7 +958,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        		$('#i_tanoko_ins').val(kom_idl_pa.tanoko_insp);
 				        		$('#i_sao_bonder').val(kom_idl_pa.sao_bonder);
 				        		$('#i_helper_cuting').val(kom_idl_pa.helper_cuting);
-				        		$('#i_chorobik').val(kom_idl_pa.chorobiki);	
+				        		$('#i_chorobik').val(kom_idl_pa.chorobiki);
+				        		$('#i_helper_raycham').val(kom_idl_pa.helper_raycham);
+				        		$('#i_hunter').val(kom_idl_pa.hunter);	
 			        		}
 			        		$('#id_lcp4').val(id);
 			        	}
@@ -1396,8 +1413,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var i_sao_bonder = Number(document.getElementById("i_sao_bonder").value);
 					var i_helper_cuting = Number(document.getElementById("i_helper_cuting").value);
 					var i_chorobik = Number(document.getElementById("i_chorobik").value);
-					
-					var total = i_line_lead+i_group_leader+i_inspector+i_bundling+i_csu+i_tanoko_as+i_tanoko_ins+i_sao_bonder+i_helper_cuting+i_chorobik;
+					var i_helper_raycham = Number(document.getElementById("i_helper_raycham").value);
+					var i_hunter = Number(document.getElementById("i_hunter").value);
+
+					var total = i_line_lead+i_group_leader+i_inspector+i_bundling+i_csu+i_tanoko_as+i_tanoko_ins+i_sao_bonder+i_helper_cuting+i_chorobik+i_helper_raycham+i_hunter;
 					console.log()
 					console.log(total);
 					$.ajax({
@@ -1417,6 +1436,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							sao_bonder : i_sao_bonder,
 							helper_cuting : i_helper_cuting,
 							chorobiki : i_chorobik,
+							helper_raycham : i_helper_raycham,
+							hunter : i_hunter,
 							total:total 
 						},
 						success : function(response){

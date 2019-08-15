@@ -141,7 +141,7 @@ class iData_model extends CI_Model {
 			$query = $this->db->query("SELECT 
 											idlpa.id_lcp,
 										    idlpa.line_leader,idlpa.group_leader,idlpa.inspector,idlpa.bundling,idlpa.csu,idlpa.tanoko_ass,idlpa.tanoko_insp,idlpa.sao_bonder,
-										    idlpa.helper_cuting,idlpa.chorobiki,idlpa.total,
+										    idlpa.helper_cuting,idlpa.chorobiki,idlpa.helper_raycham,idlpa.hunter,idlpa.total,
 										    line.nama_line,shift.keterangan
 										FROM mp_idl_pa as idlpa
 											JOIN main_lcp ON idlpa.id_lcp=main_lcp.id

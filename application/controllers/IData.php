@@ -166,6 +166,8 @@ class IData extends CI_Controller {
 				'sao_bonder' => $this->input->post('sao_bonder'),
 				'helper_cuting' => $this->input->post('helper_cuting'),
 				'chorobiki' => $this->input->post('chorobiki'),
+				'helper_raycham' => $this->input->post('helper_raycham'),
+				'hunter' => $this->input->post('hunter'),
 				'total' => $this->input->post('total')
 			);
 
@@ -207,6 +209,7 @@ class IData extends CI_Controller {
 			
 			$d = $this->iData_model->cariDLPAByIdLcp($value->id);
 			$value->kom_dl_pa = $d;
+			
 			$da = $this->iData_model->cariIDLPAByIdLcp($value->id);
 			$value->kom_idl_pa = $da;
 		}
