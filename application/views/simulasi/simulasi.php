@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DeskApp Dashboard</title>
+	<title>Simulasi Dashboard</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" style="margin-top: -15px"> 
 		
-		
+		<!-- Filter -->
 		<div class="pd-5 bg-white border-radius-2 box-shadow mb-10">
 			<div class="row" style="margin-top: 18px; margin-bottom: -15px;">
 
@@ -60,8 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 
 			</div> 
-		</div>
-		 
+		</div> 
 		 
 		<!-- CHART -->
 		<div class="row">
@@ -78,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>	
 			</div>
 		</div>
-
+		<!-- ISi TBL -->
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
@@ -92,12 +91,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<option value="2">MONTHLY ORDER</option>
 										<option value="3">CAPACITY</option>
 										<option value="4">BALANCE</option> 
-										<option value="5">LOAD</option>
-										<option value="6">OT PLAN</option>
-										<option value="7">OT HOURS</option>
-										<option value="8">EFFICIENCY (%)</option>
-										<option value="9">MH OUT/SHIFT</option>
-										<option value="10">SHIFT QTY</option>
+										<option value="5">% LOAD</option>
+										<option value="6">OT PLAN</option> 
+										<option value="7">EFFICIENCY (%)</option>
+										<option value="8">MH OUT/SHIFT</option>
+										<option value="9">SHIFT QTY</option>
  									</select>
  								</th>
  								
@@ -126,13 +124,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<option value="2">MONTHLY ORDER</option>
 										<option value="3">CAPACITY</option>
 										<option value="4">BALANCE</option> 
-										<option value="5">% LOAD</option>
-										<option value="6">OT PLAN</option>
-										<option value="7">OT HOURS</option>
-										<option value="8">EFFICIENCY (%)</option>
-										<option value="9">MP IDL/SHIFT</option>
-										<option value="10">EXCL TIME</option>
-										<option value="11">% Tot Prod</option>
+										<option value="5">% LOAD</option> 
+										<option value="6">OT HOURS</option>
+										<option value="7">EFFICIENCY (%)</option>
+										<option value="8">MP IDL/SHIFT</option>
+										<option value="9">MP BUFFER</option> 
+										<option value="10">DOWNTIME</option> 
+										<option value="11">ATTENDANCE</option> 
+										<option value="12">EXCL TIME</option>
+										<option value="13">% Tot Prod</option>
 									</select>
 								</th>
 								<th class="monn"></th>
@@ -232,8 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								{name:'CAPACITY',val: 'capacity', view: true}, 
 								{name:'BALANCE',val: 'balance', view: true},  
 								{name:'% LOAD',val: 'p_load', view: true},
-								{name:'OT PLAN /Shift',val: 'ot_plan', view: true},
-								// {name:'OT HOURS',val: 'ot_hours', view: true},
+								{name:'OT PLAN /Shift',val: 'ot_plan', view: true}, 
 								{name:'EFFICIENCY (%)',val: 'efficiency', view: true}, 
 								{name:'UMH /SHIFT',val: 'mhout_shift', view: true}, 
 								{name:'SHIFT QTY',val: 'shift_qty', view: true}
@@ -287,6 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									[{nama: 'CSU',val: 'csu'},{nama:'Tanoko Ass',val:'tanoko_ass'}],
 									[{nama: 'Tanoko Insp',val: 'tanoko_insp'},{nama:'Sao Bonder',val:'sao_bonder'}],
 									[{nama: 'Helper Cuting',val: 'helper_cuting'},{nama:'chorobiki',val:'chorobiki'}],
+									[{nama: 'Helper Raycham',val: 'helper_raycham'},{nama:'Hunter',val:'hunter'}],
 									[{nama:'Total',val:'total'}]
 								];
 
@@ -358,7 +358,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			loadLine( $('#select_carline').val() ); 
 			getDataPeriode();
 			// console.log('c:'+$('#select_carline').val()+'|l:'+$('#select_lin').val());
-
+ 
 
 			// ====  START SHOW  ======/
 				function getDataPeriode() { 
@@ -626,7 +626,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	 				// LOAD Char
 	 				loadChart();
-	 				showmData();
+	 				showmData(); 
 				}
 
 				function getDataPeriodTotal() { 
@@ -836,8 +836,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                						vald = false; 
 			                					}
 			                				// Hitung Untuk Nilai median (%load
-				                    			var pload = Number(ppcData[last].p_load)+Number(dat.p_load);
-				                    			var eff = Number(ppcData[last].efficiency)+Number(dat.efficiency);
+				                    			var pload = Number(mDataProd[last].p_load)+Number(dat.p_load);
+				                    			var eff = Number(mDataProd[last].efficiency)+Number(dat.efficiency);
 				                    			// Mengetahui batas bulann 
 				                    			if ( i == (data.length-1) ) {
 		 											console.log('ini te:'+ti);
@@ -946,6 +946,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				loadChart();
 	 				showmData();
 	 				showmdPpc();
+	 				showWidget()
 				}
 
 				function showmdPpc() { 
@@ -1051,7 +1052,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     		tr.appendTo('#tbody_testing');
                 		} 
                 	});
-				}
+				} 
 			// ====  END SHOW  ======/
 
 
@@ -1129,7 +1130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    tooltip: {
 								        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 								        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-								            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+								            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
 								        footerFormat: '</table>',
 								        shared: true,
 								        useHTML: true

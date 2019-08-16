@@ -167,12 +167,40 @@ class Simulasi extends CI_Controller {
 		usort($atemp, "cmp");
 		
 		echo json_encode($atemp);
-
-		// echo json_encode($atemp);
-		// echo json_encode($data); 
 	}
 
-	   
+	
+	// WIdget 
+	public function getWidgetSaiT()
+	{
+		$sai = 1;
+		$start = ($this->input->post('ystart')).'-07-01';
+		$end = ($this->input->post('yend')).'-06-30';
+		$out  =  $this->Simulasi_model->getWidgetT($start,$end,$sai); 
+
+		echo json_encode($out);
+	}
+
+	public function getWidgetSaiB()
+	{
+		$sai = 2;
+		$start = ($this->input->post('ystart')).'-07-01';
+		$end = ($this->input->post('yend')).'-06-30';
+		$out  =  $this->Simulasi_model->getWidgetT($start,$end,$sai); 
+		
+		echo json_encode($out);
+	}
+
+	public function getWidgetSaiTotal()
+	{ 
+		$start = ($this->input->post('ystart')).'-07-01';
+		$end = ($this->input->post('yend')).'-06-30';
+		$out  =  $this->Simulasi_model->getWidgetTotalSai($start,$end); 
+		
+		echo json_encode($out);
+	}
+
+	
 	
 
 }

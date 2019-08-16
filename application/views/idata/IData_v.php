@@ -29,7 +29,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" style="margin-top: -15px;">
-	 			
+	 
+	<!-- top icon dasboard -->
+	<div class="row clearfix progress-box" style="margin-bottom: -20px">
+		<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+			<div class="card box-shadow">
+				<div class="project-info-center"> 
+					<h5 class="dropdown-toggle card-header text-center weight-500" href="#" role="button" data-toggle="dropdown">
+						<a href="#" id="id_name_eff">DL</a>
+					</h5>
+					<div class="dropdown-menu dropdown-menu-right" id="drop_eff">  
+						<a class="dropdown-item pilih_eff aktip" id="pil_sait" href="#" data-value="1">Total SAI T</a>
+						<a class="dropdown-item pilih_eff" id="pil_saib" href="#" data-value="2">Total SAI B</a>
+						<a class="dropdown-item pilih_eff" id="pil_saiall" href="#" data-value="3">SAI ALL</a>
+					</div> 
+				</div>
+				 
+				<div class="card-body"> 
+					<div class="project-info-progress">
+						<div class="text-center weight-500" id="id_todl">00</div>  
+					</div>
+				</div> 
+			</div>
+		</div>
+
+		<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+			<div class="card box-shadow">
+				<h5 class="card-header text-center weight-500">IDL</h5>
+				<div class="card-body"> 
+					<div class="project-info-progress">
+						<div class="text-center weight-500" id="id_toidl">00</div>  
+					</div>
+				</div> 
+			</div>
+		</div>
+
+		<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+			<div class="card box-shadow">
+				<h5 class="card-header text-center weight-500">CAPACITY</h5>
+				<div class="card-body"> 
+					<div class="project-info-progress">
+						<div class="text-center weight-500" id="id_tocap">00</div>  
+					</div>
+				</div> 
+			</div>
+		</div>
+
+		<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+			<div class="card box-shadow">
+				<h5 class="card-header text-center weight-500">MONTHLY ORDER</h5>
+				<div class="card-body"> 
+					<div class="project-info-progress">
+						<div class="text-center weight-500" id="id_toormonth">00</div>  
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div>
+
 	<!-- Container  Start -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="min-height: 600px;">
 			<div class="pull-left">
@@ -606,6 +663,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var mData = null;
 				var PA = false;
 				var wh = 7.88;
+				var mode = 1;
 			// method INIT
 				// load Carline
 					function loadCarline() { 
@@ -726,42 +784,141 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						yend = Number($(this).html())+1; 
 						// refresh
 						getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
+						showWidget();
 					});   
 					function explode(){
 					  document.getElementById('period').innerHTML= $('.yearpicker').html();
 					  document.getElementById('period2').innerHTML= '-'+(Number($('.yearpicker').html())+1);
 					}
+				// PILIH MODE
+					$('#drop_eff').on('click','.pilih_eff',function(){
+						var ssf = $(this).data('value');  
+						if (ssf==1) { 
+							console.log('ini pilih T');
+							document.getElementById('pil_saiall').classList.remove("aktip");
+							document.getElementById('pil_saib').classList.remove("aktip");  
+							document.getElementById('pil_sait').classList.add("aktip"); 
 
+							mode = 1;
+						}else if(ssf==2){ 
+							console.log('ini pilih B');
+							document.getElementById('pil_sait').classList.remove("aktip");
+							document.getElementById('pil_saiall').classList.remove("aktip");   
+							document.getElementById('pil_saib').classList.add("aktip");
+
+							mode = 2;
+						}else if(ssf==3){
+							console.log('ini pilih Total');
+							document.getElementById('pil_saib').classList.remove("aktip");
+							document.getElementById('pil_sait').classList.remove("aktip");  
+							document.getElementById('pil_saiall').classList.add("aktip");
+
+							mode = 3;
+						}
+						showWidget();
+						// update opt to server
+
+					});
 
 			// Autoload
 			loadCarline();
 			loadLine( $('#select_carline').val() );
 			loadShift();  
 			getDataPeriode( $('#select_lin').val(), $('#select_shif').val() );  
+			showWidget();
+
 
 			// refresh mData
-			function ref(){
-				$.ajax({
-						async : false,
-	                    type : "POST",
-	                    url  : "<?php echo site_url(); ?>/IData/getIData",
-	                    dataType : "JSON",
-	                    data : { 
-	                    	id_lstcrln:$('#select_lin').val(),
-	                    	shift:$('#select_shif').val(),
-	                    	ystart:ystart,
-	                    	yend: yend
-	                    },
-	                    success: function(data){
-	                    	mData = data;
-	                    }
-	            });
+				function ref(){
+					$.ajax({
+							async : false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/IData/getIData",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	id_lstcrln:$('#select_lin').val(),
+		                    	shift:$('#select_shif').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){
+		                    	mData = data;
+		                    }
+		            });
 
-			}
+				}
+				function showWidget() {
+					// 
+					if (mode == 1 ) {
+						$.ajax({
+			            	async: false,
+			                type : "POST",
+			                url  : "<?php echo site_url(); ?>/Simulasi/getWidgetSaiT",
+			                dataType : "JSON",
+			                data : {  
+			                	ystart:ystart,
+			                	yend: yend
+			                },
+			                success: function(data){ 
+			                	console.log('isi data Widget:');
+			                	console.log(data);  
+			                	
+			                	document.getElementById('id_todl').innerHTML = data.to_dl;
+			                	document.getElementById('id_toidl').innerHTML = data.to_idl;
+			                	document.getElementById('id_tocap').innerHTML = parseFloat(data.cap).toFixed(2);
+			                	document.getElementById('id_toormonth').innerHTML = parseFloat(data.mon).toFixed(2);	
+			                	
+			                }
+			            });
+					}else if( mode ==2 ){
+						$.ajax({
+			            	async: false,
+			                type : "POST",
+			                url  : "<?php echo site_url(); ?>/Simulasi/getWidgetSaiB",
+			                dataType : "JSON",
+			                data : {  
+			                	ystart:ystart,
+			                	yend: yend
+			                },
+			                success: function(data){ 
+			                	console.log('isi data Widget:');
+			                	console.log(data);  
+			                	
+			                	document.getElementById('id_todl').innerHTML = data.to_dl;
+			                	document.getElementById('id_toidl').innerHTML = data.to_idl;
+			                	document.getElementById('id_tocap').innerHTML = parseFloat(data.cap).toFixed(2);
+			                	document.getElementById('id_toormonth').innerHTML = parseFloat(data.mon).toFixed(2);	
+			                	
+			                }
+			            });
+					}else if( mode ==3 ){
+						$.ajax({
+			            	async: false,
+			                type : "POST",
+			                url  : "<?php echo site_url(); ?>/Simulasi/getWidgetSaiTotal",
+			                dataType : "JSON",
+			                data : {  
+			                	ystart:ystart,
+			                	yend: yend
+			                },
+			                success: function(data){ 
+			                	console.log('isi data Widget:');
+			                	console.log(data);  
+			                	
+			                	document.getElementById('id_todl').innerHTML = data.to_dl;
+			                	document.getElementById('id_toidl').innerHTML = data.to_idl;
+			                	document.getElementById('id_tocap').innerHTML = parseFloat(data.cap).toFixed(2);
+			                	document.getElementById('id_toormonth').innerHTML = parseFloat(data.mon).toFixed(2);	
+			                	
+			                }
+			            });
+					} 
+					// 
+				}
 
 			// Show Data
 				function getDataPeriode(lin,sf) {
-					
+					showWidget();
 
 					if (lin==null) {
 						return;

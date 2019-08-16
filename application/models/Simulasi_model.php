@@ -66,6 +66,51 @@ class Simulasi_model extends CI_Model {
 		return $q->result();
 	}
 
+	// Widget TOP SIMULASI
+	public function getLstCarlineSai($sai)
+	{
+		# code...
+		$q = $this->db->query("SELECT *,carline.id
+								FROM carline  
+								    JOIN district ON carline.id_district=district.id
+								WHERE
+								    district.id=$sai");
+		return $q->result();
+	}
+	public function getWidgetT($stat,$end,$sai)
+	{
+		$q = $this->db->query("SELECT COALESCE(sum(mp_dl),0) as to_dl,COALESCE(sum(mp_idl),0) as to_idl,COALESCE(sum(umh_shift),0) as cap, COALESCE(sum(order_monthly),0) as mon 
+								FROM main_lcp
+									JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
+								    JOIN carline on carline_has_line.id_carline=carline.id
+								    JOIN district on carline.id_district=district.id
+								WHERE
+									tanggal>='$stat' AND tanggal<='$end' AND
+									district.id=$sai"); 
+		if($q->num_rows()>0){
+			return $q->first_row();
+		}else{
+			return false;
+		} 
+	}
+
+	public function getWidgetTotalSai($stat,$end)
+	{
+		$q = $this->db->query("SELECT COALESCE(sum(mp_dl),0) as to_dl,COALESCE(sum(mp_idl),0) as to_idl,COALESCE(sum(umh_shift),0) as cap, COALESCE(sum(order_monthly),0) as mon 
+								FROM main_lcp
+									JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
+								    JOIN carline on carline_has_line.id_carline=carline.id
+								    JOIN district on carline.id_district=district.id
+								WHERE
+									tanggal>='$stat' AND tanggal<='$end'
+								"); 
+		if($q->num_rows()>0){
+			return $q->first_row();
+		}else{
+			return false;
+		} 
+	}
+
 
 }
 
