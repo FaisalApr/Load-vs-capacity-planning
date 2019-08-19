@@ -154,9 +154,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- modal -->
 <div>
+
 	<!-- import file -->
 		<div class="modal fade" id="modal_importexcl">
-			<div class="modal-dialog modal-dialog-lg">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
@@ -166,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<form method="post" id="import_form" enctype="multipart/form-data"> 
 							<div class="alert alert-warning" role="alert">
 								Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
-								<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
+								<img src="<?php echo base_url()?>/assets/src/images/ppc_format.png">
 							</div>
 							<p><label>Select Excel File</label>
 							<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
@@ -191,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	      			<div class="pull-right" style="margin-right: 30px; margin-top: -60px;">  
 						<div class="input-group custom input-group-sm">  
 							<div style="font-size: 20px; margin-top: 5px;">Shift :&nbsp </div>
-							<select style="width: 100px;" class="select2 js-states form-control" id="select_shiftline" name="select_shiftline" >  	
+							<select style="width: 130px;" class="select2 js-states form-control" id="select_shiftline" name="select_shiftline" >  	
 							</select> 
 						</div>
 					</div>
@@ -441,185 +442,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                // SHOW DATA PROD
 		                $('#tbody_testing').html('');// clear tabel
 		                $('#thead_testing th.monn').remove(); //Clear THEAD
-		            // get Dataa PROD
-		                $.ajax({
+		            // get Dataa PROD  
+						$.ajax({
 		                	async: false,
 		                    type : "POST",
-		                    url  : "<?php echo site_url(); ?>/IData/getIDataMonthPickSimulasi",
+		                    url  : "<?php echo site_url(); ?>/Simulasi/coba1",
 		                    dataType : "JSON",
 		                    data : { 
-		                    	id_lstcrln: $('#select_lin').val(), 
+		                    	id_lstcrln: $('#select_lin').val(),
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
-		                    	// console.log('isi data prod:');
-		                    	// console.log(data); 
-		                    	mDataProd=[];
-		                    	// Conf HEADER
-		                    		var tg = '';
-		                    		var lstcr = 0;
-		                    		var i = 0, sf=1;
-			                    	data.forEach(function(dat){ 
-			                    		var thed = $('#thead_testing').find('tr'); 
-			                			var tgl = new Date(dat.tanggal);
-			                			var vald = false;
-			                			// console.log('ike:'+i);
-			                			// awal GET
-			                			if (i==0) {
+		                    	// console.log('isi percobaan:');
+		                    	// console.log(data);
+		                    	mDataProd = data; 
 
-			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
-			                				thed.append(
-			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
-			                				);
-			                				// cek isi line sudah diisi  
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true; 
-			                					}
-			                				//in local DB
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
-
-				                				var u_dat = { 
-				                							is_valid: vald,
-				                							shift_qty: dat.shift_qty,
-															mp_dl: dat.mp_dl,
-															mp_idl: dat.mp_idl,
-															umh_shift: dat.umh_shift,
-															working_days: dat.working_days,
-															order_monthly: dat.order_monthly,
-															capacity: dat.umh_shift,
-															balance: dat.balance,
-															p_load: dat.p_load,
-															ot_plan: dat.ot_plan,
-															ot_hours: dat.ot_hours,
-															efficiency: dat.efficiency, 
-															exc_time: dat.exc_time,
-															tot_productivity: dat.tot_productivity,
-															tanggal: dat.tanggal, 
-															mpbuffer: dat.mpbuffer,
-															attendance: dat.attendance,
-															downtime: dat.downtime, 
-															kom_dl: dl,
-															kom_idl: idl,
-															kom_dl_pa: dlpa,
-															kom_idl_pa: idlpa
-														};
-												mDataProd.push(u_dat);
-			                			}
-			                			// jika ini sama dengan sebelumya beda sif
-			                			else if (tg == monthName[tgl.getMonth()] && lstcr == dat.id_carline_has_line ) { 
-			                				var last = (mDataProd.length-1); 
-			                				// cek isi line sudah diisi  
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true; 
-			                					}
-			                				// Penggabungan data dengan sebelumnya 
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl = Array.from(mDataProd[last].kom_dl);
-			                					idl = Array.from(mDataProd[last].kom_idl);
-			                					dlpa = Array.from(mDataProd[last].kom_dl_pa);
-			                					idlpa = Array.from(mDataProd[last].kom_idl_pa);
-			                					//|
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
-
-												var u_dat = {	
-														is_valid: vald,
-														shift_qty: dat.shift_qty,
-														mp_dl: (Number(mDataProd[last].mp_dl)+Number(dat.mp_dl))/Number(dat.shift_qty),
-														mp_idl: (Number(mDataProd[last].mp_idl)+Number(dat.mp_idl))/Number(dat.shift_qty),
-														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														working_days:  dat.working_days,
-														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
-														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														balance: Number(mDataProd[last].balance)+Number(dat.balance),
-														p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
-														ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
-														ot_hours: (Number(mDataProd[last].ot_hours)+Number(dat.ot_hours))/Number(dat.shift_qty), 
-														efficiency: (Number(mDataProd[last].efficiency)+Number(dat.efficiency))/Number(dat.shift_qty), 
-														exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
-														tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity), 
-														mpbuffer: Number(mDataProd[last].mpbuffer)+Number(dat.mpbuffer),
-														attendance: Number(mDataProd[last].attendance)+Number(dat.attendance),
-														downtime: Number(mDataProd[last].downtime)+Number(dat.downtime),
-														tanggal: dat.tanggal,
-														kom_dl: dl,
-														kom_idl: idl,
-														kom_dl_pa: dlpa,
-														kom_idl_pa: idlpa
-													};
-												mDataProd[last] = u_dat;
-			                			}
-			                			//  Blan baru
-			                			else if (tg != monthName[tgl.getMonth()]){
-			                				thed.append(
-			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
-			                				);
-			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
-			                				// cek isi line sudah diisi  
-			                					if (dat.shift_qty== sf & dat.mp_dl!=0) { 
-			                						vald = true; 
-			                					}
-			                				//in local DB
-			                					var dl = [],idl=[],dlpa=[],idlpa=[];
-			                					dl.push(dat.kom_dl);
-			                					idl.push(dat.kom_idl);
-			                					dlpa.push(dat.kom_dl_pa);
-			                					idlpa.push(dat.kom_idl_pa);
-
-				                				var u_dat = { 
-				                							is_valid: vald,
-				                							shift_qty: dat.shift_qty,
-															mp_dl: dat.mp_dl,
-															mp_idl: dat.mp_idl,
-															umh_shift: dat.umh_shift,
-															working_days: dat.working_days,
-															order_monthly: dat.order_monthly,
-															capacity: dat.capacity,
-															balance: dat.balance,
-															p_load: dat.p_load,
-															ot_plan: dat.ot_plan,
-															ot_hours: dat.ot_hours,
-															efficiency: dat.efficiency, 
-															exc_time: dat.exc_time,
-															tot_productivity: dat.tot_productivity,
-															tanggal: dat.tanggal, 
-															mpbuffer: dat.mpbuffer,
-															attendance: dat.attendance,
-															downtime: dat.downtime,
-															kom_dl: dl,
-															kom_idl: idl,
-															kom_dl_pa: dlpa,
-															kom_idl_pa: idlpa
-														};
-												mDataProd.push(u_dat);
-			                			} 
-
-			                			// jika sif sesuai 
-			                			if (dat.shift_qty== sf) {
-			                				sf=0;
-			                			}
-
-			                			i++;
-			                			sf++; 
-				                    });
-
-								//JIKA DATA KOSONG
+		                    	// Setting Header
+			                    	var thed = $('#thead_testing').find('tr'); 
+			                    	mDataProd.forEach(function(dat){ 
+			                    		var tgl = new Date(dat.tanggal);
+			                    		thed.append(
+				                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+				                				);
+			                    	});
+		                    	//JIKA DATA KOSONG
 				                    if (data.length==0) {
 				                    	var thed = $('#thead_testing').find('tr'); 
 			                    		thed.append(
 			            						$('<th class="monn">').text( 'No Data' )
 			            					); 
 			                    	}
-			                    
 		                    }
-		                }); 
+		                });
 
 	 				// HITUNG DUlu
 	 				hitungRumus();
@@ -686,7 +541,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						ot_hours: dat.ot_hours,
 		                    						efficiency: dat.efficiency,
 		                    						mhout_shift: dat.mhout_shift,
-		                    						shift_qty: dat.shift_qty
+		                    						shift_qty: dat.shift_qty,
+		                    						tanggal: dat.tanggal
 		                    					};
 		                    			ppcData.push(u_dat);
 		                    		}else if( tg == monthName[tgl.getMonth()]){
@@ -697,14 +553,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    			// Mengetahui batas bulann 
 			                    			if ( i == (data.length-1) ) {
 	 											console.log('ini te:'+ti);
-	 											pload = pload/ti;
+	 											// pload = pload/ti;
+	 											pload = ((Number(ppcData[las].order_monthly)+Number(dat.order_monthly))/(Number(ppcData[las].capacity)+Number(dat.capacity)))*100;
 	 											eff = eff/ti;
 			                    			}else{
 			                    				var tgo = new Date(data[i+1].tanggal); 
 
 			                    				if (monthName[tgl.getMonth()] != monthName[tgo.getMonth()] ) {
 				                    				console.log('ini te:'+ti);
-				                    				pload = pload/ti;
+				                    				// pload = pload/ti;
+				                    				pload = ((Number(ppcData[las].order_monthly)+Number(dat.order_monthly))/(Number(ppcData[las].capacity)+Number(dat.capacity)))*100;
 				                    				eff = eff/ti;
 				                    				ti=0;
 				                    			}
@@ -722,7 +580,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						ot_hours: Number(ppcData[las].ot_hours)+Number(dat.ot_hours),
 		                    						efficiency: eff,
 		                    						mhout_shift: Number(ppcData[las].mhout_shift)+Number(dat.mhout_shift),
-		                    						shift_qty: Number(ppcData[las].shift_qty)+Number(dat.shift_qty)
+		                    						shift_qty: Number(ppcData[las].shift_qty)+Number(dat.shift_qty),
+		                    						tanggal: dat.tanggal
 		                    					};
 		                    			
 		                    			ppcData[las] = u_dat; 
@@ -744,10 +603,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    						ot_hours: dat.ot_hours,
 		                    						efficiency: dat.efficiency,
 		                    						mhout_shift: dat.mhout_shift,
-		                    						shift_qty: dat.shift_qty
+		                    						shift_qty: dat.shift_qty,
+		                    						tanggal: dat.tanggal
 		                    					};
 		                    			ppcData.push(u_dat);
 		                    		}
+
 
 		                    		i++;
 		                    		ti++;
@@ -766,174 +627,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                // SHOW DATA TOTAL PROD
 		                $('#tbody_testing').html('');// clear tabel
 		                $('#thead_testing th.monn').remove(); //Clear THEAD
-		            // get Dataa TOTAL PROD
+		            // get Dataa TOTAL PROD 
 		                $.ajax({
 		                	async: false,
 		                    type : "POST",
-		                    url  : "<?php echo site_url(); ?>/Simulasi/getSimulasiTotalProdNew",
+		                    url  : "<?php echo site_url(); ?>/Simulasi/coba1Total",
 		                    dataType : "JSON",
 		                    data : { 
-		                    	carline: $('#select_carline').val(),
+		                    	id_crln: $('#select_carline').val(),
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
-		                    	console.log('isi data total prod:');
+		                    	console.log('isi percobaan tot:');
 		                    	console.log(data); 
-		                    	
-		                    	mDataProd=[];
-		                    	// Conf HEADER
-		                    		var tg = ''; 
-		                    		var lstcr = 0;
-		                    		var i = 0, sf=1,ti=1; 
-		                    		var vald = true;
+		                    	mDataProd = data;
 
-			                    	data.forEach(function(dat){
-			                    		var thed = $('#thead_testing').find('tr'); 
-			                			var tgl = new Date(dat.tanggal); 
-			                			// console.log('ike:'+i);
-			                			// console.log('mp:'+dat.mp_dl);
-			                			// awal GET
-			                			if (i==0) { 
+		                    	// Conf Header
+		                    		data.forEach(function(dat){
+		                    			var tgl = new Date(dat.tanggal); 
+			                    		var thed = $('#thead_testing').find('tr');  
 
-			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
-			                				thed.append(
+			                    		thed.append(
 			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
 			                				);
-			                				// cek isi line sudah diisi  
-			                					if ( dat.mp_dl ==0) { 
-			                						vald = false; 
-			                					}
-			                				//in local DB  
-				                				var u_dat = { 
-				                							is_valid: vald,
-				                							shift_qty: dat.shift_qty, 
-															mp_dl: dat.mp_dl,
-															mp_idl: dat.mp_idl,
-															umh_shift: dat.umh_shift,
-															working_days: dat.working_days,
-															order_monthly: dat.order_monthly,
-															capacity: dat.umh_shift,
-															balance: dat.balance,
-															p_load: dat.p_load,
-															ot_plan: dat.ot_plan,
-															ot_hours: dat.ot_hours,
-															efficiency: dat.efficiency, 
-															exc_time: dat.exc_time,
-															tot_productivity: dat.tot_productivity,
-															tanggal: dat.tanggal, 
-															mpbuffer: dat.mpbuffer,
-															attendance: dat.attendance,
-															downtime: dat.downtime
-														};
-												mDataProd.push(u_dat);
-			                			}
-			                			// jika ini sama dengan sebelumya beda sif
-			                			else if (tg == monthName[tgl.getMonth()] ) { 
-			                				var last = (mDataProd.length-1); 
-			                				// cek isi line sudah diisi  
-			                					if (dat.mp_dl ==0) { 
-			                						vald = false; 
-			                					}
-			                				// Hitung Untuk Nilai median (%load
-				                    			var pload = Number(mDataProd[last].p_load)+Number(dat.p_load);
-				                    			var eff = Number(mDataProd[last].efficiency)+Number(dat.efficiency);
-				                    			// Mengetahui batas bulann 
-				                    			if ( i == (data.length-1) ) {
-		 											console.log('ini te:'+ti);
-		 											pload = pload/ti;
-		 											eff = eff/ti;
-				                    			}else{
-				                    				var tgo = new Date(data[i+1].tanggal); 
-
-				                    				if (monthName[tgl.getMonth()] != monthName[tgo.getMonth()] ) {
-					                    				console.log('ini te:'+ti);
-					                    				pload = pload/ti;
-					                    				eff = eff/ti;
-					                    				ti=0;
-					                    			}
-				                    			}
-			                    			
-			                				// Isi A  
-												var u_dat = {	
-														is_valid: vald,
-														shift_qty: dat.shift_qty,
-														mp_dl_tmp: dat.mp_dl, //temp for total in carline
-														mp_dl: (Number(mDataProd[last].mp_dl)+Number(dat.mp_dl)),
-														mp_idl: (Number(mDataProd[last].mp_idl)+Number(dat.mp_idl)),
-														umh_shift: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														working_days:  Number(dat.working_days),
-														order_monthly: Number(mDataProd[last].order_monthly)+Number(dat.order_monthly),
-														capacity: Number(mDataProd[last].umh_shift)+Number(dat.umh_shift),
-														balance: Number(mDataProd[last].balance)+Number(dat.balance),
-														p_load: Number(mDataProd[last].p_load)+Number(dat.p_load),
-														ot_plan: Number(mDataProd[last].ot_plan)+Number(dat.ot_plan),
-														ot_hours: (Number(mDataProd[last].ot_hours)+Number(dat.ot_hours)), 
-														efficiency: eff,//(Number(mDataProd[last].efficiency)+Number(dat.efficiency)), 
-														exc_time: Number(mDataProd[last].exc_time)+Number(dat.exc_time),
-														tot_productivity: Number(mDataProd[last].tot_productivity)+Number(dat.tot_productivity), 
-														mpbuffer: Number(mDataProd[last].mpbuffer)+Number(dat.mpbuffer),
-														attendance: Number(mDataProd[last].attendance)+Number(dat.attendance),
-														downtime: Number(mDataProd[last].downtime)+Number(dat.downtime),
-														tanggal: dat.tanggal
-													};
-												mDataProd[last] = u_dat;
-			                			}
-			                			//  Blan baru
-			                			else if (tg != monthName[tgl.getMonth()]){
-			                				thed.append(
-			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
-			                				);
-			                				tg = monthName[tgl.getMonth()]; lstcr= dat.id_carline_has_line;
-			                				// cek isi line sudah diisi  
-			                					if (dat.mp_dl ==0 ) { 
-			                						vald = false; 
-			                					}
-			                				//in local DB  
-				                				var u_dat = { 
-				                							is_valid: vald,
-				                							shift_qty: dat.shift_qty,
-				                							mp_dl_tmp: dat.mp_dl, //temp for total in carline
-															mp_dl: dat.mp_dl,
-															mp_idl: dat.mp_idl,
-															umh_shift: dat.umh_shift,
-															working_days: dat.working_days,
-															order_monthly: dat.order_monthly,
-															capacity: dat.capacity,
-															balance: dat.balance,
-															p_load: dat.p_load,
-															ot_plan: dat.ot_plan,
-															ot_hours: dat.ot_hours,
-															efficiency: dat.efficiency, 
-															exc_time: dat.exc_time,
-															tot_productivity: dat.tot_productivity,
-															tanggal: dat.tanggal, 
-															mpbuffer: dat.mpbuffer,
-															attendance: dat.attendance,
-															downtime: dat.downtime
-														};
-												mDataProd.push(u_dat);
-			                			} 
-
-			                			// jika sif sesuai 
-			                			if (dat.shift_qty== sf) {
-			                				sf=0;
-			                				vald = true;
-			                			}
-
-			                			i++;
-			                			sf++;
-			                			ti++;
-				                    });
-
-								//JIKA DATA KOSONG
-				                    if (data.length==0) {
+			                    	});
+		                    	//JIKA DATA KOSONG
+		                    		if (data.length==0) {
 				                    	var thed = $('#thead_testing').find('tr'); 
 			                    		thed.append(
 			            						$('<th class="monn">').text( 'No Data' )
 			            					); 
 			                    	}
-			                    	
 		                    }
 		                }); 
 	 				
@@ -945,8 +670,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				// LOAD Char
 	 				loadChart();
 	 				showmData();
-	 				showmdPpc();
-	 				showWidget()
+	 				showmdPpc(); 
 				}
 
 				function showmdPpc() { 
@@ -988,7 +712,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				function showmData() { 
 					$('#tbody_testing').html(''); 
-					// console.log(mDataProd);
+					console.log(mDataProd);
                 	// item Y kebawah
                 	var y=0;
                 	item_prod.forEach(function(itm){
@@ -1022,7 +746,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	                    		// Formating
 	                    			if (itm.val=='efficiency' || itm.val=='p_load' || itm.val=='tot_productivity' ) {  
-	        							tmp_html = parseFloat(dat[itm.val]).toFixed(1)+'%' ; 
+	        							tmp_html = parseFloat(dat[itm.val]).toFixed(2)+'%' ; 
 	        						}else if( itm.val=='order_monthly' || itm.val=='capacity' || itm.val=='balance' || itm.val=='umh_shift'){
 	        							tmp_html = Math.abs(parseFloat(dat[itm.val]).toFixed(2)) ; 
 	        						}else if(itm.val=='ot_plan' || itm.val=='exc_time' ){
@@ -1058,7 +782,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			// ====   CHART   ====  //
 				function loadChart() {
-					// Actual
+					// PLAN PPC DATA
 		            	var options ={  
 								    chart: {
 								        renderTo: 'container'
@@ -1072,7 +796,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							        				var da = [];
 
 							        					ppcData.forEach(function(dat){
-							        						var tgl = new Date(dat.tanggal);
+							        						var tgl = new Date(dat.tanggal); 
 							        						da.push(monthName[tgl.getMonth()]);
 							        					});
 
@@ -1083,7 +807,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    },
 								    yAxis: [
 								    	{ 
-								    		max: 60000,
+								    		// max: 60000,  // ==-> SETING MAX VIEW 
 								    		labels: {
 									            format: '{value}',
 									            style: {
@@ -1098,7 +822,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									        },
 									        lineWidth: 1
 									    }, {
-									    	max: 250,
+									    	max: 200,
 									    	title: {
 									            text: '% Load',
 									            style: {
@@ -1210,7 +934,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            	};
 		            	var chart = new Highcharts.Chart(options); 
 
-		            // Testing
+		            // Testing PRODUCTION DATA
 		            	var options_tes ={  
 								    chart: {
 								        renderTo: 'container_testing'
@@ -1239,7 +963,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    },
 								    yAxis: [
 								    	{ 
-								    		max: 60000,
+								    		// max: 60000,  // ==--> SETING MAX VIEW
 								    		labels: {
 									            format: '{value}',
 									            style: {
@@ -1254,7 +978,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									        },
 									        lineWidth: 1
 									    }, {
-									    	max: 250,
+									    	max: 200,
 									    	title: {
 									            text: '% Load',
 									            style: {
@@ -1421,7 +1145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								var endInM = 32 - new Date(e.getFullYear(), e.getMonth(), 32).getDate();
 								ystart = s.getFullYear()+'-'+(s.getMonth()+1)+'-1'; 
 								yend = e.getFullYear()+'-'+(e.getMonth()+1)+'-'+endInM; 
-								
+								 
 								if ($('#select_lin').val()==0) {
 									getDataPeriodTotal(); 
 								}else{
@@ -1478,7 +1202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						console.log('ganti ke '+pil_sf);
 						buatTabelView();
 					}); 
-
+			 
             // Update val NORMAL
 			    $("#tbody_testing").on('dblclick','.inner',function (e) {
 			        e.stopPropagation();
@@ -1505,6 +1229,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        kom_idl_pa = $(this).data('kom_idl_pa');  
 						        if (kom_idl_pa) {  var y=0; kom_idl_pa.forEach(function(d){ kom_idl_pa[y].mid = id; y++}); }
 						        // console.log(kom_idl_pa); 
+			        }else{
+			        	// ==--> JIKA TOTAL TIDAK TERJADI APA"
+			        	return;
 			        }
 			        
 
@@ -1611,9 +1338,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            $(currentEle).html( $(".thVal").val() );  
 
 				            if ( col=='mpbuffer' || col=='downtime' || col=='attendance' || col=='efficiency' || col=='ot_hours' || col=='mp_dl' || col=='working_days' ) {
-				            	// Hutungan UMH
+				            	// Hutungan UMH 
 									// Jumlah UMH
-										var umh = ((Number(mDataProd[id].mp_dl)*Number(mDataProd[id].shift_qty))/100*100)*7.88*Number(mDataProd[id].working_days);
+										var umh = ((Number(mDataProd[id].mp_dl)*Number(mDataProd[id].shift_qty))/100*100)*7.88*Number(mDataProd[id].working_days); 
 										console.log('hasil umh: '+umh);
 									// umh OT HOURS
 										var ot_hours = (umh/wh)*mDataProd[id].ot_hours;
@@ -1622,7 +1349,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										var mp_buffer = Number(mDataProd[id].mpbuffer)*wh*Number(mDataProd[id].working_days)*(100/100);
 										console.log('hasil mp_buffer: '+mp_buffer); 
 									// umh EFFICIENCY
-										var umh_eff = umh*((mDataProd[id].efficiency/100)-1);
+										var umh_eff = 0;
+										if(mDataProd[id].efficiency != 0){
+											umh_eff = umh*((mDataProd[id].efficiency/100)-1);	
+										} 
 										console.log('hasil umh_eff: '+umh_eff);
 									// umh DOWNTIME
 										var downtime = (mDataProd[id].downtime*umh)/100;
@@ -1782,8 +1512,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								// umh MP BUFFER 
 									var mp_buffer = Number(mDataProd[mid].mpbuffer)*wh*Number(mDataProd[mid].working_days)*(100/100);
 									// console.log('hasil mp_buffer: '+mp_buffer); 
-								// umh EFFICIENCY
-									var umh_eff = umh*((mDataProd[mid].efficiency/100)-1);
+								// umh EFFICIENCY 
+									var umh_eff = 0;
+									if(mDataProd[mid].efficiency != 0){
+										umh_eff = umh*((mDataProd[mid].efficiency/100)-1);	
+									} 
 									// console.log('hasil umh_eff: '+umh_eff);
 								// umh DOWNTIME
 									var downtime = (mDataProd[mid].downtime*umh)/100;

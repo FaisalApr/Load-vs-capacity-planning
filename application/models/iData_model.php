@@ -16,6 +16,26 @@ class iData_model extends CI_Model {
 		return $q->result();
 	}
 
+	// == New Metode == //
+	public function cariDataPeriodeSimulasiDate($line,$stat)
+	{
+		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line AND Month(tanggal)=Month('$stat') and YEAR(tanggal)=YEAR('$stat')");
+		return $q->result();
+	}
+
+	public function cariDataTotalPeriodeSimulasiDate($line,$stat)
+	{
+		$q = $this->db->query("SELECT *,main_lcp.id
+								FROM main_lcp 
+									JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
+								where 
+									carline_has_line.id_carline=$line and 
+								    Month(tanggal)=Month('$stat') and 
+								    YEAR(tanggal)=YEAR('$stat')");
+		return $q->result();
+	}
+	// == New Metode == //
+
 	public function cariIdataafterinsert($sf,$lstcr,$tgl)
 	{
 		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'");
@@ -24,7 +44,7 @@ class iData_model extends CI_Model {
 
 	public function cekIdatasudahada($lstcr,$sf,$tgl)
 	{
-		$query = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'"); 
+		$query = $this->db->query("SELECT *,main_lcp.id FROM main_lcp where id_carline_has_line=$lstcr and id_shift=$sf AND tanggal='$tgl'"); 
 		if($query->num_rows()>0){
 			return $query->first_row();
 		}else{
