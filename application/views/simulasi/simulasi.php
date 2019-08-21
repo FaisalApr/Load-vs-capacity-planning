@@ -456,6 +456,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                $('#tbody_actual').html('');// clear tabel
 		                $('#thead_act th.pcc').remove(); //Clear THEAD
 					// Show Data TOTAL PPC 
+						// console.log('hasil crln:'+$('#select_carline').val()+' |ystart:'+ystart+'| yend:'+yend);
 						$.ajax({
 							async : false,
 		                    type : "POST",
@@ -466,9 +467,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
-		                    success: function(data){
-		                    	console.log('Total Tes ppc:');
-		                    	console.log(data); 
+		                    success: function(data){ 
 		                    	ppcData = data;
 		                    }
 		                });
@@ -488,8 +487,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	yend: yend
 		                    },
 		                    success: function(data){ 
-		                    	console.log('isi percobaan tot:');
-		                    	console.log(data); 
+		                    	// console.log('isi percobaan tot:');
+		                    	// console.log(data); 
 		                    	mDataProd = data;
 
 		                    	// Conf Header
@@ -601,6 +600,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				// Showing mData
 				function showmdPpc() { 
+					console.log('datPPC akan tampil:');
+					console.log(ppcData);
+
 					$('#tbody_actual').html('');// clear tabel
 					$('#thead_act th.pcc').remove(); //Clear THEAD
 					// Membuat header
@@ -649,6 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				function showmData() { 
 					$('#tbody_testing').html(''); 
+					console.log('datProd akan tampil');
 					console.log(mDataProd);
                 	// item Y kebawah
                 	var y=0;
@@ -696,6 +699,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         						// console.log( Math.abs(parseFloat(dat.ot_hours).toFixed(1))+'='+Math.abs(parseFloat(ppcData[x].ot_hours).toFixed(1)) );
         						// Check Warna
+        						// console.log(itm.val);
         						if ( parseFloat(dat[itm.val]).toFixed(0) != parseFloat(ppcData[x][itm.val]).toFixed(0) && ppcData[x][itm.val]!=null) { 
         							tr.append( 
         								$(`<td class='inner' bgcolor='#FFF4C1' data-id='`+x+`' data-mpdl='`+JSON.stringify(dat.kom_dl)+`'  data-mpidl='`+JSON.stringify(dat.kom_idl)+`' data-kom_dl_pa='`+JSON.stringify(dat.kom_dl_pa)+`' data-kom_idl_pa='`+JSON.stringify(dat.kom_idl_pa)+`'  data-col='`+itm.val+`' data-val='`+dat[itm.val]+`'>`).text( tmp_html ) 

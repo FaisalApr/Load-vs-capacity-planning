@@ -58,7 +58,7 @@ class iData_model extends CI_Model {
 									    JOIN carline_has_line on ppc_data.id_carline_has_line=carline_has_line.id
 									    JOIN line on carline_has_line.id_line=line.id
 									where 
-									    carline_has_line.id_carline=31 and 
+									    carline_has_line.id_carline=$line and 
 									    Month(tanggal)=Month('$stat') and 
 									    YEAR(tanggal)=YEAR('$stat')");
 			return $q->result();
@@ -71,7 +71,7 @@ class iData_model extends CI_Model {
 									    JOIN carline_has_line on ppc_data.id_carline_has_line=carline_has_line.id
 									    JOIN line on carline_has_line.id_line=line.id
 									where 
-									    carline_has_line.id_carline=31 and 
+									    carline_has_line.id_carline=$line and 
 									    Month(tanggal)=Month('$stat') and 
 									    YEAR(tanggal)=YEAR('$stat') and
 									    line.nama_line!='PA' ");
