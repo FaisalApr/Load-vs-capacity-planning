@@ -339,7 +339,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							crln:id
 						},
 						success: function(data){ 
-							data.push({id:0,text:'TOTAL'});
+							data.push({id:0,text:'Total FA'});
+							data.push({id:0,text:'Total All'});
 							// console.log('isi line');
 							// console.log(data);
 
@@ -371,8 +372,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							if ((today.getMonth()+2)>12) {
 								yend = (today.getFullYear()+1)+'-'+(1)+'-1';
 							}
-						} 
-					// console.log(ystart+'|'+yend);
+						}  
 					// SHOW DATA PPC
 		                $('#tbody_actual').html('');// clear tabel
 		                $('#thead_act th.act').remove(); //Clear THEAD
@@ -390,50 +390,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    success: function(data){
 		                    	// console.log('data ppc:');
 		                    	// console.log(data);
-		                    	ppcData = data;
-
-		                    	// Membuat header
-		                    		if (data.length == 0) { // jika data kosong
-		                    			var thead = $("#thead_act thead").find("tr");
-		                    			thead.append($('<th class="act">').text('No Data'));
-		                    		}
-			                    	for (var i = 0; i < data.length; i++) {
-			                    		var thead = $("#thead_act thead").find("tr");
-				                    	var today = new Date(data[i].tanggal);
-										var currentMonth = today.getMonth();
-				                    	thead.append($('<th class="act">').text(monthName[currentMonth]));
-			                    	}
-		                    	
-		                    	
-		                    	// mengulang kebawah sebanyak item
-		                    	for (var y = 0; y < item.length; y++) {
-
-		                    		if (item[y].view ==true) { 
-
-			                    		var tr = $('<tr>').append(
-			                    						$('<th class="sticky_left">').text(item[y].name)
-			                    					);   
-			                    		// mengulang sebanyak Periode
-			                    		for (var i = 0; i < data.length; i++) { 
-			                    			var tmp_html='';
-
-			                    			if (item[y].val=='efficiency' || item[y].val=='p_load') {
-			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(1)+'%';
-			                    			}else if( item[y].val=='order_monthly' || item[y].val=='capacity'  || item[y].val=='balance' ){
-			                    				tmp_html = parseFloat(data[i][item[y].val]).toFixed(2);
-			                    			}else{
-			                    				tmp_html = data[i][item[y].val];
-			                    			}
-			                    			 
-			                    			tr.append(
-			                    					$('<td>').text(tmp_html)
-				                    			 	); 	
-				                    	}
-
-				                    	tr.appendTo('#tbody_actual');
-				                    }
-
-		                    	}   
+		                    	ppcData = data;   
 
 		                      }
 		                });
@@ -482,11 +439,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				// LOAD Char
 	 				loadChart();
 	 				showmData(); 
+	 				showmdPpc();
 				}
 
-				function getDataPeriodTotal() { 
-					// console.log('isis carline');
-					// console.log($('#select_carline').val()); 
+				function getDataPeriodTotal() {  
+					// Config Tanggal Default
 						if (!$('#pilih_monthrange').val()) { 
 							ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
 							yend = (today.getFullYear())+'-'+(today.getMonth()+2)+'-1';
@@ -495,133 +452,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								yend = (today.getFullYear()+1)+'-'+(1)+'-1';
 							}
 						} 
-
 					// SHOW DATA TOTAL PPC
 		                $('#tbody_actual').html('');// clear tabel
 		                $('#thead_act th.pcc').remove(); //Clear THEAD
-					// Show Data TOTAL PPC
+					// Show Data TOTAL PPC 
 						$.ajax({
 							async : false,
 		                    type : "POST",
-		                    url  : "<?php echo site_url(); ?>/simulasi/getSimulasiTotalPpc",
+		                    url  : "<?php echo site_url(); ?>/simulasi/getPpcDataTotal",
 		                    dataType : "JSON",
 		                    data : { 
-		                    	carline: $('#select_carline').val(),
+		                    	id_crln: $('#select_carline').val(),
 		                    	ystart:ystart,
 		                    	yend: yend
 		                    },
 		                    success: function(data){
-		                    	console.log('data ppc:');
+		                    	console.log('Total Tes ppc:');
 		                    	console.log(data); 
-		                    	ppcData = [];
-
-		                    	// var CONF HEAD
-		                    		var tg = '',i=0,ti=1;
-
-		                    	data.forEach(function(dat){
-		                    		var thead = $('#thead_act thead').find('tr');
-		                    		var tgl = new Date(dat.tanggal);
-
-
-		                    		// AWAL get
-		                    		if (i==0) {
-		                    			tg = monthName[tgl.getMonth()];
-		                    			thead.append(
-		                    					$('<th class="pcc">').text(monthName[tgl.getMonth()])
-		                    				);
-		                    			// Add Varr Local
-		                    			var u_dat = {
-		                    						mp_dl: dat.mp_dl,
-		                    						working_days: dat.working_days,
-		                    						order_monthly: dat.order_monthly,
-		                    						capacity: dat.capacity,
-		                    						balance: dat.balance,
-		                    						p_load: dat.p_load,
-		                    						ot_plan: dat.ot_plan,
-		                    						ot_hours: dat.ot_hours,
-		                    						efficiency: dat.efficiency,
-		                    						mhout_shift: dat.mhout_shift,
-		                    						shift_qty: dat.shift_qty,
-		                    						tanggal: dat.tanggal
-		                    					};
-		                    			ppcData.push(u_dat);
-		                    		}else if( tg == monthName[tgl.getMonth()]){
-		                    			var las = (ppcData.length-1);
-		                    			// Hitung Untuk Nilai median (%load
-			                    			var pload = Number(ppcData[las].p_load)+Number(dat.p_load);
-			                    			var eff = Number(ppcData[las].efficiency)+Number(dat.efficiency);
-			                    			// Mengetahui batas bulann 
-			                    			if ( i == (data.length-1) ) {
-	 											console.log('ini te:'+ti);
-	 											// pload = pload/ti;
-	 											pload = ((Number(ppcData[las].order_monthly)+Number(dat.order_monthly))/(Number(ppcData[las].capacity)+Number(dat.capacity)))*100;
-	 											eff = eff/ti;
-			                    			}else{
-			                    				var tgo = new Date(data[i+1].tanggal); 
-
-			                    				if (monthName[tgl.getMonth()] != monthName[tgo.getMonth()] ) {
-				                    				console.log('ini te:'+ti);
-				                    				// pload = pload/ti;
-				                    				pload = ((Number(ppcData[las].order_monthly)+Number(dat.order_monthly))/(Number(ppcData[las].capacity)+Number(dat.capacity)))*100;
-				                    				eff = eff/ti;
-				                    				ti=0;
-				                    			}
-			                    			}
-		                    			 
-		                    			// UPDaate var local 
-		                    			var u_dat = {
-		                    						mp_dl: Number(ppcData[las].mp_dl)+Number(dat.mp_dl),
-		                    						working_days: Number(dat.working_days),
-		                    						order_monthly: Number(ppcData[las].order_monthly)+Number(dat.order_monthly),
-		                    						capacity: Number(ppcData[las].capacity)+Number(dat.capacity),
-		                    						balance: Number(ppcData[las].balance)+Number(dat.balance),
-		                    						p_load: pload,
-		                    						ot_plan: Number(ppcData[las].ot_plan)+Number(dat.ot_plan),
-		                    						ot_hours: Number(ppcData[las].ot_hours)+Number(dat.ot_hours),
-		                    						efficiency: eff,
-		                    						mhout_shift: Number(ppcData[las].mhout_shift)+Number(dat.mhout_shift),
-		                    						shift_qty: Number(ppcData[las].shift_qty)+Number(dat.shift_qty),
-		                    						tanggal: dat.tanggal
-		                    					};
-		                    			
-		                    			ppcData[las] = u_dat; 
-		                    		}else if( tg != monthName[tgl.getMonth()] ){
-		                    			tg = monthName[tgl.getMonth()];
-		                    			thead.append(
-		                    					$('<th class="pcc">').text(monthName[tgl.getMonth()])
-		                    				);
-
-		                    			// Add Varr Local
-		                    			var u_dat = {
-		                    						mp_dl: dat.mp_dl,
-		                    						working_days: dat.working_days,
-		                    						order_monthly: dat.order_monthly,
-		                    						capacity: dat.capacity,
-		                    						balance: dat.balance,
-		                    						p_load: dat.p_load,
-		                    						ot_plan: dat.ot_plan,
-		                    						ot_hours: dat.ot_hours,
-		                    						efficiency: dat.efficiency,
-		                    						mhout_shift: dat.mhout_shift,
-		                    						shift_qty: dat.shift_qty,
-		                    						tanggal: dat.tanggal
-		                    					};
-		                    			ppcData.push(u_dat);
-		                    		}
-
-
-		                    		i++;
-		                    		ti++;
-		                    	});
- 								console.log(i);
- 								//Working Days * sf qty
-	 								// i=0;
-	 								// ppcData.forEach(function(dat){
-	 								// 	ppcData[i].working_days = dat.working_days*dat.shift_qty; 
-
-	 								// });
-
-		                      }
+		                    	ppcData = data;
+		                    }
 		                });
 	                  
 	                // SHOW DATA TOTAL PROD
@@ -661,9 +510,86 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    	}
 		                    }
 		                }); 
-	 				
-	 				// console.log('end ISI md');
-	 				// console.log(mDataProd);
+	 				 
+	 				// HITUNG DUlu 
+	 				hitungRumus();
+
+	 				// LOAD Char
+	 				loadChart();
+	 				showmData();
+	 				showmdPpc(); 
+				}
+
+				function getDataPeriodTotalFA() {  
+					// Config Tanggal Default
+						if (!$('#pilih_monthrange').val()) { 
+							ystart = today.getFullYear()+'-'+(today.getMonth()+1)+'-1';
+							yend = (today.getFullYear())+'-'+(today.getMonth()+2)+'-1';
+
+							if ((today.getMonth()+2)>12) {
+								yend = (today.getFullYear()+1)+'-'+(1)+'-1';
+							}
+						} 
+
+					// SHOW DATA TOTAL PPC
+		                $('#tbody_actual').html('');// clear tabel
+		                $('#thead_act th.pcc').remove(); //Clear THEAD
+					// Show Data TOTAL PPC
+						$.ajax({
+							async : false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/simulasi/getPpcDataTotalFA",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	id_crln: $('#select_carline').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){
+		                    	console.log('Total Tes ppc:');
+		                    	console.log(data); 
+		                    	ppcData = data;
+		                    }
+		                });
+	                  
+	                // SHOW DATA TOTAL PROD
+		                $('#tbody_testing').html('');// clear tabel
+		                $('#thead_testing th.monn').remove(); //Clear THEAD
+		            // get Dataa TOTAL PROD 
+		                $.ajax({
+		                	async: false,
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/Simulasi/prodTotalFa",
+		                    dataType : "JSON",
+		                    data : { 
+		                    	id_crln: $('#select_carline').val(),
+		                    	ystart:ystart,
+		                    	yend: yend
+		                    },
+		                    success: function(data){ 
+		                    	console.log('isi percobaan prod tot FA:');
+		                    	console.log(data); 
+		                    	mDataProd = data;
+
+		                    	// Conf Header
+		                    		data.forEach(function(dat){
+		                    			var tgl = new Date(dat.tanggal); 
+			                    		var thed = $('#thead_testing').find('tr');  
+
+			                    		thed.append(
+			                					$('<th class="monn">').text(monthName[tgl.getMonth()])
+			                				);
+			                    	});
+		                    	//JIKA DATA KOSONG
+		                    		if (data.length==0) {
+				                    	var thed = $('#thead_testing').find('tr'); 
+			                    		thed.append(
+			            						$('<th class="monn">').text( 'No Data' )
+			            					); 
+			                    	}
+		                    }
+		                }); 
+	 				 
 	 				// HITUNG DUlu 
 	 					hitungRumus();
 
@@ -673,10 +599,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				showmdPpc(); 
 				}
 
+				// Showing mData
 				function showmdPpc() { 
 					$('#tbody_actual').html('');// clear tabel
 					$('#thead_act th.pcc').remove(); //Clear THEAD
-
+					// Membuat header
+                		if (ppcData.length == 0) { // jika data kosong
+                			var thead = $("#thead_act thead").find("tr");
+                			thead.append($('<th class="pcc">').text('No Data'));
+                		}
+                    	for (var i = 0; i < ppcData.length; i++) {
+                    		var thead = $("#thead_act thead").find("tr");
+	                    	var today = new Date(ppcData[i].tanggal);
+							var currentMonth = today.getMonth();
+	                    	thead.append($('<th class="pcc">').text(monthName[currentMonth]));
+                    	}
                 	// item Y kebawah
                 	item.forEach(function(itm){
                 		// jika itm ditampilkan
@@ -822,6 +759,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									        },
 									        lineWidth: 1
 									    }, {
+									    	min: 0,
 									    	max: 200,
 									    	title: {
 									            text: '% Load',
@@ -1115,9 +1053,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// console.log(data.id);
 						typeline = 'reg'; 
 
-						if (data.text=='TOTAL') {
-							typeline = 'TOTAL';
+						if (data.text=='Total All') {
+							typeline = 'Total All';
 							getDataPeriodTotal(); 
+
+						}else if (data.text=='Total FA') {
+							typeline = 'Total FA';
+							getDataPeriodTotalFA(); 
+
 						}else{
 							if (data.text=='PA') {
 								typeline = 'PA';
@@ -1211,8 +1154,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        var col = $(this).data('col');
 			        var val = $(this).data('val');
 
-			        // Bukan total
-			        if (typeline != 'TOTAL') {
+			        // Bukan total 
+			        if (typeline == 'Total All' || typeline == 'Total FA') {
+			        	// ==--> JIKA TOTAL TIDAK TERJADI APA"
+			        	return;
+			        }else{
 			        	// ISi Data Base Local
 				        // Data Dl
 					        kom_dl = $(this).data('mpdl');
@@ -1229,9 +1175,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        kom_idl_pa = $(this).data('kom_idl_pa');  
 						        if (kom_idl_pa) {  var y=0; kom_idl_pa.forEach(function(d){ kom_idl_pa[y].mid = id; y++}); }
 						        // console.log(kom_idl_pa); 
-			        }else{
-			        	// ==--> JIKA TOTAL TIDAK TERJADI APA"
-			        	return;
 			        }
 			        
 

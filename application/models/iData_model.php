@@ -16,25 +16,68 @@ class iData_model extends CI_Model {
 		return $q->result();
 	}
 
-	// == New Metode == //
-	public function cariDataPeriodeSimulasiDate($line,$stat)
-	{
-		$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line AND Month(tanggal)=Month('$stat') and YEAR(tanggal)=YEAR('$stat')");
-		return $q->result();
-	}
+	// == New Metode == // ==-> Produksi
+		public function cariDataPeriodeSimulasiDate($line,$stat)
+		{
+			$q = $this->db->query("SELECT * FROM main_lcp where id_carline_has_line=$line AND Month(tanggal)=Month('$stat') and YEAR(tanggal)=YEAR('$stat')");
+			return $q->result();
+		}
 
-	public function cariDataTotalPeriodeSimulasiDate($line,$stat)
-	{
-		$q = $this->db->query("SELECT *,main_lcp.id
-								FROM main_lcp 
-									JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
-								where 
-									carline_has_line.id_carline=$line and 
-								    Month(tanggal)=Month('$stat') and 
-								    YEAR(tanggal)=YEAR('$stat')");
-		return $q->result();
-	}
-	// == New Metode == //
+		public function cariDataTotalPeriodeSimulasiDate($line,$stat)
+		{
+			$q = $this->db->query("SELECT *,main_lcp.id
+									FROM main_lcp 
+										JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
+									where 
+										carline_has_line.id_carline=$line and 
+									    Month(tanggal)=Month('$stat') and 
+									    YEAR(tanggal)=YEAR('$stat')");
+			return $q->result();
+		}
+
+		public function cariDataTotalPeriodePA($line,$stat)
+		{
+			$q = $this->db->query("SELECT *,main_lcp.id
+									FROM main_lcp 
+										JOIN carline_has_line on main_lcp.id_carline_has_line=carline_has_line.id
+									    JOIN line ON carline_has_line.id_line=line.id
+									where 
+										carline_has_line.id_carline=$line and 
+										Month(tanggal)=Month('$stat') and 
+										YEAR(tanggal)=YEAR('$stat') AND
+									    line.nama_line!='PA' ");
+			return $q->result();
+		}
+	// == New Metode == // ==-> Produksi
+
+	// Data PPC // ==--> New Method
+		public function getPPcDataTotal($line,$stat)
+		{
+			$q = $this->db->query("SELECT *
+									FROM ppc_data
+									    JOIN carline_has_line on ppc_data.id_carline_has_line=carline_has_line.id
+									    JOIN line on carline_has_line.id_line=line.id
+									where 
+									    carline_has_line.id_carline=31 and 
+									    Month(tanggal)=Month('$stat') and 
+									    YEAR(tanggal)=YEAR('$stat')");
+			return $q->result();
+		}
+
+		public function getPPcDataTotalFA($line,$stat)
+		{
+			$q = $this->db->query("SELECT *
+									FROM ppc_data
+									    JOIN carline_has_line on ppc_data.id_carline_has_line=carline_has_line.id
+									    JOIN line on carline_has_line.id_line=line.id
+									where 
+									    carline_has_line.id_carline=31 and 
+									    Month(tanggal)=Month('$stat') and 
+									    YEAR(tanggal)=YEAR('$stat') and
+									    line.nama_line!='PA' ");
+			return $q->result();
+		}
+	// Data PPC // ==--> New Method
 
 	public function cariIdataafterinsert($sf,$lstcr,$tgl)
 	{
