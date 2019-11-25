@@ -143,7 +143,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  								<td>jajjaj</td>
  							</tr>
  						</tbody>
- 					</table> 
+ 					</table>  
+					<br>
+					<div class="pull-right" style="margin-bottom: 20px">
+						<a class="btn btn-primary" data-toggle="modal" href='#exportexcl' id="btndownloadfile" style="margin-right: 25px; margin-bottom: 0px">Download FIle.</a>
+					</div>
 					<br>
 				</div>	
 			</div>
@@ -1643,6 +1647,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 					})
 				});
+			// DOWNLOAD FILE
+			$('#btndownloadfile').click(function(){
+				console.log('clicked Download');
+				console.log(mDataProd);
+				console.log(item_prod);
+				
+				$.ajax({
+						async: false,
+						method:"POST",
+						url:"<?php echo site_url(); ?>/Excel_export/downloadSimulasi", 
+						data: {
+							data:mDataProd,
+							item:item_prod
+						},  
+						success:function(data){   
+							console.log('returned');
+							console.log(data);
+
+							window.location.href= data; 
+						}
+					})
+			});
+
 			// Auto Sum
 				$('#cek_mp').on('show.bs.modal', function(){
 					// Selecct Shift modal
