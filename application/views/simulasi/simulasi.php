@@ -1650,16 +1650,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// DOWNLOAD FILE
 			$('#btndownloadfile').click(function(){
 				console.log('clicked Download');
+				console.log('akan di export');
 				console.log(mDataProd);
 				console.log(item_prod);
-				
+				var crline = $('#select_carline').select2('data');
+				var line = $('#select_lin').select2('data'); 
+
 				$.ajax({
 						async: false,
 						method:"POST",
 						url:"<?php echo site_url(); ?>/Excel_export/downloadSimulasi", 
 						data: {
 							data:mDataProd,
-							item:item_prod
+							item:item_prod,
+							crline:crline[0].text,
+							line:line[0].text
 						},  
 						success:function(data){   
 							console.log('returned');

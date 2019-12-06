@@ -25,6 +25,8 @@ class Excel_export extends CI_Controller {
 	{
 		$data = $this->input->post('data'); 
 		$item = $this->input->post('item'); 
+        $crline = $this->input->post('crline');
+        $line = $this->input->post('line'); 
 		
 		// Styling
 			$s_default = array(
@@ -64,21 +66,33 @@ class Excel_export extends CI_Controller {
             
             // Starting style
             $spreadsheet->getActiveSheet()->getStyle('A:ZZ')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('ffffff');
-            $spreadsheet->setActiveSheetIndex(0)->setCellValue('B2', 'Data Simulasi' );
+            $spreadsheet->setActiveSheetIndex(0)->setCellValue('B2', 'Data Simulasi' )
+                        ->setCellValue('A3', 'Carline: '.$crline )
+                        ->setCellValue('A4', 'Line: '.$line );
             $spreadsheet->getActiveSheet()->getStyle('B2')->getAlignment()->setHorizontal('center');
             $spreadsheet->getActiveSheet()->getStyle('B2')->applyFromArray($s_header);
 
             // == Start Tbody ==\
-            $row = 5;
+            $row = 7; //=> row start data
             foreach ($item as $it) { 
-            	if ($it['view'] == 'true') {
+            	if ($it['view'] == 'true') { // item terpilih untuk di export
             		// CREATE HeRows
             		$spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$row, $it['name'] );
             		// for isi data
             		$col = 2;
             		foreach ($data as $dkey) {
-            			// cari yang sesuai 
-            			$spreadsheet->setActiveSheetIndex(0)->setCellValue( $lett[$col].$row, $dkey[$it['val']] );
+
+                        if ( $dkey['is_valid'] == 'true' ) { // jika dat lengkap
+                            // cari yang sesuai 
+                            $spreadsheet->setActiveSheetIndex(0)->setCellValue( $lett[$col].$row, $dkey[$it['val']] ); 
+                        }else{
+                            //cukup baris 1
+                            if ($row == 7) {
+                                $spreadsheet->setActiveSheetIndex(0)->setCellValue( $lett[$col].$row, 'Belum lengkap' );
+                            }else{$spreadsheet->setActiveSheetIndex(0)->setCellValue( $lett[$col].$row, '-' );}
+                            
+                        }
+            			
             			$col++;
             		}
             		$row++;
@@ -87,7 +101,7 @@ class Excel_export extends CI_Controller {
             // == END Tbody ==\\
             // =Start THEAD =\\
             	$col = 2;
-            	$row1 = 4;
+            	$row1 = 6; //=> row start header data
             	foreach ($data as $dkey) {
             		// tanggal 
                 		$tglparse = DateTime::createFromFormat('Y-m-d', $dkey['tanggal'] );
@@ -102,7 +116,7 @@ class Excel_export extends CI_Controller {
 
         //=============================   FINISHING ======================================== 
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(18); 
-            $spreadsheet->getActiveSheet()->getStyle('A4'.':'.$lett[($col-1)].($row-1))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);
+            $spreadsheet->getActiveSheet()->getStyle('A6'.':'.$lett[($col-1)].($row-1))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);
             // END FOCUS
             $spreadsheet->getActiveSheet()->setSelectedCell('A1');
             // Rename worksheet 
